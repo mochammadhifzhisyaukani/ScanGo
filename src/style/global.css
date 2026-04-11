@@ -2,3 +2,7 @@ body {
     margin: 0;
     scroll-behavior: smooth;
 }
+
+#content {
+    margin-top: 5%;
+}
