@@ -2,7 +2,7 @@ const navbar = document.getElementById('navbar');
 navbar.innerHTML = `
 <nav class="navbar navbar-expand-lg navbar-dark w-100">
         <div class="container-sm">
-            <a class="navbar-brand fw-bold text-black" href="/index.html" style="font-size: 20px;">KasWarga</a>
+            <a class="navbar-brand fw-bold text-black" href="/index.html" style="font-size: 20px;">ScanGo</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon bg-dark rounded-1"></span>
