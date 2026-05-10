@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  width: 100%;
+}
+
+nav {
+  box-shadow: 0 24px 100px rgba(0, 0, 0, 0.5);
+  border-radius: 40px;
+}
+
+.btn-signIn {
+  background-color: #2FACD2 !important;
+  color: white !important;
+  border-radius: 20px;
+}
+
+.btn-signIn:hover {
+  border: 1px solid skyblue;
+  color: black !important;
+  border-bottom: 1px solid #2FACD2 !important;
+  background-color: white !important;
+  transition: 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  transform: translateY(-3px);
+  border-bottom: 1px solid black;
+  transition: 0.3s ease-in-out;
+}
+
+@media (max-width: 768) {
+  .btn-dashboard {
+    margin-right: 0 !important;
+  }
+}

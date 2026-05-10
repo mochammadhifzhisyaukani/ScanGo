@@ -1,0 +1,17 @@
+.footer-card {
+  border-radius: 40px; 
+  color: #333;
+}
+.footer-card h6 {
+  margin-bottom: 20px;
+}
+
+.footer-card ul li {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.mb-2:hover {
+  transform: translateY(-5px);
+  transition: 0.3s ease-in-out;
+}

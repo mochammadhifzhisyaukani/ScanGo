@@ -1,41 +1,25 @@
 const navbar = document.getElementById('navbar');
 navbar.innerHTML = `
-<nav class="navbar navbar-expand-lg navbar-dark w-100">
-        <div class="container-sm">
-            <a class="navbar-brand fw-bold text-black" href="/index.html" style="font-size: 20px;">ScanGo</a>
+    <nav class="navbar navbar-expand-lg mt-3 bg-body-tertiary rounded-5 navbar-mobile animate__animated animate__fadeIn">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/index.html">
+        <img src="/src/assets/images/logo.jpeg" style="height: 20px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav d-flex justify-content-end ms-auto">
+        <a class="nav-link active text-center home" aria-current="page" href="/index.html">Home</a>      
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon bg-dark rounded-1"></span>
-            </button>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="#">Guide</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="/src/js/structure/about.html">About</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="#">Company</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="#">Contact</a>
+        <a class="nav-link text-center btn-signIn" href="#">Sign in</a>
+      </div>
+    </div>
+  </div>
+</nav>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto" id="myTab" role="tablist">
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-black" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Product
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Scan Present</a></li>
-            <li><a class="dropdown-item" href="#">Dashboard Student</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Setting Password Admin</a></li>
-          </ul>
-        </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="#">Guide</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="#">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="#">Contact</a>
-                    </li>
-                </ul>
-
-                <div class="d-flex gap-2">
-                    <a href="#" class="btn btn-outline-dark rounded-5 btn-lg">Sign in</a>
-                    <a href="#" class="btn btn-dark rounded-5 btn-lg">Sign up</a>
-                </div>
-            </div>
-        </div>
-    </nav>`;
+`;
