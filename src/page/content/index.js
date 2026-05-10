@@ -16,6 +16,14 @@ content.innerHTML = `
                     <div class="col">
                         <img src="src/assets/images/GambarAwal.png" alt="GambarScanQR">
                     </div>
+                    
                 </div>
             </div>
+            <div class="col">
+                <div class="p-3">
+                
+                </div>
+            </div>
+        </div>x
+    </div>
 `;
