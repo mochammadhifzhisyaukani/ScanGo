@@ -27,6 +27,10 @@ nav {
   transition: 0.3s ease-in-out;
 }
 
+.btn-hero a {
+    background-color: #2FACD2;
+}
+
 .nav-link:hover {
   transform: translateY(-3px);
   border-bottom: 1px solid black;

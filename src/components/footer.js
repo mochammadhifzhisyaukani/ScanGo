@@ -1,5 +1,6 @@
-document.getElementById('footer').innerHTML=
-`
+const footer = document.getElementById('footer');
+
+footer.innerHTML= `
         <footer class="footer-section py-5 animate__animated animate__fadeIn">
   <div class="container">
     <div class="footer-card bg-white p-5 shadow-sm">

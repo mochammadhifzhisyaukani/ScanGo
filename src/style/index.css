@@ -2,7 +2,7 @@ body {
     margin: 0;
     background-image: url('/src/assets/images/Background-index.jpeg');
     background-size: cover;
-    background-repeat: none;
+    background-repeat: none !important;
     background-position: center;
 }
 
