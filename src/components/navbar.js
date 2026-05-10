@@ -15,7 +15,7 @@ navbar.innerHTML = `
         <a class="nav-link text-center" style="margin-right: 10px;" href="/src/js/structure/about.html">About</a>
         <a class="nav-link text-center" style="margin-right: 10px;" href="#">Company</a>
         <a class="nav-link text-center" style="margin-right: 10px;" href="#">Contact</a>
-        <a class="nav-link text-center btn-signIn" href="#">Sign in</a>
+        <a class="nav-link text-center btn-signIn" href="/src/page/structure/signIn.html">Sign in</a>
       </div>
     </div>
   </div>
