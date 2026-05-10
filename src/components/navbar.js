@@ -4,10 +4,17 @@ navbar.innerHTML = `
         <div class="container-sm d-flex justify-content-start">
             <a class="navbar-brand fw-bold text-black" href="/index.html" style="font-size: 20px;">ScanGo</a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon bg-dark rounded-1"></span>
-            </button>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="#">Guide</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="/src/js/structure/about.html">About</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="#">Company</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="#">Contact</a>
+        <a class="nav-link text-center btn-signIn" href="#">Sign in</a>
+      </div>
+    </div>
+  </div>
+</nav>
 
+<<<<<<< HEAD
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto" id="myTab" role="tablist">
@@ -40,3 +47,4 @@ navbar.innerHTML = `
             </div>
         </div>
     </nav>`;
+

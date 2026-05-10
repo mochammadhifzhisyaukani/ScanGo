@@ -1,0 +1,102 @@
+/* Reset dasar */
+body {
+  font-family: poppins;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container utama */
+.container {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* Grid form */
+.grid {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin-top: 60px;
+  /* margin-bottom: 39px; */
+}
+
+/* Judul */
+.grid h1 {
+  margin-bottom: 0.5rem;
+  color: #333;
+  text-align: left;
+  font-weight: 700;
+}
+
+.grid p {
+  margin-bottom: 1.5rem;
+  color: #666;
+  text-align: left;
+}
+
+/* Label dan input */
+.grid label {
+  font-size: 0.9rem;
+  color: #444;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+/* icon input mata */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+   /* ruang untuk icon */
+}
+
+.password-wrapper i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
+
+/* Tombol */
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #2FACD2;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #2d849e;
+}
+
+/* Link kecil */
+h6 {
+  margin-top: 1rem;
+  color: #555;
+}
