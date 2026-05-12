@@ -1,0 +1,26 @@
+/* 1. Definisikan animasinya */
+@keyframes reveal-animation {
+  from {
+    opacity: 0;
+    transform: translateY(100px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 2. Buat class globalnya */
+.reveal {
+  /* Pasang animasi di atas */
+  animation: reveal-animation linear both;
+
+  /* MAGICNYA DI SINI: */
+  /* Animasi akan jalan berdasarkan posisi elemen di layar (view) */
+  animation-timeline: view();
+
+  /* Atur kapan animasi mulai dan selesai */
+  /* entry 0% = saat ujung atas elemen nyentuh bawah layar */
+  /* entry 100% = saat seluruh elemen sudah masuk layar */
+  animation-range: entry 0% cover 30%;
+}
