@@ -7,7 +7,7 @@ footer.innerHTML= `
       <div class="row gy-4">
         
         <div class="col-lg-6">
-        <img src="/src/assets/images/logo.jpeg" style="height: 30px;">
+        <b><h3 style="font-size: 35px;background: linear-gradient(90deg, #E67E22 0%, orange 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ScanGo</h3></b>
           <p class="text-muted w-75 mt-3">
             Jl. Raya Wangun, Kelurahan Sindangsari,<br>
             Kecamatan Bogor Timur, Kota Bogor, Jawa Barat<br>
@@ -18,7 +18,7 @@ footer.innerHTML= `
         <div class="col-lg-2 col-6">
           <h6 class="fw-bold">Product</h6>
           <ul class="list-unstyled text-muted">
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Marketplace</a></li>
+            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Attendence</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Dashboard</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Partners</a></li>
           </ul>

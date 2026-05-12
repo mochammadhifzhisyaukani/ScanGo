@@ -1,37 +1,84 @@
 body {
-    margin: 0;
-    background-image: url('/src/assets/images/Background-index.jpeg');
-    background-size: cover;
-    background-repeat: none !important;
-    background-position: center;
+  background-image: url("/src/assets/background/1704346349-slider$slider.jpg");
+  margin: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
 }
 
-.container .row .col h1 {
-    margin-top: 50px;
-    font-family: "Inter", sans-serif;
-    font-size: 60px;
+.title-index {
+    font-size: 5rem;
+    margin-top: 20%;
 }
 
-.container .row .col button {
-    padding: 10px 50px;
-    justify-content: left !important;
-    align-items: left !important;
-    border-radius: 10px;
-    color: rgb(0, 0, 0);
-    background-color: rgb(255, 255, 255);
-    transition: 0.2s ease-in-out;
-    margin: 20px;
+.subtitle-index {
+    max-width: 600px;
+    font-size: 17px;
 }
 
-.container .row .col button:hover {
-    background-color: rgb(0, 0, 0);
-    color: white;
-    /* padding: 13px; */
+.btn-started {
+    background-color: #E67E22 !important;
+    color: white !important;
+    width: 200px;
+}
+
+.btn-started:hover {
+    background-color: orange !important;
+    transform: translateY(-10px);
+    transition: 0.3s ease-in-out;
+}
+
+.btn-watch {
+    background-color: transparent !important;
+    border: 1px solid white !important;
+    color: white !important;
+    width: 200px;
+}
+
+.btn-watch:hover {
+    background-color: white !important;
+    transform: translateY(-10px);
+    color: black !important;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-copyLink:hover {
+    transform: translateX(15px);
+    transition: 0.3s ease-in-out;
+}
+
+.dev-text {
+    max-width: 150px;
+}
+
+.dev-text:hover {
+    transform: translateX(15px);
+    transition: 0.3s ease-in-out;
+}
+
+.img-profile-dev {
+    height: 50px;
+    border-radius: 50%;
+}
+
+.img-profile-dev:hover {
+    transform: translateY(-10px);
+    transition: 0.3s ease-in-out;
+}
+
+footer {
+    margin-top: 10%;
 }
 
 @media(max-width: 768px) {
-    img {
-        width: 100%;
-        margin-top: 50px;
+    .title-index {
+        font-size: 3rem;
+        margin-top: 50% !important;
+        max-width: 350px;
+    }
+
+    footer {
+        margin-top: 40%;
     }
 }

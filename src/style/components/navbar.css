@@ -14,21 +14,21 @@ nav {
 }
 
 .btn-signIn {
-  background-color: #2FACD2 !important;
+  background-color: #E67E22 !important;
   color: white !important;
   border-radius: 20px;
 }
 
 .btn-signIn:hover {
-  border: 1px solid skyblue;
+  border: 1px solid #E67E22;
   color: black !important;
-  border-bottom: 1px solid #2FACD2 !important;
+  border-bottom: 1px solid #E67E22 !important;
   background-color: white !important;
   transition: 0.3s ease-in-out;
 }
 
 .btn-hero a {
-    background-color: #2FACD2;
+    background-color: #E67E22;
 }
 
 .nav-link:hover {
