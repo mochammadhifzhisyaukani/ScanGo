@@ -1,4 +1,18 @@
-/* 1. Definisikan animasinya */
+:root {
+    --bg-body: #f8f9fa;
+    --bg-toggle: #2c3e50;
+    --toggle-circle: #ffffff;
+    --transition-speed: 0.4s;
+    --color-teks: black;
+}
+
+[data-theme="dark"] {
+    --bg-body: #121212;
+    --bg-toggle: #ffffff;
+    --toggle-circle: #2c3e50;
+    --color-teks: white;
+}
+
 @keyframes reveal-animation {
   from {
     opacity: 0;
@@ -10,17 +24,8 @@
   }
 }
 
-/* 2. Buat class globalnya */
 .reveal {
-  /* Pasang animasi di atas */
   animation: reveal-animation linear both;
-
-  /* MAGICNYA DI SINI: */
-  /* Animasi akan jalan berdasarkan posisi elemen di layar (view) */
   animation-timeline: view();
-
-  /* Atur kapan animasi mulai dan selesai */
-  /* entry 0% = saat ujung atas elemen nyentuh bawah layar */
-  /* entry 100% = saat seluruh elemen sudah masuk layar */
   animation-range: entry 0% cover 30%;
 }

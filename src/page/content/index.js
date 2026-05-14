@@ -24,7 +24,7 @@ content.innerHTML = `
             </button>
         </div>
 
-        <a href="" class="d-flex gap-2 mt-4 animate__animated animate__fadeInUp text-decoration-none">
+        <a href="/src/page/structure/about.html#dev" class="d-flex gap-2 mt-4 animate__animated animate__fadeInUp text-decoration-none">
             <img src="/src/assets/profiles/dimas.png" alt="Profile Dev" class="img-profile-dev">
             <img src="/src/assets/profiles/hifzhi.jpeg" alt="Profile Dev" class="img-profile-dev">
             <img src="/src/assets/profiles/yazid.jpeg" alt="Profile Dev" class="img-profile-dev">

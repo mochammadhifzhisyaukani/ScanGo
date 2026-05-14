@@ -36,7 +36,7 @@ footer.innerHTML= `
         <div class="col-lg-2 col-6">
           <h6 class="fw-bold">Company</h6>
           <ul class="list-unstyled text-muted">
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">About</a></li>
+            <li class="mb-2"><a href="/src/page/structure/about.html" class="text-secondary text-decoration-none">About</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Contact</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Partners</a></li>
           </ul>
