@@ -1,8 +1,31 @@
-body {
-    margin: 0;
-    scroll-behavior: smooth;
+:root {
+    --bg-body: #f8f9fa;
+    --bg-toggle: #2c3e50;
+    --toggle-circle: #ffffff;
+    --transition-speed: 0.4s;
+    --color-teks: black;
 }
 
-#content {
-    margin-top: 5%;
+[data-theme="dark"] {
+    --bg-body: #121212;
+    --bg-toggle: #ffffff;
+    --toggle-circle: #2c3e50;
+    --color-teks: white;
+}
+
+@keyframes reveal-animation {
+  from {
+    opacity: 0;
+    transform: translateY(100px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.reveal {
+  animation: reveal-animation linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
 }

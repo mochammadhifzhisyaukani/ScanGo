@@ -1,13 +1,13 @@
 const footer = document.getElementById('footer');
 
 footer.innerHTML= `
-        <footer class="footer-section py-5 animate__animated animate__fadeIn w-100">
+        <footer class="footer-section py-5 reveal animate__animated animate__fadeIn w-100">
   <div class="container">
     <div class="footer-card bg-white p-5 shadow-sm">
       <div class="row gy-4">
         
         <div class="col-lg-6">
-        <img src="/src/assets/images/logo.jpeg" style="height: 30px;">
+        <b><h3 style="font-size: 35px;background: linear-gradient(90deg, #E67E22 0%, orange 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ScanGo</h3></b>
           <p class="text-muted w-75 mt-3">
             Jl. Raya Wangun, Kelurahan Sindangsari,<br>
             Kecamatan Bogor Timur, Kota Bogor, Jawa Barat<br>
@@ -18,7 +18,7 @@ footer.innerHTML= `
         <div class="col-lg-2 col-6">
           <h6 class="fw-bold">Product</h6>
           <ul class="list-unstyled text-muted">
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Marketplace</a></li>
+            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Attendence</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Dashboard</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Partners</a></li>
           </ul>
@@ -36,7 +36,7 @@ footer.innerHTML= `
         <div class="col-lg-2 col-6">
           <h6 class="fw-bold">Company</h6>
           <ul class="list-unstyled text-muted">
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">About</a></li>
+            <li class="mb-2"><a href="/src/page/structure/about.html" class="text-secondary text-decoration-none">About</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Contact</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Partners</a></li>
           </ul>
