@@ -19,13 +19,19 @@ content.innerHTML = `<div class="grid text-center">
 
 
 
+                    <div class="button">
+                    <a href="">Submit</a>
 
 
-                    <button><a href="">Sign In</a></button>
-
+                    </div>
                     <h6>Don’t have a account?</h6>
 
-                    <button><a href="">Create new account</a></button>
+                    <div class="button">
+
+
+                    <a href="">Create new account</a>
+                    </div>
+                    
                 </div> 
             </div>`;
 
