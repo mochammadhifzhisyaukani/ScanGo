@@ -2,7 +2,7 @@ const footer = document.getElementById('footer');
 
 footer.innerHTML= `
         <footer class="footer-section py-5 reveal animate__animated animate__fadeIn w-100">
-  <div class="container">
+  <div class="container-fluid">
     <div class="footer-card bg-white p-5 shadow-sm">
       <div class="row gy-4">
         

@@ -22,6 +22,8 @@ content.innerHTML = `<div class="grid text-center">
                         <i class="bi bi-eye-slash" id="togglePassword"></i>
                     </div>
 
+                    <a class="forgot-password mb-4" href="">Lupa password?</a>
+
 
 
                     <div class="button">
@@ -34,7 +36,7 @@ content.innerHTML = `<div class="grid text-center">
                     <div class="button">
 
 
-                    <a href="">Create new account</a>
+                    <a href="signUp.html">Create new account</a>
                     </div>
                     
                 </div> 

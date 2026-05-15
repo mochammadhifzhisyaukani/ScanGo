@@ -1,0 +1,127 @@
+/* ===== General Reset & Base ===== */
+body {
+  background-image: url("/src/assets/images/02c1705facb70b09797338a8a4cf59a2.jpg");
+  font-family: "Poppins", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* ===== Main Content ===== */
+main {
+  padding: 3rem 1rem;
+}
+
+/* ===== Contact Info Section ===== */
+.contact-info {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.contact-info h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.contact-info h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.3rem;
+  color: #020203;
+}
+
+.contact-info p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ===== Form Inputs ===== */
+.Contact {
+  background-color: #9fbadf;
+  padding: 30px;
+  border-radius: 10px;
+}
+.Contact input,
+.Contact textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.Contact input:focus,
+.Contact textarea:focus {
+  border-color: #0d6efd;
+  outline: none;
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+}
+
+.Contact textarea {
+  resize: none;
+  min-height: 120px;
+}
+
+/* ===== Icon Input Wrapper ===== */
+.email-wrapper,
+.tel-wrapper {
+  position: relative;
+}
+
+.email-wrapper input,
+.tel-wrapper input {
+  width: 100%;
+  padding-left: 40px; /* ruang untuk icon di kiri */
+}
+
+.email-wrapper i,
+.tel-wrapper i {
+  position: absolute;
+  left: 10px; /* icon di kiri */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
+/* ===== Button Style ===== */
+.Contact .button {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.Contact .button button {
+  display: inline-block;
+  background-color: #0d6efd; /* biru Bootstrap */
+  color: #fff;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.Contact .button button:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Active (saat ditekan) */
+.Contact .button button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
