@@ -37,8 +37,8 @@ footer.innerHTML= `
           <h6 class="fw-bold">Company</h6>
           <ul class="list-unstyled text-muted">
             <li class="mb-2"><a href="/src/page/structure/about.html" class="text-secondary text-decoration-none">About</a></li>
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Contact</a></li>
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Partners</a></li>
+            <li class="mb-2"><a href="/src/page/structure/contact.html" class="text-secondary text-decoration-none">Contact</a></li>
+            <li class="mb-2"><a href="/src/page/structure/ourEcosystem.html" class="text-secondary text-decoration-none">Our Ecosystem</a></li>
           </ul>
         </div>
       </div>

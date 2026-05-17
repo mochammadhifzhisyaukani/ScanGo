@@ -1,16 +1,34 @@
+body {
+  font-family: "Poppins", Arial, sans-serif !important;
+}
+
 :root {
-    --bg-body: #f8f9fa;
-    --bg-toggle: #2c3e50;
-    --toggle-circle: #ffffff;
-    --transition-speed: 0.4s;
-    --color-teks: black;
+  --bg-body: #f8f9fa;
+  --bg-toggle: black;
+  --toggle-circle: #ffffff;
+  --transition-speed: 0.4s;
+  --color-teks: black;
+  --border-radius: 10px;
+
+  --teks-form: black;
+  --bg-formContact: #f8f9fa;
+  --border-form: #e9ecef;
 }
 
 [data-theme="dark"] {
-    --bg-body: #121212;
-    --bg-toggle: #ffffff;
-    --toggle-circle: #2c3e50;
-    --color-teks: white;
+  --bg-body: #121212;
+  --bg-toggle: #ffffff;
+  --toggle-circle: black;
+  --color-teks: white;
+  --bg-card: #121212;
+  --border-radius: 10%;
+
+  --teks-form: #ffffff;
+  --bg-formContact: #1e1e1e;
+  --border-form: rgba(255, 255, 255, 0.08);
+  --background-input: #1a1a1a;
+  --color-input: white;
+  --border-input: rgba(255, 255, 255, 0.15);
 }
 
 @keyframes reveal-animation {

@@ -1,0 +1,35 @@
+body {
+    background-color: var(--bg-body) !important;
+}
+
+.badge {
+  background-color: #e67e22;
+}
+
+.title {
+  font-size: 50px;
+}
+
+.card:hover {
+  box-shadow: 0 24px 100px #e67e22;
+  transform: translateY(-20px);
+  transition: 0.3s ease-in-out;
+}
+
+.techStack {
+    margin-top: 10% !important;
+}
+
+@media(max-width: 768px) {
+    #changeTheme {
+        margin-top: 40% !important;
+    }
+
+    .partner img {
+        height: 100px !important;
+    }
+
+    .techStack {
+        margin-top: 50% !important;
+    }
+}

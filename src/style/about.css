@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: var(--bg-body) !important;
+  background-color: var(--bg-body) !important;
 }
 
 .hero-section {
@@ -27,74 +27,74 @@ body {
 }
 
 .subtitle {
-    color: var(--color-teks);
+  color: var(--color-teks);
 }
 
 .badge {
-    background-color: #ffde59 !important;
-    border: none !important;
-    color: #ff751f !important;
-    width: 100px;
-    height: 30px;
+  background-color: #ffde59 !important;
+  border: none !important;
+  color: #ff751f !important;
+  width: 100px;
+  height: 30px;
 }
 
 .row-stretch {
-    display: flex !important;
-    align-items: stretch !important; 
+  display: flex !important;
+  align-items: stretch !important;
 }
 
 .row-stretch .col-lg-6 {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .img-stretch {
-    width: 100%;
-    height: 100% !important;      
-    object-fit: cover;  
-    object-position: center;
-    border-radius: 20px;
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
 }
 
 .card-body {
-    padding-left: 0;
-    padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .btn-profile:hover {
-    transform: translateY(-10px);
-    transition: 0.3s ease-in-out;
+  transform: translateY(-10px);
+  transition: 0.3s ease-in-out;
 }
 
 .card:hover {
-    transform: translateY(-10px);
-    transition: 0.3s ease-in-out;
+  transform: translateY(-10px);
+  transition: 0.3s ease-in-out;
 }
 
 .whyShould:hover {
-    transform: translateY(-10px);
-    transition: 0.3s ease-in-out;
+  transform: translateY(-10px);
+  transition: 0.3s ease-in-out;
 }
 
-@media(max-width: 768px) {
-    .title {
-        margin-top: 40% !important;
-    }
+@media (max-width: 768px) {
+  .title {
+    margin-top: 40% !important;
+  }
 
-    .about {
-        margin-top: 20% !important;
-    }
+  .about {
+    margin-top: 20% !important;
+  }
 
-    .title-dev {
-        font-size: 30px;
-    }
+  .title-dev {
+    font-size: 30px;
+  }
 
-    .badge-dev {
-        margin-top: 20% !important;
-    }
+  .badge-dev {
+    margin-top: 20% !important;
+  }
 
-    .hr-about {
-        margin-top: 50% !important;
-        max-width: 300px;
-    }
+  .hr-about {
+    margin-top: 50% !important;
+    max-width: 300px;
+  }
 }
