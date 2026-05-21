@@ -28,8 +28,8 @@ content.innerHTML = `
             <img src="/src/assets/profiles/dimas.png" alt="Profile Dev" class="img-profile-dev">
             <img src="/src/assets/profiles/hifzhi.jpeg" alt="Profile Dev" class="img-profile-dev">
             <img src="/src/assets/profiles/yazid.jpeg" alt="Profile Dev" class="img-profile-dev">
-            <p class="text-white dev-text">
-                See Developer Profile
+            <p class="text-white ms-3 dev-text mt-2">
+                See Developer <br> Profile
             </p>
         </a>
     </div>

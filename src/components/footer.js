@@ -29,7 +29,7 @@ footer.innerHTML= `
           <ul class="list-unstyled text-muted">
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Guide</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Assets</a></li>
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Source</a></li>
+            <li class="mb-2"><a href="/src/page/structure/blog.html" class="text-secondary text-decoration-none">Blog</a></li>
           </ul>
         </div>
 
