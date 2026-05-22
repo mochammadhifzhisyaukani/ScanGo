@@ -22,7 +22,7 @@ content.innerHTML = `
                 <div class="mb-0 mt-5 animate__animated animate__fadeInUp">
                     <h5 class="fw-bold mb-2"><i class="bi bi-lightbulb me-2 contact-icon"></i> Feedback and Suggestions</h5>
                     <p class="contact-desc-small">We value your feedback and are continuously working to improve ScanGo. Your input is crucial in shaping the future of ScanGo.</p>
-                    <a src="" class="text-white">Want to Collaborate?</a>
+                    <a src="" class="text-white" href="collaborate.html">Want to Collaborate?</a>
                 </div>
             </div>
         </div>
