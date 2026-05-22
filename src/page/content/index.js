@@ -34,3 +34,7 @@ content.innerHTML = `
         </a>
     </div>
 `;
+
+function btnGetStarted() {
+    window.location.href = "/src/page/structure/signIn.html"
+}

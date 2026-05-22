@@ -13,7 +13,7 @@ navbar.innerHTML = `
         <a class="nav-link text-center" style="margin-right: 10px;" href="/src/page/structure/about.html">About</a>
         <a class="nav-link text-center" style="margin-right: 10px;" href="/src/page/structure/company.html">Company</a>
         <a class="nav-link text-center" style="margin-right: 10px;" href="/src/page/structure/contact.html">Contact</a>
-        <a class="nav-link text-center btn-signIn" href="/src/page/structure/signIn.html">Sign in</a>
+        <a class="nav-link text-center btn-signIn" href="/src/page/structure/signUp.html">Register</a>
       </div>
     </div>
   </div>
