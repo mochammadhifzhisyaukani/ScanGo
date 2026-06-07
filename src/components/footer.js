@@ -28,7 +28,7 @@ footer.innerHTML= `
           <h6 class="fw-bold">Resources</h6>
           <ul class="list-unstyled text-muted">
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Guide</a></li>
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Assets</a></li>
+            <li class="mb-2"><a href="/src/page/structure/assets.html" class="text-secondary text-decoration-none">Assets</a></li>
             <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Source</a></li>
           </ul>
         </div>
