@@ -16,29 +16,29 @@ footer.innerHTML= `
         </div>
 
         <div class="col-lg-2 col-6">
-          <h6 class="fw-bold">Product</h6>
+          <h6 class="fw-bold">Produk</h6>
           <ul class="list-unstyled text-muted">
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Attendence</a></li>
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Dashboard</a></li>
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Partners</a></li>
+            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Kehadiran</a></a></li>
+            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Dasbor</a></li>
+            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Mitra</a></li>
           </ul>
         </div>
 
         <div class="col-lg-2 col-6">
-          <h6 class="fw-bold">Resources</h6>
+          <h6 class="fw-bold">Sumber Daya</h6>
           <ul class="list-unstyled text-muted">
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Guide</a></li>
-            <li class="mb-2"><a href="/src/page/structure/assets.html" class="text-secondary text-decoration-none">Assets</a></li>
-            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Source</a></li>
+            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Panduan</a></li>
+            <li class="mb-2"><a href="/src/page/structure/assets.html" class="text-secondary text-decoration-none">Aktiva</a></li>
+            <li class="mb-2"><a href="" class="text-secondary text-decoration-none">Sumber</a></li>
           </ul>
         </div>
 
         <div class="col-lg-2 col-6">
-          <h6 class="fw-bold">Company</h6>
+          <h6 class="fw-bold">Perusahaan</h6>
           <ul class="list-unstyled text-muted">
-            <li class="mb-2"><a href="/src/page/structure/about.html" class="text-secondary text-decoration-none">About</a></li>
-            <li class="mb-2"><a href="/src/page/structure/contact.html" class="text-secondary text-decoration-none">Contact</a></li>
-            <li class="mb-2"><a href="/src/page/structure/ourEcosystem.html" class="text-secondary text-decoration-none">Our Ecosystem</a></li>
+            <li class="mb-2"><a href="/src/page/structure/about.html" class="text-secondary text-decoration-none">Tentang</a></li>
+            <li class="mb-2"><a href="/src/page/structure/contact.html" class="text-secondary text-decoration-none">Kontak</a></li>
+            <li class="mb-2"><a href="/src/page/structure/ourEcosystem.html" class="text-secondary text-decoration-none">Ekosistem Kita</a></li>
           </ul>
         </div>
       </div>
@@ -46,10 +46,10 @@ footer.innerHTML= `
       <hr class="mt-5 mb-3">
       <div class="row align-items-center">
         <div class="col-md-6">
-          <small class="text-muted">© 2026 ScanGo. All rights reserved</small>
+          <small class="text-muted">© 2026 ScanGo. Semua Hak dilindungin Udang-undang</small>
         </div>
         <div class="col-md-6 text-md-end">
-          <a href="#" class="text-muted text-decoration-underline small">Cookies Settings</a>
+          <a href="#" class="text-muted text-decoration-underline small">Pengaturan Cookie</a>
         </div>
       </div>
     </div>

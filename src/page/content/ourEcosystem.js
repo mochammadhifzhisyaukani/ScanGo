@@ -2,8 +2,8 @@ const content = document.getElementById("content");
 content.innerHTML = `
     <div class="partner container-sm text-center" style="margin-top: 8%;">
         <div id="changeTheme" class="container-sm d-flex justify-content-center animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
-        <p class="badge mt-3 animate__animated animate__fadeIn">Partners / Mitra</p>
-        <h1 class="title animate__animated animate__backInDown" style="color: var(--color-teks);">Trusted by Forward-Thinking Institutions</h1>
+        <p class="badge mt-3 animate__animated animate__fadeIn">Rekan / Mitra</p>
+        <h1 class="title animate__animated animate__backInDown" style="color: var(--color-teks);">Dipercaya oleh Lembaga-Lembaga yang Berpikiran Maju</h1>
         <p class="subtitle animate__animated animate__fadeInDown" style="color: var(--color-teks);">Kami bangga dapat berkolaborasi dan mendukung berbagai instansi dalam mendigitalisasi sistem manajemen kehadiran mereka secara efisien.</p>
 
         <div class="container-sm justify-content-center d-flex mt-5 animate__animated animate__bounceInLeft">
@@ -13,8 +13,8 @@ content.innerHTML = `
     </div>
 
     <div class="techStack container-sm text-center" style="margin-top: 8%;">
-        <p class="badge reveal animate__animated animate__fadeInDown">Tech Stack / Teknologi</p>
-        <h1 class="title reveal animate__animated animate__fadeInUp" style="color: var(--color-teks);">Built on a Rock-Solid Foundation</h1>
+        <p class="badge reveal animate__animated animate__fadeInDown">Tumpukan Teknologi / Teknologi</p>
+        <h1 class="title reveal animate__animated animate__fadeInUp" style="color: var(--color-teks);">Dibangun di atas Fondasi yang Kokoh</h1>
         <p class="subtitle reveal animate__animated animate__fadeInUp" style="color: var(--color-teks);">ScanGo dirancang maksimal mulai dari keindahan tampilan hingga keandalan pemrosesan data, semua dirancang untuk memberikan pengalaman absensi yang mulus setiap hari.</p>
 
         <div class="container text-center mt-5 reveal">

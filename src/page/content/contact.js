@@ -16,13 +16,13 @@ content.innerHTML = `
 
             <div class="mb-3">
                 <div class="mb-4">
-                    <h1 class="animate__animated animate__jackInTheBox">"No more queues, no more paperwork. Just scan and you are good to go."</h1>
+                    <h1 class="animate__animated animate__jackInTheBox">"Tidak perlu lagi antrean, tidak perlu lagi urusan administrasi. Cukup pindai dan Anda siap berangkat."</h1>
                 </div>
 
                 <div class="mb-0 mt-5 animate__animated animate__fadeInUp">
-                    <h5 class="fw-bold mb-2"><i class="bi bi-lightbulb me-2 contact-icon"></i> Feedback and Suggestions</h5>
-                    <p class="contact-desc-small">We value your feedback and are continuously working to improve ScanGo. Your input is crucial in shaping the future of ScanGo.</p>
-                    <a src="" class="text-white">Want to Collaborate?</a>
+                    <h5 class="fw-bold mb-2"><i class="bi bi-lightbulb me-2 contact-icon"></i> Umpan Balik dan Saran</h5>
+                    <p class="contact-desc-small">Kami menghargai masukan Anda dan terus berupaya untuk meningkatkan ScanGo. Masukan Anda sangat penting dalam membentuk masa depan ScanGo.</p>
+                    <a src="" class="text-white" href="collaborate.html">Ingin Berkolaborasi?</a>
                 </div>
             </div>
         </div>
@@ -36,8 +36,8 @@ content.innerHTML = `
                             <path d="M6 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
                         </svg>
                     </div>
-                    <h1 class="fw-bold m-0">Give your best advice</h1>
-                    <p class="text-muted small" style="color: var(--teks-form) !important;">You can reach us anytime</p>
+                    <h1 class="fw-bold m-0">Berikan saran terbaik Anda</h1>
+                    <p class="text-muted small" style="color: var(--teks-form) !important;">Anda dapat menghubungi kami kapan saja.</p>
                 </div>
 
                 <form id="contact">
@@ -67,10 +67,10 @@ content.innerHTML = `
                         <textarea class="form-control contact-input" name="ulasan" id="ulasan" rows="4" placeholder="Masukkan pesan anda" required></textarea>
                     </div>
 
-                    <button type="submit" class="contact-btn-submit w-100 fw-semibold shadow-sm mb-4">Submit Message</button>
+                    <button type="submit" class="contact-btn-submit w-100 fw-semibold shadow-sm mb-4">Kirim Pesan</button>
 
                     <p class="contact-terms-text text-center m-0">
-                        By contacting us, you agree to our <a href="#" class="text-decoration-none">Terms of Service</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>.
+                        Dengan menghubungi kami, Anda menyetujui ketentuan kami. <a href="#" class="text-decoration-none">Ketentuan Layanan</a> dan <a href="#" class="text-decoration-none">Kebijakan Privasi</a>.
                     </p>
                 </form>
 
