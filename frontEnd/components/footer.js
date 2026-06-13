@@ -36,9 +36,15 @@ footer.innerHTML= `
         <div class="col-lg-2 col-6">
           <h6 class="fw-bold">Perusahaan</h6>
           <ul class="list-unstyled text-muted">
+<<<<<<< HEAD:src/components/footer.js
             <li class="mb-2"><a href="/src/page/structure/about.html" class="text-secondary text-decoration-none">Tentang</a></li>
             <li class="mb-2"><a href="/src/page/structure/contact.html" class="text-secondary text-decoration-none">Kontak</a></li>
             <li class="mb-2"><a href="/src/page/structure/ourEcosystem.html" class="text-secondary text-decoration-none">Ekosistem Kita</a></li>
+=======
+            <li class="mb-2"><a href="/frontEnd/page/structure/about.html" class="text-secondary text-decoration-none">About</a></li>
+            <li class="mb-2"><a href="/frontEnd/page/structure/contact.html" class="text-secondary text-decoration-none">Contact</a></li>
+            <li class="mb-2"><a href="/frontEnd/page/structure/ourEcosystem.html" class="text-secondary text-decoration-none">Our Ecosystem</a></li>
+>>>>>>> 38ea4e510a5b20d5b4c23a1fa687e1469e5605a8:frontEnd/components/footer.js
           </ul>
         </div>
       </div>

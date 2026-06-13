@@ -13,8 +13,8 @@ content.innerHTML = `
         </p>
 
         <div class="d-flex mt-5 gap-3 animate__animated animate__fadeIn">
-            <button type="button" onclick="btnGetStarted()" class="btn btn-lg btn-started">Memulai</button>
-            <button class="btn btn-lg btn-watch">Tonton Demo
+            <button type="button" onclick="btnGetStarted()" class="btn btn-lg btn-started">Get Started</button>
+            <button class="btn btn-lg btn-watch">Watch Demo</button>
 
             <button onlick="btn-copyLink" class="btn btn-light rounded-circle btn-copyLink">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
@@ -29,8 +29,12 @@ content.innerHTML = `
             <img src="/src/assets/profiles/hifzhi.jpeg" alt="Profile Dev" class="img-profile-dev">
             <img src="/src/assets/profiles/yazid.jpeg" alt="Profile Dev" class="img-profile-dev">
             <p class="text-white dev-text">
-                Lihat Profil Pengembang
+                See Developer Profile
             </p>
         </a>
     </div>
 `;
+
+function btnGetStarted() {
+    window.location.href = "/frontEnd   /page/structure/signIn.html"
+}

@@ -13,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
 
-  background-image: url("/src/assets/background/1684480090-post.jpg");
+  background-image: url("/frontEnd/assets/background/1684480090-post.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

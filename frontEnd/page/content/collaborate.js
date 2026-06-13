@@ -1,44 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- link css navbar -->
-    <link rel="stylesheet" href="/src/style/components/navbar.css">
-    <!-- link css footer -->
-    <link rel="stylesheet" href="/src/style/components/footer.css">
-
-    <!-- link bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-
-    <!-- link font inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-
-    <!-- Bootstrap Icons CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- link animate css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-    <!-- link style Sign In -->
-    <link rel="stylesheet" href="/src/style/collaborate.css">
-
-    <title>ScanGo</title>
-</head>
-
-<body>
-    <!-- <header>
-        <nav id="navbar"></nav>
-    </header> -->
-
-    <main id="content">
-        <div class="container-fluid p-0">
+const content = document.getElementById("content");
+content.innerHTML = `
+    <div class="container-fluid p-0">
             <div class="row min-vh-100 g-0">
 
                 <!-- LEFT SIDE -->
@@ -64,8 +26,8 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Nama Lengkap</label>
-                                <input name="name" type="text" class="form-control contact-input" placeholder="Masukkan nama anda"
-                                    required>
+                                <input name="name" type="text" class="form-control contact-input"
+                                    placeholder="Masukkan nama anda" required>
                             </div>
 
                             <div class="mb-3">
@@ -97,8 +59,8 @@
                             <div class="mb-4">
                                 <label class="form-label">Pesan Anda</label>
 
-                                <textarea name="pesan" class="form-control contact-input" rows="4" placeholder="Masukkan pesan anda"
-                                    required></textarea>
+                                <textarea name="pesan" class="form-control contact-input" rows="4"
+                                    placeholder="Masukkan pesan anda" required></textarea>
                             </div>
 
                             <button type="submit" class="contact-btn-submit w-100">
@@ -116,7 +78,7 @@
                     <div class="justify-content-right ms-auto">
                         <a href="/index.html" class="text-decoration-none text-white d-flex align-items-center gap-3">
 
-                            <img src="/src/assets/logo/favicon.png" style="height:50px;">
+                            <img src="/frontEnd/assets/logo/favicon.png" style="height:50px;">
 
                             <h1 class="fw-bold m-0">ScanGo</h1>
 
@@ -146,22 +108,4 @@
 
             </div>
         </div>
-    </main>
-
-
-    <!-- <footer id="footer"></footer> -->
-</body>
-
-<!-- script component navbar -->
-<script src="/src/components/navbar.js"></script>
-<!-- script content collaborate -->
-<script src="/src/page/content/collaborate.js"></script>
-<!-- script component footer -->
-<script src="/src/components/footer.js"></script>
-
-<!-- script bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
-
-</html>
+`;

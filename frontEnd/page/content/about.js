@@ -52,7 +52,7 @@ content.innerHTML = `
 
                     <div class="card reveal" style="border: none; background: transparent;">
                         <div class="d-flex card-body align-items-center px-0">
-                            <img src="/src/assets/icons/realtime-icon.png" style="height: 50px; border-radius: 15px;">
+                            <img src="/frontEnd/assets/icons/realtime-icon.png" style="height: 50px; border-radius: 15px;">
                             <div class="ms-4">
                                 <b style="font-size: 1.1rem; color: var(--color-teks);">Sinkronisasi Data Waktu secara Nyata</b><br>
                                 <p class="mb-0" style="color: var(--color-teks);">Pantau kehadiran dan laporan harian secara langsung.</p>
@@ -62,7 +62,7 @@ content.innerHTML = `
 
                     <div class="card reveal" style="border: none; background: transparent;">
                         <div class="d-flex card-body align-items-center px-0">
-                            <img src="/src/assets/icons/device-icon.png" style="height: 50px; border-radius: 15px;">
+                            <img src="/frontEnd/assets/icons/device-icon.png" style="height: 50px; border-radius: 15px;">
                             <div class="ms-4">
                                 <b style="font-size: 1.1rem; color: var(--color-teks);">Integrasi Perangkat Instant</b><br>
                                 <p class="mb-0" style="color: var(--color-teks);">Akses sistem absensi dari perangkat apa pun.</p>
@@ -94,7 +94,7 @@ content.innerHTML = `
             <div class="row g-4 justify-content-center">
                 <div class="col-md-4 reveal">
                     <div class="card shadow-sm text-center" style="border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.7); background: linear-gradient(180deg, #ffde59 0%, #ffffff 100%); padding: 25px;">
-                        <img src="/src/assets/profiles/hifzhi.jpeg" class="mx-auto mb-3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid white;">
+                        <img src="/frontEnd/assets/profiles/hifzhi.jpeg" class="mx-auto mb-3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid white;">
                         <h6 style="font-weight: 600; margin-bottom: 5px;">Muhammad Hifzhi Syaukani</h6>
                         <p style="font-size: 14px; color: #6c757d;">Fullstack Development</p>
                         <button class="btn btn-profile btn-sm mt-2" onclick="profileHifzhi()" style="background: white; border-radius: 15px; border: 1px solid #eee; font-weight: 500; font-size: 12px; padding: 5px 20px;">Profil</button>
@@ -103,7 +103,7 @@ content.innerHTML = `
 
                 <div class="col-md-4 reveal">
                     <div class="card shadow-sm text-center" style="border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.7); background: linear-gradient(180deg, #ffde59 0%, #ffffff 100%); padding: 25px;">
-                        <img src="/src/assets/profiles/dimas.png" class="mx-auto mb-3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid white;">
+                        <img src="/frontEnd/assets/profiles/dimas.png" class="mx-auto mb-3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid white;">
                         <h6 style="font-weight: 600; margin-bottom: 5px;">Dimas Hadi Syandana</h6>
                         <p style="font-size: 14px; color: #6c757d;">Lead of Project</p>
                         <button class="btn btn-profile btn-sm mt-2" onclick="profileDimas()" style="background: white; border-radius: 15px; border: 1px solid #eee; font-weight: 500; font-size: 12px; padding: 5px 20px;">Profil</button>
@@ -112,7 +112,7 @@ content.innerHTML = `
 
                 <div class="col-md-4 reveal">
                     <div class="card shadow-sm text-center" style="border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.7); background: linear-gradient(180deg, #ffde59 0%, #ffffff 100%); padding: 25px;">
-                        <img src="/src/assets/profiles/yazid.jpeg" class="mx-auto mb-3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid white;">
+                        <img src="/frontEnd/assets/profiles/yazid.jpeg" class="mx-auto mb-3" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid white;">
                         <h6 style="font-weight: 600; margin-bottom: 5px;">Yazid Diansyah</h6>
                         <p style="font-size: 14px; color: #6c757d;">Fullstack Develepment</p>
                         <button class="btn btn-profile btn-sm mt-2" onclick="profileYazid()" style="background: white; border-radius: 15px; border: 1px solid #eee; font-weight: 500; font-size: 12px; padding: 5px 20px;">Profil</button>

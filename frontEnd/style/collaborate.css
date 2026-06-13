@@ -152,7 +152,7 @@ body {
 .contact-right-side {
   background:
     linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7)),
-    url("/src/assets/background/1695789061-post.jpg");
+    url("/frontEnd/assets/background/1695789061-post.jpg");
 
   background-size: cover;
   background-position: center;

@@ -11,7 +11,7 @@ body {
 .hero-section {
   height: 100vh;
   width: 100%;
-  background-image: url("/src/assets/background/1723082711-berita.jpg");
+  background-image: url("/frontEnd/assets/background/1723082711-berita.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
