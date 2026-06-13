@@ -1,6 +1,6 @@
 let content = document.getElementById("content");
 content.innerHTML = `
-          <div class="card animate__animated animate__zoomIn">
+        <div class="card animate__animated animate__zoomIn">
             <div class="left-panel">
                 <div class="logo">
                     <a href="/index.html">
@@ -19,24 +19,39 @@ content.innerHTML = `
                 <div class="field-group">
                     <div class="field-header">
                         <label for="password">Password</label>
-                        <span class="forgot-link">Forgot Password?</span>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="forgot-link">Forgot Password?</a>
                     </div>
 
                     <div class="password-wrapper">
                         <input type="password" id="password" placeholder="Enter your password" />
-
                         <i class="bi bi-eye-slash toggle-password" id="togglePassword"></i>
                     </div>
                 </div>
 
                 <button class="btn-signin">Sign In</button>
 
-                <p class="create-account">Don't have an account? <a href="#">Contat your teacher</a></p>
+                <p class="create-account">Don't have an account? <a href="#">Contact your teacher</a></p>
             </div>
 
             <div class="right-panel">
                 <img src="/frontEnd/assets/background/9333f00957425e173ae553ca70f5b930.png" alt="Login Banner">
             </div>
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Silahkan untuk menghubungi guru jurusan untuk mengganti password!</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="w-100 btn btn-success" data-bs-dismiss="modal">Mengerti</button>
+              </div>
+            </div>
+          </div>
         </div>
 `;
 
@@ -62,7 +77,18 @@ btnSignIn.addEventListener("click", async function (e) {
   const passwordValue = passwordInput.value.trim();
 
   if (!email || !passwordValue) {
-    alert("Email dan Password tidak boleh kosong!");
+    showToast("Email dan Password tidak boleh kosong!", "danger");
+    Swal.fire({
+      title: "Login Gagal",
+      icon: "error",
+      draggable: true,
+      customClass: {
+        popup: "sweetalert-popup",
+        confirmButton: "sweetalert-btn-error",
+      },
+
+      buttonsStyling: false,
+    });
     return;
   }
 
@@ -80,17 +106,29 @@ btnSignIn.addEventListener("click", async function (e) {
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Gagal Login!");
 
-    alert("Login Berhasil! Selamat Datang.");
+    // showToast("Login Berhasil! Selamat Datang.", "success");
+    Swal.fire({
+      title: "Login Berhasil",
+      icon: "success",
+      draggable: true,
+      customClass: {
+        popup: "sweetalert-popup",
+        confirmButton: "sweetalert-btn-success",
+      },
+
+      buttonsStyling: false,
+    });
     localStorage.setItem("role", data.user.role);
-    localStorage.setItem("username", data.user.username);
+
+    localStorage.setItem("username", data.user.username || data.user.email);
 
     if (data.user.role.trim().toLowerCase() === "admin") {
-      alert("Menuju halaman admin");
+      showToast("Menuju halaman dashboard (Admin)", "success");
     } else {
-      alert("Menuju halaman user");
+      showToast("Menuju halaman dashboard", "success");
     }
   } catch (error) {
-    alert("Error: " + error.message);
+    console.log("Error: " + error.message);
   } finally {
     btnSignIn.innerText = "Sign In";
     btnSignIn.disabled = false;

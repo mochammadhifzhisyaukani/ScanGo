@@ -1,19 +1,35 @@
-const cors = require("cors");
-const express = require("express");
-const cookieParser = require("cookie-parser");
-require("dotenv").config();
-const authRoutes = require("./routes/authRoutes");
+// const supabase = require("./config/db");
+
+const express = require('express');
+const cors = require('cors');
 const app = express();
+const authRoutes = require('./routes/authRoutes');
 
 app.use(cors({
-  origin: "http://127.0.0.1:5501",
+  origin: 'http://127.0.0.1:5501',
   credentials: true
 }));
-app.use(express.json());
-app.use(cookieParser());
-app.use("/api/auth", authRoutes);
 
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
+
+app.use('/api/auth', authRoutes);
+
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server running smooth on http://localhost:${PORT}`);
+  console.log(`Server STANDBY di: http://localhost:${PORT}`);
 });
+
+// async function testInsertUser() {
+//   const { data, error } = await supabase
+//     .from("users")
+//     .insert([{ email: "dimas@test.com", password: "123" }])
+//     .select();
+
+//   if (error) {
+//     console.error("ERROR: Gagal menginput data => ", error.message);
+//   } else {
+//     console.log("Data berhasil masuk!: ", data);
+//   }
+// }
+
+// testInsertUser();

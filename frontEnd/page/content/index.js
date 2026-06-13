@@ -36,5 +36,5 @@ content.innerHTML = `
 `;
 
 function btnGetStarted() {
-    window.location.href = "/frontEnd   /page/structure/signIn.html"
+    window.location.href = "/frontEnd/page/structure/signIn.html";
 }

@@ -5,19 +5,27 @@ const authController = require("../controllers/authController");
 const verifyToken = require("../middlewares/authMiddleware");
 
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 30 * 1000,
   max: 10,
+  message: { message: "Terlalu banyak percobaan login! Coba Kembali nanti." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
   message: {
-    message: "Terlalu banyak percobaan login! Coba Kembali nanti.",
+    message: "Terlalu banyak aksi dilakukan! Tolong beri jeda beberapa saat.",
   },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-router.post("/register", authController.register);
+router.post("/register", apiLimiter, authController.register);
 router.post("/login", loginLimiter, authController.login);
 
-router.get("/test-vip", verifyToken, (req, res) => {
+router.get("/test-vip", apiLimiter, verifyToken, (req, res) => {
   res.status(200).json({
     message: "Berhasil masuk ke ruangan vip!",
     userAkses: req.user,
