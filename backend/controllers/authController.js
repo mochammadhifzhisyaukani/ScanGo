@@ -7,43 +7,21 @@ const register = async (req, res) => {
     const { email, password, role, username } = req.body;
 
     if (!email || !password || !username) {
-      Swal.fire({
-        title: "Login Gagal",
-        icon: "error",
-        draggable: true,
-        customClass: {
-          popup: "sweetalert-popup",
-          confirmButton: "sweetalert-btn-success",
-        },
-
-        buttonsStyling: false,
+      return res.status(400).json({
+        message: "Email, password, dan username wajib diisi!",
       });
-      return;
     }
-
-    const userRole = role || "user";
-    const username = username || "username";
 
     const { data: existingUser } = await supabase
       .from("users")
       .select("email")
       .eq("email", email)
-      .single();
+      .maybeSingle();
 
     if (existingUser) {
-      showToast("Email dan Password sudah terdaftar", "danger");
-      Swal.fire({
-        title: "Login Gagal",
-        icon: "error",
-        draggable: true,
-        customClass: {
-          popup: "sweetalert-popup",
-          confirmButton: "sweetalert-btn-success",
-        },
-
-        buttonsStyling: false,
+      return res.status(400).json({
+        message: "Email sudah terdaftar!",
       });
-      return;
     }
 
     const { data: existingUsername } = await supabase
@@ -51,19 +29,27 @@ const register = async (req, res) => {
       .select("username")
       .eq("username", username)
       .maybeSingle();
-    
+
     if (existingUsername) {
       return res.status(400).json({
-        message: "Username sudah digunakan!"
+        message: "Username sudah digunakan!",
       });
     }
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const userRole = role || "user";
 
     const { data, error } = await supabase
       .from("users")
-      .insert([{ email: email, password: hashedPassword, role: userRole, username: username }])
+      .insert([
+        {
+          email: email,
+          password: hashedPassword,
+          role: userRole,
+          username: username,
+        },
+      ])
       .select();
 
     if (error) throw error;
@@ -74,12 +60,14 @@ const register = async (req, res) => {
         id: data[0].id,
         email: data[0].email,
         role: data[0].role,
-        username: data[0].username
+        username: data[0].username,
       },
     });
   } catch (error) {
     console.error("Error Register: ", error.message);
-    return res.status(500).json({ message: "Terjadi kesalahan pada server." });
+    return res.status(500).json({
+      message: "Terjadi kesalahan pada server.",
+    });
   }
 };
 
@@ -88,19 +76,9 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      showToast("Email dan Password wajib diisi!.", "danger");
-      Swal.fire({
-        title: "Login Gagal",
-        icon: "error",
-        draggable: true,
-        customClass: {
-          popup: "sweetalert-popup",
-          confirmButton: "sweetalert-btn-error",
-        },
-
-        buttonsStyling: false,
+      return res.status(400).json({
+        message: "Email dan password wajib diisi!",
       });
-      return;
     }
 
     const { data: user, error } = await supabase
@@ -110,40 +88,25 @@ const login = async (req, res) => {
       .maybeSingle();
 
     if (error || !user) {
-      showToast("Email dan Password Salah! Cek kembali.", "danger");
-      Swal.fire({
-        title: "Login Gagal",
-        icon: "error",
-        draggable: true,
-        customClass: {
-          popup: "sweetalert-popup",
-          confirmButton: "sweetalert-btn-error",
-        },
-
-        buttonsStyling: false,
+      return res.status(401).json({
+        message: "Email atau password salah!",
       });
-      return;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      showToast("Email dan Password Salah!", "danger");
-      Swal.fire({
-        title: "Login Gagal",
-        icon: "error",
-        draggable: true,
-        customClass: {
-          popup: "sweetalert-popup",
-          confirmButton: "sweetalert-btn-error",
-        },
-
-        buttonsStyling: false,
+      return res.status(401).json({
+        message: "Email atau password salah!",
       });
-      return;
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, username: user.username },
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        username: user.username,
+      },
       process.env.JWT_SECREET || "Secreet__",
       { expiresIn: "1d" },
     );
@@ -155,36 +118,14 @@ const login = async (req, res) => {
         id: user.id,
         email: user.email,
         role: user.role,
+        username: user.username,
       },
     });
   } catch (error) {
-    showToast("ERRPR: ", "danger", error.message);
-    Swal.fire({
-      title: "Login Gagal",
-      icon: "error",
-      draggable: true,
-      customClass: {
-        popup: "sweetalert-popup",
-        confirmButton: "sweetalert-btn-error",
-      },
-
-      buttonsStyling: false,
-    });
-    return;
     console.error("Error Login: ", error.message);
-    showToast("Terjadi kesalahan pada server.", "danger");
-    Swal.fire({
-      title: "Kesalahan sistem",
-      icon: "question",
-      draggable: true,
-      customClass: {
-        popup: "sweetalert-popup",
-        confirmButton: "sweetalert-btn-error",
-      },
-
-      buttonsStyling: false,
+    return res.status(500).json({
+      message: "Terjadi kesalahan pada server.",
     });
-    return;
   }
 };
 
