@@ -10,10 +10,10 @@ navbar.innerHTML = `
       <div class="navbar-nav d-flex justify-content-end ms-auto">
         <a class="nav-link active text-center home" style="margin-right: 10px;" aria-current="page" href="/index.html">Beranda</a>     
         <a class="nav-link text-center" style="margin-right: 10px;" href="#">Panduan</a>
-        <a class="nav-link text-center" style="margin-right: 10px;" href="/src/page/structure/about.html">Tentang</a>
-        <a class="nav-link text-center" style="margin-right: 10px;" href="/src/page/structure/company.html">Perusahaan</a>
-        <a class="nav-link text-center" style="margin-right: 10px;" href="/src/page/structure/contact.html">Kontak</a>
-        <a class="nav-link text-center btn-signIn" href="/src/page/structure/signIn.html">Masuk</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="/frontend/page/structure/about.html">Tentang</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="/frontend/page/structure/company.html">Perusahaan</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="/frontend/page/structure/contact.html">Kontak</a>
+        <a class="nav-link text-center btn-signIn" href="/frontend/page/structure/signIn.html">Masuk</a>
       </div>
     </div>
   </div>

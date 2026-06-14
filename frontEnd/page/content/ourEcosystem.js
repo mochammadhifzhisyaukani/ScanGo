@@ -7,8 +7,8 @@ content.innerHTML = `
         <p class="subtitle animate__animated animate__fadeInDown" style="color: var(--color-teks);">Kami bangga dapat berkolaborasi dan mendukung berbagai instansi dalam mendigitalisasi sistem manajemen kehadiran mereka secara efisien.</p>
 
         <div class="container-sm justify-content-center d-flex mt-5 animate__animated animate__bounceInLeft">
-            <img src="/src/assets/logo/partners/pplg.png" style="height: 200px;">
-            <img src="/src/assets/logo/partners/wikrama.png" style="height: 200px;">
+            <img src="/frontend/assets/logo/partners/pplg.png" style="height: 200px;">
+            <img src="/frontend/assets/logo/partners/wikrama.png" style="height: 200px;">
         </div>
     </div>
 
@@ -22,28 +22,28 @@ content.innerHTML = `
                 <div class="col">
                     <a href="https://getbootstrap.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/bootstrap.png" class="card-img-top" alt="logo bootstrap">
+                            <img src="/frontend/assets/logo/partners/techStack/bootstrap.png" class="card-img-top" alt="logo bootstrap">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://animate.style/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/animate.png" class="card-img-top" alt="logo animate">
+                            <img src="/frontend/assets/logo/partners/techStack/animate.png" class="card-img-top" alt="logo animate">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://dribbble.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/dribbble.png" class="card-img-top" alt="logo dribbble">
+                            <img src="/frontend/assets/logo/partners/techStack/dribbble.png" class="card-img-top" alt="logo dribbble">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://expressjs.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/expressjs.png" class="card-img-top" alt="logo express js">
+                            <img src="/frontend/assets/logo/partners/techStack/expressjs.png" class="card-img-top" alt="logo express js">
                         </div>
                     </a>
                 </div>
@@ -56,28 +56,28 @@ content.innerHTML = `
                 <div class="col">
                     <a href="https://www.figma.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/figma.png" class="card-img-top" alt="logo figma">
+                            <img src="/frontend/assets/logo/partners/techStack/figma.png" class="card-img-top" alt="logo figma">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://gemini.google.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/gemini.png" class="card-img-top" alt="logo gemini">
+                            <img src="/frontend/assets/logo/partners/techStack/gemini.png" class="card-img-top" alt="logo gemini">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://github.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/github.png" class="card-img-top" alt="logo github">
+                            <img src="/frontend/assets/logo/partners/techStack/github.png" class="card-img-top" alt="logo github">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://www.google.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/google.png" class="card-img-top" alt="logo google">
+                            <img src="/frontend/assets/logo/partners/techStack/google.png" class="card-img-top" alt="logo google">
                         </div>
                     </a>
                 </div>
@@ -89,28 +89,28 @@ content.innerHTML = `
                 <div class="col">
                     <a href="https://www.lenovo.com/id/id/?orgRef=https%253A%252F%252Fwww.google.com%252F&srsltid=AfmBOorAG3DIFBtGkU5r5cQmUVWiCWcnvMIXtB-Oou_3Vm0d8Vyn2xBj" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/lenovo.png" class="card-img-top" alt="logo lenovo">
+                            <img src="/frontend/assets/logo/partners/techStack/lenovo.png" class="card-img-top" alt="logo lenovo">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://www.msi.com/index.php" target="__blank">
                     <div class="card" style="width: 100%;">
-                        <img src="/src/assets/logo/partners/techStack/msi.png" class="card-img-top" alt="logo msi">
+                        <img src="/frontend/assets/logo/partners/techStack/msi.png" class="card-img-top" alt="logo msi">
                     </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://www.phpmyadmin.net/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/mysql.png" class="card-img-top" alt="logo mysql">
+                            <img src="/frontend/assets/logo/partners/techStack/mysql.png" class="card-img-top" alt="logo mysql">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://nodejs.org/en" target="__blank">
                     <div class="card" style="width: 100%;">
-                        <img src="/src/assets/logo/partners/techStack/nodejs.png" class="card-img-top" alt="logo node js">
+                        <img src="/frontend/assets/logo/partners/techStack/nodejs.png" class="card-img-top" alt="logo node js">
                     </div>
                     </a>
                 </div>
@@ -122,28 +122,28 @@ content.innerHTML = `
                 <div class="col">
                     <a href="https://railway.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/railway.png" class="card-img-top" alt="logo railway">
+                            <img src="/frontend/assets/logo/partners/techStack/railway.png" class="card-img-top" alt="logo railway">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://sweetalert2.github.io/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/sweetalert.png" class="card-img-top" alt="logo sweetalert2">
+                            <img src="/frontend/assets/logo/partners/techStack/sweetalert.png" class="card-img-top" alt="logo sweetalert2">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://vercel.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/vercel.png" class="card-img-top" alt="logo vercel">
+                            <img src="/frontend/assets/logo/partners/techStack/vercel.png" class="card-img-top" alt="logo vercel">
                         </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="https://code.visualstudio.com/" target="__blank">
                         <div class="card" style="width: 100%;">
-                            <img src="/src/assets/logo/partners/techStack/vscode.png" class="card-img-top" alt="logo vscode">
+                            <img src="/frontend/assets/logo/partners/techStack/vscode.png" class="card-img-top" alt="logo vscode">
                         </div>
                     </a>
                 </div>

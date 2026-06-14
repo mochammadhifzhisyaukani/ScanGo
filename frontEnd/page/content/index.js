@@ -24,10 +24,10 @@ content.innerHTML = `
             </button>
         </div>
 
-        <a href="/src/page/structure/about.html#dev" class="d-flex gap-2 mt-4 animate__animated animate__fadeInUp text-decoration-none">
-            <img src="/src/assets/profiles/dimas.png" alt="Profile Dev" class="img-profile-dev">
-            <img src="/src/assets/profiles/hifzhi.jpeg" alt="Profile Dev" class="img-profile-dev">
-            <img src="/src/assets/profiles/yazid.jpeg" alt="Profile Dev" class="img-profile-dev">
+        <a href="/frontend/page/structure/about.html#dev" class="d-flex gap-2 mt-4 animate__animated animate__fadeInUp text-decoration-none">
+            <img src="/frontend/assets/profiles/dimas.png" alt="Profile Dev" class="img-profile-dev">
+            <img src="/frontend/assets/profiles/hifzhi.jpeg" alt="Profile Dev" class="img-profile-dev">
+            <img src="/frontend/assets/profiles/yazid.jpeg" alt="Profile Dev" class="img-profile-dev">
             <p class="text-white dev-text">
                 See Developer Profile
             </p>

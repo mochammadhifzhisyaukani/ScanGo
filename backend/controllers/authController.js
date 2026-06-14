@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password, role, username } = req.body;
 
-    if (!email || !password) {
+    if (!email || !password || !username) {
       Swal.fire({
         title: "Login Gagal",
         icon: "error",
@@ -22,6 +22,7 @@ const register = async (req, res) => {
     }
 
     const userRole = role || "user";
+    const username = username || "username";
 
     const { data: existingUser } = await supabase
       .from("users")
@@ -42,7 +43,19 @@ const register = async (req, res) => {
 
         buttonsStyling: false,
       });
-      return
+      return;
+    }
+
+    const { data: existingUsername } = await supabase
+      .from("users")
+      .select("username")
+      .eq("username", username)
+      .maybeSingle();
+    
+    if (existingUsername) {
+      return res.status(400).json({
+        message: "Username sudah digunakan!"
+      });
     }
 
     const saltRounds = 10;
@@ -50,7 +63,7 @@ const register = async (req, res) => {
 
     const { data, error } = await supabase
       .from("users")
-      .insert([{ email: email, password: hashedPassword, role: userRole }])
+      .insert([{ email: email, password: hashedPassword, role: userRole, username: username }])
       .select();
 
     if (error) throw error;
@@ -61,6 +74,7 @@ const register = async (req, res) => {
         id: data[0].id,
         email: data[0].email,
         role: data[0].role,
+        username: data[0].username
       },
     });
   } catch (error) {
@@ -74,30 +88,62 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email dan password wajib diisi!" });
+      showToast("Email dan Password wajib diisi!.", "danger");
+      Swal.fire({
+        title: "Login Gagal",
+        icon: "error",
+        draggable: true,
+        customClass: {
+          popup: "sweetalert-popup",
+          confirmButton: "sweetalert-btn-error",
+        },
+
+        buttonsStyling: false,
+      });
+      return;
     }
 
     const { data: user, error } = await supabase
       .from("users")
       .select("*")
       .eq("email", email)
-      .single();
+      .maybeSingle();
 
     if (error || !user) {
-      return res
-        .status(401)
-        .json({ message: "Email atau password salah! cek kembali." });
+      showToast("Email dan Password Salah! Cek kembali.", "danger");
+      Swal.fire({
+        title: "Login Gagal",
+        icon: "error",
+        draggable: true,
+        customClass: {
+          popup: "sweetalert-popup",
+          confirmButton: "sweetalert-btn-error",
+        },
+
+        buttonsStyling: false,
+      });
+      return;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Email atau password salah!" });
+      showToast("Email dan Password Salah!", "danger");
+      Swal.fire({
+        title: "Login Gagal",
+        icon: "error",
+        draggable: true,
+        customClass: {
+          popup: "sweetalert-popup",
+          confirmButton: "sweetalert-btn-error",
+        },
+
+        buttonsStyling: false,
+      });
+      return;
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, email: user.email, role: user.role, username: user.username },
       process.env.JWT_SECREET || "Secreet__",
       { expiresIn: "1d" },
     );
@@ -112,8 +158,33 @@ const login = async (req, res) => {
       },
     });
   } catch (error) {
+    showToast("ERRPR: ", "danger", error.message);
+    Swal.fire({
+      title: "Login Gagal",
+      icon: "error",
+      draggable: true,
+      customClass: {
+        popup: "sweetalert-popup",
+        confirmButton: "sweetalert-btn-error",
+      },
+
+      buttonsStyling: false,
+    });
+    return;
     console.error("Error Login: ", error.message);
-    return res.status(500).json({ message: "Terjadi kesalahan pada server." });
+    showToast("Terjadi kesalahan pada server.", "danger");
+    Swal.fire({
+      title: "Kesalahan sistem",
+      icon: "question",
+      draggable: true,
+      customClass: {
+        popup: "sweetalert-popup",
+        confirmButton: "sweetalert-btn-error",
+      },
+
+      buttonsStyling: false,
+    });
+    return;
   }
 };
 

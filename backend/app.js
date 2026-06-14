@@ -10,6 +10,8 @@ app.use(cors({
   credentials: true
 }));
 
+app.use('/api/admin', adminRoutes);
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);

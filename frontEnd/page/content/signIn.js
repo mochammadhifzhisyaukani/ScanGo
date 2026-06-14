@@ -55,7 +55,6 @@ content.innerHTML = `
         </div>
 `;
 
-// ==================== SISA KODE SEBELUMNYA (TOGGLE & MANUAL LOGIN) ====================
 const togglePassword = document.querySelector("#togglePassword");
 const password = document.querySelector("#password");
 
@@ -86,7 +85,6 @@ btnSignIn.addEventListener("click", async function (e) {
         popup: "sweetalert-popup",
         confirmButton: "sweetalert-btn-error",
       },
-
       buttonsStyling: false,
     });
     return;
@@ -106,7 +104,11 @@ btnSignIn.addEventListener("click", async function (e) {
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Gagal Login!");
 
-    // showToast("Login Berhasil! Selamat Datang.", "success");
+    localStorage.setItem("role", data.user.role);
+    localStorage.setItem("username", data.user.username || data.user.email);
+
+    showToast("Login Berhasil! Selamat Datang.", "success");
+
     Swal.fire({
       title: "Login Berhasil",
       icon: "success",
@@ -115,20 +117,30 @@ btnSignIn.addEventListener("click", async function (e) {
         popup: "sweetalert-popup",
         confirmButton: "sweetalert-btn-success",
       },
-
+      buttonsStyling: false,
+    }).then(() => {
+      if (data.user.role.trim().toLowerCase() === "admin") {
+        showToast("Menuju halaman dashboard (Admin)", "success");
+        window.location.href = "/frontEnd/page/structure/dashboard.html";
+      } else {
+        showToast("Menuju halaman dashboard", "success");
+        window.location.href = "/frontEnd/page/structure/dashboard.html";
+      }
+    });
+  } catch (error) {
+    showToast(`Error: ${error.message}`, "danger");
+    Swal.fire({
+      title: "Login Gagal",
+      text: error.message,
+      icon: "error",
+      draggable: true,
+      customClass: {
+        popup: "sweetalert-popup",
+        confirmButton: "sweetalert-btn-error",
+      },
       buttonsStyling: false,
     });
-    localStorage.setItem("role", data.user.role);
-
-    localStorage.setItem("username", data.user.username || data.user.email);
-
-    if (data.user.role.trim().toLowerCase() === "admin") {
-      showToast("Menuju halaman dashboard (Admin)", "success");
-    } else {
-      showToast("Menuju halaman dashboard", "success");
-    }
-  } catch (error) {
-    console.log("Error: " + error.message);
+    console.error("Error: ", error.message);
   } finally {
     btnSignIn.innerText = "Sign In";
     btnSignIn.disabled = false;
