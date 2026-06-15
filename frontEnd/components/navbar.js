@@ -9,7 +9,7 @@ navbar.innerHTML = `
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav d-flex justify-content-end ms-auto">
         <a class="nav-link active text-center home" style="margin-right: 10px;" aria-current="page" href="/index.html">Beranda</a>     
-        <a class="nav-link text-center" style="margin-right: 10px;" href="#">Panduan</a>
+        <a class="nav-link text-center" style="margin-right: 10px;" href="/frontend/page/structure/guide.html">Panduan</a>
         <a class="nav-link text-center" style="margin-right: 10px;" href="/frontend/page/structure/about.html">Tentang</a>
         <a class="nav-link text-center" style="margin-right: 10px;" href="/frontend/page/structure/company.html">Perusahaan</a>
         <a class="nav-link text-center" style="margin-right: 10px;" href="/frontend/page/structure/contact.html">Kontak</a>
