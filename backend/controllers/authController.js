@@ -4,11 +4,26 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { email, password, role, username } = req.body;
+    const { email, password, role, username, idcard, rombel, nis } = req.body;
 
-    if (!email || !password || !username) {
-      return res.status(400).json({
-        message: "Email, password, dan username wajib diisi!",
+    if (
+      !email ||
+      !password ||
+      !username ||
+      !idcard ||
+      !role ||
+      !rombel ||
+      !nis
+    ) {
+      showToast("Semua kolom input wajib diisi!", "danger");
+      Swal.fire({
+        title: "Registrasi Gagal!",
+        icon: "error",
+        customClass: {
+          popup: "sweetalert-popup",
+          confirmButton: "sweetalert-btn-success",
+        },
+        buttonsStyling: false,
       });
     }
 

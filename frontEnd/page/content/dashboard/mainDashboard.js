@@ -15,7 +15,7 @@ content.innerHTML = `
                 <div class="menu-icon active"><i class="bi bi-clock"></i></div>
                 <div class="menu-icon"><i class="bi bi-upc-scan"></i></i></div>
                 <div class="menu-icon"><i class="bi bi-bar-chart-line"></i></div>
-                <div class="menu-icon"><i class="bi bi-person-fill-add"></i></div>
+                <div class="menu-icon"><a href="/frontEnd/page/structure/signUp.html"><i class="bi bi-person-fill-add"></i></a></div>
                 <div class="menu-icon" style="margin-top: auto;"><i class="bi bi-gear"></i></div>
             </div>
         </aside>
