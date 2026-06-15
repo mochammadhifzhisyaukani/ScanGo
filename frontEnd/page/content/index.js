@@ -33,8 +33,117 @@ content.innerHTML = `
             </p>
         </a>
     </div>
+
+        <section class="tech-stack-section">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/bootstrap.png" alt="Bootstrap">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/nodejs.png" alt="NodeJS">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/postgree.png" alt="PostgreSQL">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/swipper.png" alt="Swiper">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/expressjs.png" alt="ExpressJS">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/animate.png" alt="Animate CSS">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/sweetalert.png" alt="SweetAlert">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card mt-3">
+                        <img src="/frontEnd/assets/logo/partners/techStack/supabase.png" alt="Supabase">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/github.png" alt="Github">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="logo-card">
+                        <img src="/frontEnd/assets/logo/partners/techStack/vercel.png" alt="Vercel">
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </section>
 `;
 
 function btnGetStarted() {
     window.location.href = "/frontEnd/page/structure/signIn.html";
 }
+
+const swiperEl = document.querySelector('.mySwiper');
+
+swiperEl.addEventListener('mouseenter', () => {
+    swiper.autoplay.stop();
+});
+
+swiperEl.addEventListener('mouseleave', () => {
+    swiper.autoplay.start();
+});
+
+const swiper = new Swiper('.mySwiper', {
+    loop: true,
+    allowTouchMove: false,
+
+    autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+    },
+
+    speed: 4000,
+
+    breakpoints: {
+        320: {
+            slidesPerView: 2,
+            spaceBetween: 20
+        },
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 30
+        },
+        1024: {
+            slidesPerView: 5,
+            spaceBetween: 40
+        }
+    }
+});
+
