@@ -1,12 +1,17 @@
-body {
-    background-color: var(--bg-body) !important;
+@media (max-width: 576px) {
+    .techStack .col-6 {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
 }
 
-.techStack .card {
-    height: 100%;
-}
+@media (max-width: 576px) {
+    .partner {
+        margin-top: 0 !important;
+    }
 
-.techStack .card img {
-    height: 200px;
-    object-fit: cover;
+    .partner #changeTheme {
+        margin-top: 150px !important;
+    }
 }
