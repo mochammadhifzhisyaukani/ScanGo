@@ -1,14 +1,19 @@
-/* body {
+body {
   font-family: "Poppins", Arial, sans-serif !important;
-} */
+}
 
 :root {
-  --bg-body: #f8f9fa;
+  --bg-body: #f8fafc;
   --bg-toggle: black;
   --toggle-circle: #ffffff;
   --transition-speed: 0.4s;
-  --color-teks: black;
+  --color-teks: #0f172a;
+  --color-teks-sub: #475569;
   --border-radius: 10px;
+
+  --btn-started: black;
+  --color-btnStarted: white;
+  --btn-viewDemo: #f1f5f9;
 
   --teks-form: black;
   --bg-formContact: #f8f9fa;
@@ -16,12 +21,16 @@
 }
 
 [data-theme="dark"] {
-  --bg-body: #121212;
+  --bg-body: #0f172a;
   --bg-toggle: #ffffff;
   --toggle-circle: black;
   --color-teks: white;
   --bg-card: #121212;
   --border-radius: 10%;
+
+  --btn-started: white;
+  --color-btnStarted: black;
+  --color-btnViewDemo: black;
 
   --teks-form: #ffffff;
   --bg-formContact: #1e1e1e;

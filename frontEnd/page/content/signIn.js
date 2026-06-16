@@ -98,7 +98,6 @@ btnSignIn.addEventListener("click", async function (e) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email, password: passwordValue }),
-      credentials: "include",
     });
 
     const data = await response.json();
@@ -124,7 +123,7 @@ btnSignIn.addEventListener("click", async function (e) {
         window.location.href = "/frontEnd/page/structure/dashboard.html";
       } else {
         showToast("Menuju halaman dashboard", "success");
-        window.location.href = "/frontEnd/page/structure/dashboard.html";
+        window.location.href = "/index.html";
       }
     });
   } catch (error) {

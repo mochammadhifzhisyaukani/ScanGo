@@ -1,19 +1,23 @@
 let content = document.getElementById("content");
 content.innerHTML = `
-    <div class="container-sm">
-        <h1 class="title-index text-white animate__animated animate__fadeInDown">
-            Revolusi Absensi<br>
+
+<div class="container px-4">
+  <div class="row gx-5">
+    <div class="col" style="margin-top: 15% !important;">
+        <div class="p-3">
+            <h1 class="title-index animate__animated animate__fadeInDown">
+            Revolusi Absensi
             Siswa Jadi Lebih<br>
             Mudah & Cepat.
         </h1>
-
-        <p class="text-white subtitle-index animate__animated animate__fadeInDown">
+        
+        <p class="subtitle-index animate__animated animate__fadeInDown">
             Sistem manajemen kehadiran modern berbasis QR Code 
             untuk efisiensi waktu belajar mengajar di sekolah Anda.
         </p>
 
         <div class="d-flex mt-5 gap-3 animate__animated animate__fadeIn">
-            <button type="button" onclick="btnGetStarted()" class="btn btn-lg btn-started">Get Started</button>
+            <button type="button" onclick="btnGetStarted()" class="btn btn-lg btn-started">Memulai</button>
             <button class="btn btn-lg btn-watch">Watch Demo</button>
 
             <button onlick="btn-copyLink" class="btn btn-light rounded-circle btn-copyLink">
@@ -24,17 +28,28 @@ content.innerHTML = `
             </button>
         </div>
 
-        <a href="/frontend/page/structure/about.html#dev" class="d-flex gap-2 mt-4 animate__animated animate__fadeInUp text-decoration-none">
+        <a href="/frontend/page/structure/about.html#dev" class="d-flex gap-2 mt-5 animate__animated animate__fadeInUp text-decoration-none" style="color: var(--color-teks) !important;">
             <img src="/frontend/assets/profiles/dimas.png" alt="Profile Dev" class="img-profile-dev">
             <img src="/frontend/assets/profiles/hifzhi.jpeg" alt="Profile Dev" class="img-profile-dev">
             <img src="/frontend/assets/profiles/yazid.jpeg" alt="Profile Dev" class="img-profile-dev">
-            <p class="text-white dev-text">
+            <p class="dev-text">
                 See Developer Profile
             </p>
         </a>
+      </div>
+    </div>
+    <div class="col" style="margin-top: 15%;">
+      <div class="p-3">
+        <img src="/frontEnd/assets/images/hero.png" class="img-hero" style="height: 500px;">
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container-sm">
     </div>
 
-        <section class="tech-stack-section">
+    <section class="tech-stack-section container-sm">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
 
@@ -106,44 +121,43 @@ content.innerHTML = `
 `;
 
 function btnGetStarted() {
-    window.location.href = "/frontEnd/page/structure/signIn.html";
+  window.location.href = "/frontEnd/page/structure/signIn.html";
 }
 
-const swiperEl = document.querySelector('.mySwiper');
+const swiperEl = document.querySelector(".mySwiper");
 
-swiperEl.addEventListener('mouseenter', () => {
-    swiper.autoplay.stop();
+swiperEl.addEventListener("mouseenter", () => {
+  swiper.autoplay.stop();
 });
 
-swiperEl.addEventListener('mouseleave', () => {
-    swiper.autoplay.start();
+swiperEl.addEventListener("mouseleave", () => {
+  swiper.autoplay.start();
 });
 
-const swiper = new Swiper('.mySwiper', {
-    loop: true,
-    allowTouchMove: false,
+const swiper = new Swiper(".mySwiper", {
+  loop: true,
+  allowTouchMove: false,
 
-    autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
+  autoplay: {
+    delay: 0,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+
+  speed: 4000,
+
+  breakpoints: {
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 20,
     },
-
-    speed: 4000,
-
-    breakpoints: {
-        320: {
-            slidesPerView: 2,
-            spaceBetween: 20
-        },
-        768: {
-            slidesPerView: 3,
-            spaceBetween: 30
-        },
-        1024: {
-            slidesPerView: 5,
-            spaceBetween: 40
-        }
-    }
+    768: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+    1024: {
+      slidesPerView: 5,
+      spaceBetween: 40,
+    },
+  },
 });
-

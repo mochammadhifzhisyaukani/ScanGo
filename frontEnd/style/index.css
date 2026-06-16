@@ -1,43 +1,38 @@
 body {
-  background-image: url("/frontEnd/assets/background/1704346349-slider$slider.jpg");
   margin: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
+  background-color: var(--bg-body) !important;
+  color: var(--color-teks) !important;
 }
 
 .title-index {
-  font-size: 5rem;
-  margin-top: 20%;
+  font-size: 4rem;
 }
 
 .subtitle-index {
+  color: var(--color-teks-sub) !important;
   max-width: 600px;
   font-size: 17px;
 }
 
 .btn-started {
-  background-color: #e67e22 !important;
-  color: white !important;
+  background-color: var(--btn-started) !important;
+  color: var(--color-btnStarted) !important;
   width: 200px;
 }
 
 .btn-started:hover {
-  background-color: orange !important;
   transform: translateY(-10px);
   transition: 0.3s ease-in-out;
 }
 
 .btn-watch {
-  background-color: transparent !important;
-  border: 1px solid white !important;
-  color: white !important;
+  background-color: var(--btn-viewDemo) !important;
+  color: var(--color-btnViewDemo) !important;
   width: 200px;
 }
 
 .btn-watch:hover {
-  background-color: white !important;
+  background-color: whitesmoke !important;
   transform: translateY(-10px);
   color: black !important;
   transition: 0.3s ease-in-out;
@@ -45,6 +40,8 @@ body {
 
 .btn-copyLink:hover {
   transform: translateX(15px);
+  background-color: #4F46E5 !important;
+  color: white !important;
   transition: 0.3s ease-in-out;
 }
 
@@ -69,7 +66,6 @@ body {
 
 /* swipper */
 .tech-stack-section {
-  padding: 80px 0;
   overflow: hidden;
 }
 
@@ -100,25 +96,30 @@ body {
   width: 250px !important;
   height: 250px !important;
   object-fit: contain !important;
-  filter: grayscale(100%);
-  opacity: 0.7;
+  filter: brightness(0) invert(1);
+  opacity: 0.3;
   transition: all 0.3s ease;
 }
 
 .logo-card:hover img {
-  filter: grayscale(0%);
-  opacity: 1;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
   transform: scale(1.1);
 }
 
-footer {
-  margin-top: 10%;
-}
 
 @media (max-width: 768px) {
+  .img-hero {
+    display: none;
+  }
+
+  body {
+    text-align: center !important;
+  }
+
   .title-index {
     font-size: 3rem;
-    margin-top: 50% !important;
+    margin-top: 40% !important;
     max-width: 350px;
   }
 
