@@ -56,6 +56,7 @@ function renderInputSiswa() {
     <h5>Daftar Siswa / Guru</h5>
     <div class="justify-content-end ms-auto">
       <input type="file" id="excelInput" accept=".xlsx, .xls, .csv" style="display: none;">
+      <button type="button" id="btnImportManual">Input Manual</button>
       <button type="button" id="btnImportExcel">Import Exel</button>
     </div>
   </div>
