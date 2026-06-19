@@ -4,11 +4,26 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { email, password, role, username } = req.body;
+    const { email, password, role, username, idcard, rombel, nis } = req.body;
 
-    if (!email || !password || !username) {
-      return res.status(400).json({
-        message: "Email, password, dan username wajib diisi!",
+    if (
+      !email ||
+      !password ||
+      !username ||
+      !idcard ||
+      !role ||
+      !rombel ||
+      !nis
+    ) {
+      showToast("Semua kolom input wajib diisi!", "danger");
+      Swal.fire({
+        title: "Registrasi Gagal!",
+        icon: "error",
+        customClass: {
+          popup: "sweetalert-popup",
+          confirmButton: "sweetalert-btn-success",
+        },
+        buttonsStyling: false,
       });
     }
 
@@ -48,6 +63,9 @@ const register = async (req, res) => {
           password: hashedPassword,
           role: userRole,
           username: username,
+          idcard: idcard,
+          rombel: rombel,
+          nis: nis
         },
       ])
       .select();
@@ -61,6 +79,9 @@ const register = async (req, res) => {
         email: data[0].email,
         role: data[0].role,
         username: data[0].username,
+        idcard: data[0].idcard,
+        rombel: data[0].rombel,
+        nis: data[0].nis
       },
     });
   } catch (error) {
@@ -106,6 +127,9 @@ const login = async (req, res) => {
         email: user.email,
         role: user.role,
         username: user.username,
+        idcard: user.idcard,
+        rombel: user.rombel,
+        nis: user.nis
       },
       process.env.JWT_SECREET || "Secreet__",
       { expiresIn: "1d" },
@@ -119,6 +143,9 @@ const login = async (req, res) => {
         email: user.email,
         role: user.role,
         username: user.username,
+        idcard: user.idcard,
+        rombel: user.rombel,
+        nis: user.nis
       },
     });
   } catch (error) {

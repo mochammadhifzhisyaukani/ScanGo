@@ -9,52 +9,129 @@
     <title>Scan Go | Website</title>
     <link rel="icon" type="image/png" href="/frontEnd/assets/logo/favicon.png" />
 
-    <!-- css global -->
     <link rel="stylesheet" href="/frontEnd/style/global.css" />
-    <!-- css dasboard -->
     <link rel="stylesheet" href="/frontEnd/style/dashboard.css" />
-
-    <!-- css component navbar -->
     <link rel="stylesheet" href="/frontEnd/style/components/dashboard/navbarDashboard.css">
 
-    <!-- link bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <!-- css file view -->
+    <link rel="stylesheet" href="/frontEnd/style/components/dashboard/inputStudent.css">
 
-    <!-- link font inter -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
-    <!-- link animate -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-    <!-- logo -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
 <body>
-    <!-- <header class="fixed-top w-100">
-        <nav id="navbarDashboard"></nav>
-    </header> -->
 
-    <main id="content">
-    </main>
+    <div class="dashboard-container">
 
-    <!-- <footer id="footer"></footer> -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <a href="/index.html">
+                    <img src="/frontEnd/assets/logo/favicon.png" style="height: 30px;">
+                </a>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-icon text-secondary" onclick="navigateTo('dashboard')">
+                    <i class="bi bi-house-door"></i>
+                </div>
+                <div class="menu-icon">
+                    <img src="/frontEnd/assets/profiles/dimas.png" style="height: 30px; border-radius: 50%;">
+                </div>
+                <div class="menu-icon active" onclick="navigateTo('dashboard')">
+                    <i class="bi bi-clock"></i>
+                </div>
+                <div class="menu-icon" onclick="navigateTo('scan-absensi')">
+                    <i class="bi bi-upc-scan"></i>
+                </div>
+                <div class="menu-icon" onclick="navigateTo('grafik')">
+                    <i class="bi bi-bar-chart-line"></i>
+                </div>
+                <div class="menu-icon" onclick="navigateTo('input-siswa')">
+                    <i class="bi bi-person-fill-add"></i>
+                </div>
+                <div class="menu-icon" style="margin-top: auto;">
+                    <i class="bi bi-gear"></i>
+                </div>
+            </div>
+        </aside>
 
-    <!-- script content dasboard -->
-    <script src="/frontEnd/page/content/dashboard/mainDashboard.js"></script>
-    <!-- script component navbar -->
-    <script src="/frontEnd/components/dashboard/navbarDashboard.js"></script>
+        <div class="main-wrapper mt-4" style="flex: 1; display: flex; flex-direction: column;">
 
-    <!-- script bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+            <header class="header-panel animate__animated animate__fadeIn pe-4">
+                <div class="header-title">
+                    <h4 class="ms-5">Dashboard Monitoring</h4>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="header-nav-tabs justify-content-center mx-auto">
+                        <a href="#" class="nav-tab-item active">Kelas X</a>
+                        <a href="#" class="nav-tab-item">Kelas XI</a>
+                        <a href="#" class="nav-tab-item">Kelas XII</a>
+                    </div>
+                    <div class="clock-date-wrapper me-3">
+                        <p id="time"></p>
+                        <p id="date"></p>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content" style="padding: 20px; overflow-y: auto;">
+                <div id="content"></div>
+            </main>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/frontEnd/page/content/views/inputStudent.js"></script>
+    <script src="/frontEnd/page/content/views/dashboad.js"></script>
+    <script src="/backend/routes/router.js"></script>
+
+    <!-- script time date -->
+    <script>
+        function initDashboardListener() {
+            const timeElement = document.getElementById("time");
+            const dateElement = document.getElementById("date");
+
+            const dateOptions = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            };
+
+            function updateClock() {
+                const now = new Date();
+                let hours = now.getHours().toString().padStart(2, "0");
+                let minutes = now.getMinutes().toString().padStart(2, "0");
+                let seconds = now.getSeconds().toString().padStart(2, "0");
+                let localDate = now.toLocaleDateString("id-ID", dateOptions);
+
+                if (timeElement) timeElement.innerHTML = `${hours}:${minutes}:${seconds}`;
+                if (dateElement) dateElement.innerHTML = `${localDate}`;
+            }
+
+            if (clockInterval) clearInterval(clockInterval);
+
+            updateClock();
+            clockInterval = setInterval(updateClock, 1000);
+        }
+
+        initDashboardListener();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof navigateTo === "function") {
+                navigateTo('dashboard');
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -4,6 +4,40 @@ content.innerHTML = `
             <div class="row min-vh-100 g-0">
 
                 <!-- LEFT SIDE -->
+                <div class="col-md-6 d-none d-md-flex flex-column justify-content-between contact-right-side">
+
+                    <div class="justify-content-left">
+                        <a href="/index.html" class="text-decoration-none text-white d-flex align-items-center gap-3">
+                            
+                            <img src="/frontEnd/assets/logo/favicon.png" style="height:50px;">
+
+                            <h1 class="fw-bold m-0">ScanGo</h1>
+
+                        </a>
+                    </div>
+
+                    <div class="justify-content-right ms-auto">
+                        <h1 class="fw-bold mb-4">
+                            "Skip the hassle. Scan, and move on."
+                        </h1>
+
+                        <div class="mt-5">
+                            <h5>
+                                <i class="bi bi-people me-2"></i>
+                                Collaborators
+                            </h5>
+
+                            <p>
+                                Collaboration is at the heart of ScanGo.
+                                We welcome partners, developers, and contributors
+                                to join us in shaping the future together.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE -->
                 <div class="col-12 col-md-6 d-flex align-items-center justify-content-center contact-left-side">
 
                     <div class="contact-form-card">
@@ -23,7 +57,6 @@ content.innerHTML = `
                         </div>
 
                         <form id="contact" action="https://formspree.io/f/xdajgrvw" method="POST">
-
                             <div class="mb-3">
                                 <label class="form-label">Nama Lengkap</label>
                                 <input name="name" type="text" class="form-control contact-input"
@@ -72,39 +105,7 @@ content.innerHTML = `
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE -->
-                <div class="col-md-6 d-none d-md-flex flex-column justify-content-between contact-right-side">
 
-                    <div class="justify-content-right ms-auto">
-                        <a href="/index.html" class="text-decoration-none text-white d-flex align-items-center gap-3">
-
-                            <img src="/frontEnd/assets/logo/favicon.png" style="height:50px;">
-
-                            <h1 class="fw-bold m-0">ScanGo</h1>
-
-                        </a>
-                    </div>
-
-                    <div class="justify-content-right ms-auto">
-                        <h1 class="fw-bold mb-4">
-                            "Skip the hassle. Scan, and move on."
-                        </h1>
-
-                        <div class="mt-5">
-                            <h5>
-                                <i class="bi bi-people me-2"></i>
-                                Collaborators
-                            </h5>
-
-                            <p>
-                                Collaboration is at the heart of ScanGo.
-                                We welcome partners, developers, and contributors
-                                to join us in shaping the future together.
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
 
             </div>
         </div>

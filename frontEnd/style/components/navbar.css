@@ -1,44 +1,65 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body,
-html {
-  width: 100%;
-}
-
 nav {
-  box-shadow: 0 24px 100px rgba(0, 0, 0, 0.5);
-  border-radius: 40px;
-}
-
-.btn-signIn {
-  background-color: #E67E22 !important;
-  color: white !important;
+  background-color: #ffffff !important;
   border-radius: 20px;
 }
 
-.btn-signIn:hover {
-  border: 1px solid #E67E22;
+@media (min-width: 992px) {
+  .style-brand,
+  .row-gap-2 {
+    min-width: 200px;
+  }
+  .row-gap-2 {
+    justify-content: flex-end !important;
+  }
+}
+
+.btn-theme {
+  background-color: black !important;
+  color: white !important;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-theme:hover {
   color: black !important;
-  border-bottom: 1px solid #E67E22 !important;
-  background-color: white !important;
-  transition: 0.3s ease-in-out;
+  background-color: #f1f5f9 !important;
+  transform: translateY(-1px);
 }
 
 .btn-hero a {
-    background-color: #E67E22;
+  background-color: #e67e22;
 }
 
-.nav-link:hover {
-  transform: translateY(-3px);
-  border-bottom: 1px solid black;
-  transition: 0.3s ease-in-out;
+.nav-link {
+  transition: all 0.2s ease-in-out;
 }
 
-@media (max-width: 768) {
-  .btn-dashboard {
-    margin-right: 0 !important;
+.nav-link:hover:not(.btn-signIn) {
+  transform: translateY(-2px);
+  transition: 0.2s ease-in-out;
+}
+
+.accessibility-dropdown {
+  position: absolute;
+  top: 90px;
+  right: 10px; /* Menggeser posisi kotak agar tidak mentok layar kanan */
+  width: 320px; /* Lebar kotak modal */
+  min-height: 100px; /* Tinggi minimal biar gak kempet pas kosongan */
+  background-color: #ffffff;
+  border-radius: 24px; /* Sudut membulat halus sesuai gambar */
+  padding: 24px; /* Jarak dalam kotak */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12); /* Bayangan soft mewah */
+  z-index: 1050; /* Memastikan modal menindih konten halaman */
+}
+
+@media (max-width: 768px) {
+  .btn-theme {
+    width: 100% !important;
+  }
+
+  .accessibility-dropdown {
+    right: 45px;
+    top: 100%;
   }
 }
