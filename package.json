@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/mochammadhifzhisyaukani/ScanGo#readme",
   "dependencies": {
-    "@supabase/supabase-js": "^2.108.1",
+    "@supabase/supabase-js": "^2.108.2",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
