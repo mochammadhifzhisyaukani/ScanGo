@@ -68,10 +68,10 @@
                     <h4 class="ms-5">Dashboard Monitoring</h4>
                 </div>
                 <div class="d-flex align-items-center gap-3">
-                    <div class="header-nav-tabs justify-content-center mx-auto">
-                        <a href="#" class="nav-tab-item active">Kelas X</a>
-                        <a href="#" class="nav-tab-item">Kelas XI</a>
-                        <a href="#" class="nav-tab-item">Kelas XII</a>
+                    <div class="header-nav-tabs justify-content-content-center mx-auto">
+                        <a href="#" class="nav-tab-item active" data-kelas="X">Kelas X</a>
+                        <a href="#" class="nav-tab-item" data-kelas="XI">Kelas XI</a>
+                        <a href="#" class="nav-tab-item" data-kelas="XII">Kelas XII</a>
                     </div>
                     <div class="clock-date-wrapper me-3">
                         <p id="time"></p>
@@ -96,40 +96,21 @@
 
     <!-- script time date -->
     <script>
-        function initDashboardListener() {
-            const timeElement = document.getElementById("time");
-            const dateElement = document.getElementById("date");
+        let clockInterval = null;
 
-            const dateOptions = {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            };
-
-            function updateClock() {
-                const now = new Date();
-                let hours = now.getHours().toString().padStart(2, "0");
-                let minutes = now.getMinutes().toString().padStart(2, "0");
-                let seconds = now.getSeconds().toString().padStart(2, "0");
-                let localDate = now.toLocaleDateString("id-ID", dateOptions);
-
-                if (timeElement) timeElement.innerHTML = `${hours}:${minutes}:${seconds}`;
-                if (dateElement) dateElement.innerHTML = `${localDate}`;
-            }
-
-            if (clockInterval) clearInterval(clockInterval);
-
-            updateClock();
-            clockInterval = setInterval(updateClock, 1000);
-        }
-
-        initDashboardListener();
-
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             if (typeof navigateTo === "function") {
                 navigateTo('dashboard');
             }
+            
+            setTimeout(function() {
+                if (typeof initDashboardListener === "function") {
+                    console.log("Menghubungkan fungsi Tab dan Jam..."); 
+                    initDashboardListener(); 
+                } else {
+                    console.error("Fungsi initDashboardListener tidak ditemukan!");
+                }
+            }, 100); 
         });
     </script>
 </body>
