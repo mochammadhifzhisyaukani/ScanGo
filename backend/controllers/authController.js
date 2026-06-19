@@ -15,15 +15,8 @@ const register = async (req, res) => {
       !rombel ||
       !nis
     ) {
-      showToast("Semua kolom input wajib diisi!", "danger");
-      Swal.fire({
-        title: "Registrasi Gagal!",
-        icon: "error",
-        customClass: {
-          popup: "sweetalert-popup",
-          confirmButton: "sweetalert-btn-success",
-        },
-        buttonsStyling: false,
+      return res.status(400).json({
+        message: "Semua kolom input wajib diisi!",
       });
     }
 
