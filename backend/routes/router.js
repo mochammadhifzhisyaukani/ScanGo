@@ -7,12 +7,30 @@ function navigateTo(page) {
 
     switch (page) {
         case "dashboard":
-            content.innerHTML = renderDashboard();
-            initDashboardListener();
+            if (typeof renderDashboard !== 'undefined') {
+                content.innerHTML = renderDashboard();
+                if (typeof initDashboardListener !== 'undefined') initDashboardListener();
+            } else {
+                window.location.href = '/frontEnd/page/structure/dashboard.html';
+            }
             break;
         case "input-siswa":
-            content.innerHTML = renderInputSiswa();
-            initInputSiswaListener();
+            if (typeof renderInputSiswa !== 'undefined') {
+                content.innerHTML = renderInputSiswa();
+                if (typeof initInputSiswaListener !== 'undefined') initInputSiswaListener();
+            } else {
+                // Karena inputStudent.js dimuat di dashboard.html, kita bisa redirect ke sana
+                window.location.href = '/frontEnd/page/structure/dashboard.html';
+            }
+            break;
+        case "grafik":
+        case "statistika":
+            if (typeof renderGrafik !== 'undefined') {
+                content.innerHTML = renderGrafik();
+                if (typeof initGrafikListerner !== 'undefined') initGrafikListerner();
+            } else {
+                window.location.href = '/frontEnd/page/structure/statistika.html';
+            }
             break;
         case "scan-rfid":
             content.innerHTML = renderScanRfid();
@@ -22,5 +40,12 @@ function navigateTo(page) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    navigateTo("dashboard");
+    const path = window.location.pathname;
+    if (path.includes("statistika")) {
+        navigateTo("statistika");
+    } else if (path.includes("input")) {
+        navigateTo("input-siswa");
+    } else {
+        navigateTo("dashboard");
+    }
 });
