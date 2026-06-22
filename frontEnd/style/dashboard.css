@@ -16,6 +16,8 @@
 
 .sidebar {
   width: 72px;
+  transition: width 0.25s ease; 
+  overflow: hidden;          
   background-color: #ffffff;
   border-right: 1px solid #f1f3f7;
   display: flex;
@@ -24,6 +26,12 @@
   padding: 20px 0;
   gap: 24px;
   flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+  width: 0 !important;
+  padding: 0 !important;
+  border-right: none !important;
 }
 
 .sidebar-logo {
