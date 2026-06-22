@@ -1,84 +1,149 @@
 function renderInputSiswa() {
   return `
-  <label for="nis">NIS / NIP</label><br>
-  <input type="text" id="nis" placeholder="Nomor Induk Siswa / NIP Guru"><br>
-  
-  <label for="selectRole">PERAN</label><br>
-  <select id="selectRole">
-    <option value="">Pilih Peran</option>
-    <option value="student">Siswa</option>
-    <option value="teacher">Guru</option>
-  </select><br>
+  <div id="formInputContainer" class="form-input-container" style="display: none;">
 
-  <label for="idKartu">UID RFID</label><br>
-  <input type="password" id="RFID" placeholder="TEMPELKAN KARTU KE READER ATAU KETIK MANUAL"><br>
-  <span>Tempelkan kartu RFID ke reader saat kursor di sini -- UID terisi otomatis.</span><br><br>
+    <div class="back-link" id="btnBackToData">
+      <i class="bi bi-arrow-left"></i> Kembali
+    </div>
 
-  <label for="username">NAMA LENGKAP</label><br>
-  <input type="text" id="username" placeholder="Nama Lengkap"><br>
+    <h2 class="form-title">
+      Input Siswa Baru
+    </h2>
 
-  <label for="email">EMAIL</label><br>
-  <input type="text" id="email" placeholder="Example@smkwikrama.sch.id"><br>
+    <form class="form-grid" id="formInputSiswa" autocomplete="off">
 
-  <label for="password">PASSWORD</label><br>
-  <input type="password" id="password" placeholder="**********"><br>
+      <div class="form-group">
+        <label class="form-label" for="nis">
+          <i class="bi bi-person-vcard"></i> NIS / NIP
+        </label>
+        <input type="text" id="nis" class="form-control-modern" placeholder="Nomor Induk Siswa / NIP Guru">
+      </div>
 
-  <label for="rombel">Rombel</label><br>
-  <select id="rombel">
-    <option value="">Pilih Rombel</option>
-    <optgroup label="PPLG X">
-      <option value="X_1">PPLG X-1</option>
-      <option value="X_2">PPLG X-2</option>
-      <option value="X_3">PPLG X-3</option>
-      <option value="X_4">PPLG X-4</option>
-      <option value="X_5">PPLG X-5</option>
-    </optgroup>
-    <optgroup label="PPLG XI">
-      <option value="XI_1">PPLG XI-1</option>
-      <option value="XI_2">PPLG XI-2</option>
-      <option value="XI_3">PPLG XI-3</option>
-      <option value="XI_4">PPLG XI-4</option>
-      <option value="XI_5">PPLG XI-5</option>
-    </optgroup>
-    <optgroup label="PPLG XII">
-      <option value="XII_1">PPLG XII-1</option>
-      <option value="XII_2">PPLG XII-2</option>
-      <option value="XII_3">PPLG XII-3</option>
-      <option value="XII_4">PPLG XII-4</option>
-      <option value="XII_5">PPLG XII-5</option>
-    </optgroup>
-  </select><br>
+      <div class="form-group">
+        <label class="form-label" for="selectRole">
+          <i class="bi bi-shield-check"></i> Peran
+        </label>
+        <select id="selectRole" class="form-control-modern">
+          <option value="">Pilih Peran</option>
+          <option value="student">Siswa</option>
+          <option value="teacher">Guru</option>
+        </select>
+      </div>
 
-  <button type="button" id="btnSave" class="btn-save">Simpan</button>
+      <div class="form-group rfid-field">
+        <label class="form-label" for="RFID">
+          <i class="bi bi-rss"></i> UID RFID
+        </label>
+        <input type="password" id="RFID" class="form-control-modern" placeholder="Tempelkan kartu ke reader atau ketik manual">
+        <span class="form-hint">
+          <i class="bi bi-info-circle"></i> Tempelkan kartu RFID ke reader saat kursor di sini &mdash; UID terisi otomatis.
+        </span>
+      </div>
 
-  <hr>
-  <div class="d-flex">
-    <h5>Daftar Siswa / Guru</h5>
-    <div class="justify-content-end ms-auto">
-      <input type="file" id="excelInput" accept=".xlsx, .xls, .csv" style="display: none;">
-      <button type="button" id="btnImportManual">Input Manual</button>
-      <button type="button" id="btnImportExcel">Import Exel</button>
+      <div class="form-group">
+        <label class="form-label" for="username">
+          <i class="bi bi-person"></i> Nama Lengkap
+        </label>
+        <input type="text" id="username" class="form-control-modern" placeholder="Nama Lengkap">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">
+          <i class="bi bi-envelope"></i> Email
+        </label>
+        <input type="text" id="email" class="form-control-modern" placeholder="example@smkwikrama.sch.id">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">
+          <i class="bi bi-lock"></i> Password
+        </label>
+        <input type="password" id="password" class="form-control-modern" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+      </div>
+
+      <div class="form-group full-width">
+        <label class="form-label" for="rombel">
+          <i class="bi bi-people"></i> Rombel
+        </label>
+        <select id="rombel" class="form-control-modern">
+          <option value="">Pilih Rombel</option>
+          <optgroup label="PPLG X">
+            <option value="X_1">PPLG X-1</option>
+            <option value="X_2">PPLG X-2</option>
+            <option value="X_3">PPLG X-3</option>
+            <option value="X_4">PPLG X-4</option>
+            <option value="X_5">PPLG X-5</option>
+          </optgroup>
+          <optgroup label="PPLG XI">
+            <option value="XI_1">PPLG XI-1</option>
+            <option value="XI_2">PPLG XI-2</option>
+            <option value="XI_3">PPLG XI-3</option>
+            <option value="XI_4">PPLG XI-4</option>
+            <option value="XI_5">PPLG XI-5</option>
+          </optgroup>
+          <optgroup label="PPLG XII">
+            <option value="XII_1">PPLG XII-1</option>
+            <option value="XII_2">PPLG XII-2</option>
+            <option value="XII_3">PPLG XII-3</option>
+            <option value="XII_4">PPLG XII-4</option>
+            <option value="XII_5">PPLG XII-5</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" id="btnBackToDataAlt">
+          <i class="bi bi-x-lg"></i> Batal
+        </button>
+        <button type="button" id="btnSave" class="btn-save">
+          <i class="bi bi-check-lg"></i> Simpan
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div id="dataContainer" class="data-container">
+    <div class="data-card">
+      <div class="table-header">
+        <h5 class="table-title">
+          <i class="bi bi-table" style="color: #4f46e5; margin-right: 6px;"></i>
+          Daftar Siswa / Guru
+        </h5>
+        <div class="table-actions">
+          <input type="file" id="excelInput" accept=".xlsx, .xls, .csv" style="display: none;">
+          <button type="button" id="btnImportManual" class="btn-import btn-import-manual">
+            <i class="bi bi-pencil-square"></i> Input Manual
+          </button>
+          <button type="button" id="btnImportExcel" class="btn-import btn-import-excel">
+            <i class="bi bi-file-earmark-spreadsheet"></i> Import Excel
+          </button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nama</th>
+              <th>Rombel</th>
+              <th>UID RFID</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableSiswaBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Nama</th>
-        <th>Rombel</th>
-        <th>UID RFID</th>
-        <th>Status</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="tableSiswaBody"></tbody>
-  </table>
 `;
 }
 
 function initInputSiswaListener() {
   loadTableSiswa();
   initImportExcelListener();
+  initImportManualListener();
 
   const btnDaftar = document.querySelector(".btn-save");
   if (!btnDaftar) return;
@@ -192,6 +257,8 @@ function initInputSiswaListener() {
       IdRfidInput.value = "";
       roleInput.value = "";
 
+      document.getElementById("formInputContainer").style.display = "none";
+      document.getElementById("dataContainer").style.display = "block";
       loadTableSiswa();
     } catch (error) {
       showToast("Gagal terhubung ke server backend", "danger");
@@ -236,6 +303,7 @@ async function loadTableSiswa() {
     tableBody.innerHTML = "";
 
     result.data.forEach((user, index) => {
+      const userEmail = user.email || user.Email || "";
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${index + 1}</td>
@@ -248,14 +316,13 @@ async function loadTableSiswa() {
         <td><code>${user.idcard}</code></td>
         <td><span class="status-aktif">Aktif</span></td>
         <td>
-          <button class="btn-edit" data-nis="${user.nis}">📝</button>
-          <button class="btn-delete" data-nis="${user.nis}">🗑️</button>
+          <button class="btn-edit btn btn-primary btn-sm" data-nis="${user.nis}" data-email="${userEmail}">Edit</button>
+          <button class="btn-delete btn btn-danger btn-sm" data-nis="${user.nis}">Hapus</button>
         </td>
       `;
       tableBody.appendChild(row);
     });
 
-    // Panggil fungsi listener tombol aksi setelah tabel selesai dirender
     initActionButtonsListener();
   } catch (error) {
     console.error("Error loading table: ", error);
@@ -352,13 +419,38 @@ function initImportExcelListener() {
   });
 }
 
+function initImportManualListener() {
+  const btnManual = document.getElementById("btnImportManual");
+  const btnBack = document.getElementById("btnBackToData");
+  const btnBackAlt = document.getElementById("btnBackToDataAlt");
+  if (!btnManual) return;
+
+  function showForm() {
+    document.getElementById("dataContainer").style.display = "none";
+    document.getElementById("formInputContainer").style.display = "block";
+  }
+
+  function showData() {
+    document.getElementById("formInputContainer").style.display = "none";
+    document.getElementById("dataContainer").style.display = "block";
+  }
+
+  btnManual.addEventListener("click", showForm);
+
+  if (btnBack) {
+    btnBack.addEventListener("click", showData);
+  }
+
+  if (btnBackAlt) {
+    btnBackAlt.addEventListener("click", showData);
+  }
+}
+
 function initActionButtonsListener() {
   const tableBody = document.querySelector("#tableSiswaBody");
   if (!tableBody) return;
 
-  // Gunakan Event Delegation biar listener klik nempel terus meskipun tabel direfresh harian
   tableBody.onclick = async (e) => {
-    // 🗑️ LOGIKA TOMBOL DELETE
     if (
       e.target.classList.contains("btn-delete") ||
       e.target.closest(".btn-delete")
@@ -369,8 +461,8 @@ function initActionButtonsListener() {
       const nis = button.getAttribute("data-nis");
 
       const confirm = await Swal.fire({
-        title: "Yakin mau dihapus, bro?",
-        text: `Data dengan NIS ${nis} bakal hilang permanen dari database.`,
+        title: "Yakin mau dihapus?",
+        text: `Data dengan NIS ${nis} akan hilang permanen dari database.`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
@@ -397,7 +489,6 @@ function initActionButtonsListener() {
       }
     }
 
-    // 📝 LOGIKA TOMBOL EDIT
     if (
       e.target.classList.contains("btn-edit") ||
       e.target.closest(".btn-edit")
@@ -406,36 +497,47 @@ function initActionButtonsListener() {
         ? e.target
         : e.target.closest(".btn-edit");
       const nis = button.getAttribute("data-nis");
-      actionEditSiswa(nis);
+      const email = button.getAttribute("data-email");
+      actionEditSiswa(nis, email);
     }
   };
 }
 
-async function actionEditSiswa(nis) {
+async function actionEditSiswa(nis, email) {
   try {
-    const response = await fetch("http://localhost:3000/api/users");
-    const result = await response.json();
-    const currentUser = result.data.find((u) => u.nis == nis);
+    const row = document
+      .querySelector(`button[data-nis="${nis}"]`)
+      .closest("tr");
+    if (!row) return Swal.fire("Eror", "Baris data tidak ditemukan!", "error");
 
-    if (!currentUser)
-      return Swal.fire("Eror", "Data tidak ditemukan!", "error");
+    const username = row.cells[1].querySelector("strong").innerText.trim();
+    const badgeText = row.cells[1]
+      .querySelector("span")
+      .innerText.trim()
+      .toLowerCase();
+    const role = badgeText === "guru" ? "teacher" : "student";
+    const rombel =
+      row.cells[2].innerText.trim() === "-"
+        ? ""
+        : row.cells[2].innerText.trim();
+    const idcard = row.cells[3].querySelector("code").innerText.trim();
 
     const { value: formValues } = await Swal.fire({
       title: "Edit Data Siswa / Guru",
       html: `
         <div style="text-align: left; margin-bottom: 8px;"><label>Nama Lengkap</label></div>
-        <input id="swal-username" class="swal2-input" style="margin-top:0;" value="${currentUser.username}">
+        <input id="swal-username" class="swal2-input" style="margin-top:0;" value="${username}">
         <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Email</label></div>
-        <input id="swal-email" class="swal2-input" style="margin-top:0;" value="${currentUser.email}">
+        <input id="swal-email" class="swal2-input" style="margin-top:0;" value="${email}">
         <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>UID RFID</label></div>
-        <input id="swal-idcard" class="swal2-input" style="margin-top:0;" value="${currentUser.idcard}">
+        <input id="swal-idcard" class="swal2-input" style="margin-top:0;" value="${idcard}">
         <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Peran</label></div>
         <select id="swal-role" class="swal2-input" style="margin-top:0; width: 100%; max-width: 100%;">
-          <option value="student" ${currentUser.role === "student" ? "selected" : ""}>Siswa</option>
-          <option value="teacher" ${currentUser.role === "teacher" ? "selected" : ""}>Guru</option>
+          <option value="student" ${role === "student" ? "selected" : ""}>Siswa</option>
+          <option value="teacher" ${role === "teacher" ? "selected" : ""}>Guru</option>
         </select>
         <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Rombel (Contoh: X_3)</label></div>
-        <input id="swal-rombel" class="swal2-input" style="margin-top:0;" value="${currentUser.rombel || ""}">
+        <input id="swal-rombel" class="swal2-input" style="margin-top:0;" value="${rombel}">
       `,
       focusConfirm: false,
       showCancelButton: true,

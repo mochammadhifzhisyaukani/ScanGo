@@ -14,10 +14,13 @@ function navigateTo(page) {
             content.innerHTML = renderInputSiswa();
             initInputSiswaListener();
             break;
+        case "scan-rfid":
+            content.innerHTML = renderScanRfid();
+            initScanRfid();
+            break;
     }
 }
 
-// 2. KODE PEMICU OTOMATIS INI DILETAKKAN DI BARIS PALING BAWAH FILE ROUTER.JS
 document.addEventListener("DOMContentLoaded", function () {
     navigateTo("dashboard");
 });

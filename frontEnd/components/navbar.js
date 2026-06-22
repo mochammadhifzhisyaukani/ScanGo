@@ -15,22 +15,19 @@ navbar.innerHTML = `
         
         <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4 mx-lg-auto">
           <a class="nav-link active text-center" aria-current="page" href="/index.html">Beranda</a>     
-          <a class="nav-link text-center" href="#">Panduan</a>
+          <a class="nav-link text-center" href="/frontEnd/page/structure/guide.html">Panduan</a>
           <a class="nav-link text-center" href="/frontend/page/structure/about.html">Tentang</a>
-          <a class="nav-link text-center" href="/frontend/page/structure/company.html">Perusahaan</a>
+          <a class="nav-link text-center" href="/frontend/page/structure/company.html">Pengembang</a>
         </div>
 
         <div class="d-flex justify-content-center gap-2">
-          <button type="button" id="btnTema" class="nav-link text-center btn-theme px-4">Sesuaikan Tema</button>
+          <button type="button" id="btnTema" class="nav-link text-center btn-theme px-4"><i class="bi bi-gear-fill" style="margin-right: 5px;"></i> Pengaturan</button>
         </div>
 
         <div id="menuAksesibilitas" class="accessibility-dropdown d-none animate__animated animate__fadeIn">
-          <div id="changeTheme"></div>
-          <div class="card">
-            <div class="card-body d-flex" style="height: auto !important;">
-              <input type="checkbox">
-              <span class="ms-3">Terang</sp>
-            </div>
+          <div class="d-flex">
+            <h6 class="mt-2">Mode Terang/Gelap</h6>
+            <div class="justify-content-end ms-auto" id="changeTheme"></div>
           </div>
         </div>
       </div>

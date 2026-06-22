@@ -22,7 +22,7 @@ body {
 }
 
 .title {
-  font-size: 50px;
+  /* font-size: 50px; */
   color: var(--color-teks);
 }
 
@@ -71,9 +71,38 @@ body {
   transition: 0.3s ease-in-out;
 }
 
+.card img:hover {
+  transform: scale(1.1) !;
+}
+
 .whyShould:hover {
   transform: translateY(-10px);
   transition: 0.3s ease-in-out;
+}
+
+.linkedin-icon-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 25px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #0a66c2; 
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.linkedin-icon-btn:hover {
+  background-color: #0a66c2; 
+  color: white;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(10, 102, 194, 0.4);
 }
 
 @media (max-width: 768px) {

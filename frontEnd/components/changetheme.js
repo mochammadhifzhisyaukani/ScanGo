@@ -13,7 +13,7 @@ btnChange.innerHTML = `
     </div>
 </label>
 `;
-
+const statusTheme = document.getElementById('statusTheme');
 const realCheckbox = document.getElementById("theme-checkbox");
 
 const currentTheme = localStorage.getItem('theme') || 'light';
@@ -25,9 +25,11 @@ if (currentTheme === 'dark') {
 realCheckbox.addEventListener('change', () => {
     if (realCheckbox.checked) {
         document.documentElement.setAttribute('data-theme', 'dark');
+        statusTheme.innerText = "Mode Gelap";
         localStorage.setItem('theme', 'dark');
     } else {
         document.documentElement.setAttribute('data-theme', 'light');
+        statusTheme.innerText = "Mode Terang";
         localStorage.setItem('theme', 'light');
     }
 });

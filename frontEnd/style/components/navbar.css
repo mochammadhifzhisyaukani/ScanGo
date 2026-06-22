@@ -43,14 +43,15 @@ nav {
 .accessibility-dropdown {
   position: absolute;
   top: 90px;
-  right: 10px; /* Menggeser posisi kotak agar tidak mentok layar kanan */
-  width: 320px; /* Lebar kotak modal */
-  min-height: 100px; /* Tinggi minimal biar gak kempet pas kosongan */
+  color: black !important;
+  right: 10px;
+  width: 320px; 
+  min-height: 100px;
   background-color: #ffffff;
-  border-radius: 24px; /* Sudut membulat halus sesuai gambar */
-  padding: 24px; /* Jarak dalam kotak */
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12); /* Bayangan soft mewah */
-  z-index: 1050; /* Memastikan modal menindih konten halaman */
+  border-radius: 24px; 
+  padding: 24px; 
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  z-index: 1050; 
 }
 
 @media (max-width: 768px) {

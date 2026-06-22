@@ -52,7 +52,7 @@ app.get("/api/users", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("users")
-      .select("nis, username, rombel, idcard, role")
+      .select("nis, username, email, rombel, idcard, role")
       .order("username", { ascending: true });
 
     if (error) throw error;

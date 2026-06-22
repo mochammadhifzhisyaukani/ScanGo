@@ -4,6 +4,11 @@ body {
   color: var(--color-teks) !important;
 }
 
+.card:hover {
+  transform: translateY(-10px);
+  transition: 0.3s ease-in-out;
+}
+
 .title-index {
   font-size: 4rem;
 }
@@ -12,6 +17,11 @@ body {
   color: var(--color-teks-sub) !important;
   max-width: 600px;
   font-size: 17px;
+}
+
+.img-hero:hover {
+  box-shadow: 0 24px 100px #e67e22;
+  transition: 0.3s ease-in-out !important;
 }
 
 .btn-started {
@@ -40,7 +50,7 @@ body {
 
 .btn-copyLink:hover {
   transform: translateX(15px);
-  background-color: #4F46E5 !important;
+  background-color: #4f46e5 !important;
   color: white !important;
   transition: 0.3s ease-in-out;
 }
@@ -75,42 +85,151 @@ body {
 }
 
 .mySwiper .swiper-wrapper {
-  align-items: center;
+  align-items: stretch;
   transition-timing-function: linear !important;
+  gap: 16px;
 }
 
 .mySwiper .swiper-slide {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: stretch;
+  height: auto !important;
 }
 
+
 .logo-card {
+  width: 120%;
+  height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 60px 80px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.logo-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
 }
 
 .logo-card img {
   width: 250px !important;
-  height: 250px !important;
+  height: 100px !important;
   object-fit: contain !important;
-  filter: brightness(0) invert(1);
-  opacity: 0.3;
+  /* filter: brightness(0) invert(1); */
+  /* opacity: 0.3; */
   transition: all 0.3s ease;
 }
 
 .logo-card:hover img {
-  filter: brightness(0) invert(1);
-  opacity: 0.8;
+  /* filter: brightness(0) invert(1);
+  opacity: 0.8; */
   transform: scale(1.1);
 }
 
+.scango-stats-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 40px 20px;
+  gap: 20px;
+}
+
+.stat-item {
+  position: relative;
+  text-align: center;
+  min-width: 160px;
+  flex: 1;
+}
+
+.stat-item:hover {
+  transform: scale(1.1);
+  transition: 0.3s ease-in-out;
+}
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--color-badge-primary);
+  margin: 0 0 4px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-badge-secondary);
+  margin: 0;
+}
+
+.stat-badge {
+  position: absolute;
+  width: 60px;
+  height: 45px;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-15deg);
+  border-radius: 50% 40% 45% 35%;
+  opacity: var(--opacity-shape);
+  z-index: 1;
+}
+
+.badge-orange {
+  background-color: #f97316;
+}
+.badge-blue {
+  background-color: #3b82f6;
+}
+.badge-green {
+  background-color: #10b981;
+}
+.badge-yellow {
+  background-color: #eab308;
+}
+
+.how img:hover {
+  transform: scale(1.1);
+  transition: 0.3s ease-in-out;
+}
+
+.promote {
+  height: 100%;
+  padding: 100px;
+  color: white !important;
+  background-image: url("/frontEnd/assets/background/9333f00957425e173ae553ca70f5b930\ -\ Copy.png");
+  background-repeat: none !important;
+  background-size: cover;
+
+  background-size: 100% auto;
+  background-position: center;
+  transition: background-size 0.5s ease-in-out;
+}
+
+.promote:hover {
+  background-size: 110% auto;
+}
 
 @media (max-width: 768px) {
   .img-hero {
-    display: none;
+    display: none !important;
+  }
+
+  .logo-card {
+    width: 110%;
+  }
+
+  .how img {
+    display: none !important;
+  }
+
+  .promote {
+    background-size: cover !important;
+    background-repeat: none !important;
   }
 
   body {
@@ -119,11 +238,34 @@ body {
 
   .title-index {
     font-size: 3rem;
-    margin-top: 40% !important;
+    margin-top: 20% !important;
     max-width: 350px;
   }
 
   footer {
-    margin-top: 40%;
+    margin-top: 20%;
+  }
+
+  .scango-stats-container {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 30px 15px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .stat-item {
+    min-width: 140px;
+    flex-shrink: 0;
+  }
+
+  .scango-stats-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scango-stats-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
