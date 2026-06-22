@@ -8,13 +8,13 @@ content.innerHTML = `
                 </a>
             </div>
             <div class="sidebar-menu">
-                <div class="menu-icon"><a href="/index.html" class="text-secondary"><i class="bi bi-house-door"></i></a></div>
+                <div class="menu-icon"><a href="/frontEnd/page/structure/dashboard.html" class="text-secondary"><i class="bi bi-house-door"></i></a></div>
                 <div class="menu-icon">
                     <img src="/frontEnd/assets/profiles/dimas.png" style="height: 30px; border-radius: 50%;">
                 </div>
                 <div class="menu-icon active"><i class="bi bi-clock"></i></div>
                 <div class="menu-icon"><i class="bi bi-upc-scan"></i></i></div>
-                <div class="menu-icon"><i class="bi bi-bar-chart-line"></i></div>
+                <div class="menu-icon"><a href="/frontEnd/page/structure/statistika.html" class="text-secondary"><i class="bi bi-bar-chart-line"></i></a></div>
                 <div class="menu-icon"><a href="/frontEnd/page/structure/signUp.html"><i class="bi bi-person-fill-add"></i></a></div>
                 <div class="menu-icon" style="margin-top: auto;"><i class="bi bi-gear"></i></div>
             </div>
@@ -100,7 +100,7 @@ content.innerHTML = `
                     <div class="d-flex gap-2 flex-wrap align-items-center">
                         <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3 " style="width: auto; height: 34px; font-size: 0.85rem;">
                             <option>Rombel</option>
-                            <option value="1"><hr></option>
+                            <option valuex="1"><hr></option>
                             <option value="1">PPLG X-1</option>
                             <option value="1">PPLG X-2</option>
                             <option value="1">PPLG X-3</option>

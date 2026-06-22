@@ -4,7 +4,7 @@ const app = express();
 const authRoutes = require('./routes/authRoutes');
 
 app.use(cors({
-  origin: 'http://127.0.0.1:5501',
+  origin: 'http://localhost:5501',
   credentials: true
 }));
 
