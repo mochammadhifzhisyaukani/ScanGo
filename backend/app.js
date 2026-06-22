@@ -13,13 +13,15 @@ app.use(
   }),
 );
 
-app.use(cors({
-  origin: '*',
-  methods : ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders : ['Content-Type', 'Authorization', 'api-token'],
-}));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "api-token"],
+  }),
+);
 
-app.use('/api/admin', authRoutes);
+app.use("/api/admin", authRoutes);
 
 app.use(express.json());
 
@@ -75,12 +77,10 @@ app.post("/api/auth/register-bulk", async (req, res) => {
   const { users } = req.body;
 
   if (!users || !Array.isArray(users)) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "Format data Excel kosong atau salah!",
-      });
+    return res.status(400).json({
+      success: false,
+      message: "Format data Excel kosong atau salah!",
+    });
   }
 
   try {
@@ -97,40 +97,59 @@ app.post("/api/auth/register-bulk", async (req, res) => {
   }
 });
 
-app.delete('/api/users/:nis', async (req, res) => {
+app.delete("/api/users/:nis", async (req, res) => {
   const { nis } = req.params;
 
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from("users")
       .delete()
-      .eq('nis', nis);
+      .eq("nis", nis);
 
-      if (error) throw error;
+    if (error) throw error;
 
-      return res.status(200).json({ success: true, message: "Data berhasil dihapus!" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Data berhasil dihapus!" });
   } catch (error) {
     console.error("Error Delete: ", error);
     return res.status(500).json({ success: false, message: error.message });
   }
 });
 
-app.put('/api/users/:nis', async (req, res) => {
+app.put("/api/users/:nis", async (req, res) => {
   const { nis } = req.params;
   const { username, email, rombel, role, idcard } = req.body;
 
   try {
     const { data, error } = await supabase
-     .from('users')
-     .update({ username, email, rombel, role, idcard })
-     .eq('nis', nis);
+      .from("users")
+      .update({ username, email, rombel, role, idcard })
+      .eq("nis", nis);
 
     if (error) throw error;
 
-    return res.status(200).json({ success: true, message: "Data berhasil diupdate!" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Data berhasil diupdate!" });
   } catch (error) {
     console.error("Error saat update: ", error);
     return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/attendances", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("attendances")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    res.json({ success: true, data: data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

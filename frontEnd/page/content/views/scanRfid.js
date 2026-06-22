@@ -52,7 +52,7 @@ async function submitScan() {
     const response = await fetch(
       "http://localhost:3000/api/attendances/store?card_id=" +
         encodeURIComponent(cardId) +
-        "&mac_address=RFID Reader",
+        "&mac_address=RFID",
       {
         method: "POST",
         headers: { "api-token": "12345" },
