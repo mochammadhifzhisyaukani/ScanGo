@@ -1,25 +1,6 @@
 const content = document.getElementById("content");
 content.innerHTML = `
     <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <a href="/index.html">
-                    <img src="/frontEnd/assets/logo/favicon.png" style="height: 30px;">
-                </a>
-            </div>
-            <div class="sidebar-menu">
-                <div class="menu-icon"><a href="/frontEnd/page/structure/dashboard.html" class="text-secondary"><i class="bi bi-house-door"></i></a></div>
-                <div class="menu-icon">
-                    <img src="/frontEnd/assets/profiles/dimas.png" style="height: 30px; border-radius: 50%;">
-                </div>
-                <div class="menu-icon active"><i class="bi bi-clock"></i></div>
-                <div class="menu-icon"><i class="bi bi-upc-scan"></i></i></div>
-                <div class="menu-icon"><a href="/frontEnd/page/structure/statistika.html" class="text-secondary"><i class="bi bi-bar-chart-line"></i></a></div>
-                <div class="menu-icon"><a href="/frontEnd/page/structure/signUp.html"><i class="bi bi-person-fill-add"></i></a></div>
-                <div class="menu-icon" style="margin-top: auto;"><i class="bi bi-gear"></i></div>
-            </div>
-        </aside>
-
         <main class="main-content">
             <div class="header-panel">
                 <div class="header-title">

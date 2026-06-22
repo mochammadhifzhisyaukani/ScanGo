@@ -3,51 +3,50 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Scan Go | Website</title>
-    <link rel="icon" type="image/png" href="/frontEnd/assets/logo/favicon.png" />
+    <link rel="icon" type="image/png" href="/frontEnd/assets/logo/favicon.png">
 
     <!-- css global -->
-    <link rel="stylesheet" href="/frontEnd/style/global.css" />
+    <link rel="stylesheet" href="/frontEnd/style/global.css">
     <!-- css index -->
-    <link rel="stylesheet" href="/frontEnd/style/index.css" />
+    <link rel="stylesheet" href="/frontEnd/style/index.css">
 
     <!-- css component navbar -->
     <link rel="stylesheet" href="/frontEnd/style/components/navbar.css">
     <!-- css component footer -->
     <link rel="stylesheet" href="/frontEnd/style/components/footer.css">
+    <!-- css component changeTheme -->
+    <link rel="stylesheet" href="/frontEnd/style/components/changeTheme.css">
 
     <!-- link bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <!-- link font inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
     <!-- link animate -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
     <!-- link swipper -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
 </head>
 
 
 <body>
     <header class="fixed-top w-100">
-        <div class="container-sm">
+        <div class="container-sm animate__animated animate__fadeInDown">
             <nav id="navbar"></nav>
         </div>
     </header>
 
     <main id="content">
     </main>
-
 
 
     <footer id="footer" class="container-sm"></footer>
@@ -61,11 +60,18 @@
     <script src="/frontEnd/components/navbar.js"></script>
     <!-- script component footer -->
     <script src="/frontEnd/components/footer.js"></script>
+    <!-- script component change theme -->
+    <script src="/frontEnd/components/changetheme.js"></script>
 
     <!-- script bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+
+    <!-- *script one page* -->
+    <!-- <script src="/backend/routes/router.js"></script>
+    <script src="/frontEnd/page/content/views/inputStudent.js"></script>
+    <script src="/frontEnd/page/content/views/dashboad.js"></script> -->
 </body>
 
 </html>

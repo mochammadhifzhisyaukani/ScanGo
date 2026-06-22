@@ -1,0 +1,230 @@
+body {
+    background-color: var(--bg-body) !important;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== SECTION HEADER ===== */
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-teks) !important;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    color: var(--color-teks) !important;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+/* ===== TRAIL CARD ===== */
+.trail-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+}
+
+.trail-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+}
+
+/* ===== THUMBNAIL WRAPPER ===== */
+.trail-thumb {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+}
+
+.trail-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.trail-card:hover .trail-thumb img {
+    transform: scale(1.05);
+}
+
+/* Play button overlay */
+.play-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.trail-card:hover .play-overlay {
+    opacity: 1;
+}
+
+.play-btn-circle {
+    width: 58px;
+    height: 58px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #1a1a1a;
+}
+
+/* ===== CARD BODY ===== */
+.trail-body {
+    padding: 18px 20px 22px;
+}
+
+.badge-level {
+    display: inline-block;
+    border: 1.5px solid #d1d5db;
+    color: #374151;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 4px 14px;
+    border-radius: 999px;
+    background: #fff;
+    margin-bottom: 12px;
+}
+
+.trail-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 5px;
+}
+
+.trail-desc {
+    font-size: 0.88rem;
+    color: #6b7280;
+    margin-bottom: 14px;
+}
+
+.trail-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.trail-stat i {
+    font-size: 1rem;
+    color: #9ca3af;
+}
+
+/* ===== CTA BUTTON ===== */
+.btn-adventure {
+    background-color: #c8f135;
+    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 36px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-adventure:hover {
+    background-color: #b5e020;
+    transform: scale(1.03);
+}
+
+/* ===== VIDEO MODAL ===== */
+.modal-content {
+    border-radius: 16px;
+    overflow: hidden;
+    border: none;
+}
+
+.modal-header {
+    background: #1a1a1a;
+    color: #fff;
+    border-bottom: none;
+    padding: 14px 20px;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+.modal-body {
+    padding: 0;
+    background: #000;
+}
+
+.modal-body video,
+.modal-body iframe {
+    width: 100%;
+    display: block;
+    border: none;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablet */
+@media (max-width: 991px) {
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .trail-thumb {
+        height: 200px;
+    }
+}
+
+/* HP / Mobile */
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .trail-thumb {
+        height: 180px;
+    }
+
+    /* Di HP, play overlay selalu sedikit terlihat supaya user tahu bisa diklik */
+    .play-overlay {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    .play-btn-circle {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+    }
+
+    .trail-name {
+        font-size: 1.05rem;
+    }
+
+    .btn-adventure {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .partner {
+        margin-top: 0 !important;
+    }
+
+    .partner #changeTheme {
+        margin-top: 150px !important;
+    }
+}

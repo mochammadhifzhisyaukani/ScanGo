@@ -4,8 +4,9 @@ const app = express();
 const authRoutes = require('./routes/authRoutes');
 
 app.use(cors({
-  origin: 'http://localhost:5501',
-  credentials: true
+  origin: '*',
+  methods : ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders : ['Content-Type', 'Authorization', 'api-token'],
 }));
 
 app.use('/api/admin', authRoutes);

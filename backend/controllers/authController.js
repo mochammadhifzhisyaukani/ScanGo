@@ -63,6 +63,9 @@ const register = async (req, res) => {
           password: hashedPassword,
           role: userRole,
           username: username,
+          idcard: idcard,
+          rombel: rombel,
+          nis: nis
         },
       ])
       .select();
@@ -76,6 +79,9 @@ const register = async (req, res) => {
         email: data[0].email,
         role: data[0].role,
         username: data[0].username,
+        idcard: data[0].idcard,
+        rombel: data[0].rombel,
+        nis: data[0].nis
       },
     });
   } catch (error) {
@@ -121,6 +127,9 @@ const login = async (req, res) => {
         email: user.email,
         role: user.role,
         username: user.username,
+        idcard: user.idcard,
+        rombel: user.rombel,
+        nis: user.nis
       },
       process.env.JWT_SECREET || "Secreet__",
       { expiresIn: "1d" },
@@ -134,6 +143,9 @@ const login = async (req, res) => {
         email: user.email,
         role: user.role,
         username: user.username,
+        idcard: user.idcard,
+        rombel: user.rombel,
+        nis: user.nis
       },
     });
   } catch (error) {
