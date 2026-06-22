@@ -68,6 +68,15 @@ async function submitScan() {
         '<div class="alert alert-success">' +
         (data.message || "Kehadiran berhasil dicatat") +
         "</div>";
+      
+      // Arahkan ke statistik setelah berhasil
+      setTimeout(() => {
+        if (typeof navigateTo === "function") {
+          navigateTo("statistika");
+        } else {
+          window.location.href = "/frontEnd/page/structure/statistika.html";
+        }
+      }, 1500);
     } else {
       statusEl.innerHTML =
         '<span class="badge bg-danger p-2 fs-6">Gagal</span>';

@@ -56,6 +56,19 @@ app.post("/api/attendances/store", async (req, res) => {
   }
 });
 
+app.get("/api/attendances", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("attendances")
+      .select("*");
+
+    if (error) throw error;
+    return res.status(200).json({ success: true, data });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 app.get("/api/users", async (req, res) => {
   try {
     const { data, error } = await supabase

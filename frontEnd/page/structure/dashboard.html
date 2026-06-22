@@ -109,15 +109,15 @@
             if (typeof navigateTo === "function") {
                 navigateTo('dashboard');
             }
-            
-            setTimeout(function() {
+
+            setTimeout(function () {
                 if (typeof initDashboardListener === "function") {
-                    console.log("Menghubungkan fungsi Tab dan Jam..."); 
-                    initDashboardListener(); 
+                    console.log("Menghubungkan fungsi Tab dan Jam...");
+                    initDashboardListener();
                 } else {
                     console.error("Fungsi initDashboardListener tidak ditemukan!");
                 }
-            }, 100); 
+            }, 100);
         });
     </script>
 </body>
