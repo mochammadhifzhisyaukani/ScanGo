@@ -48,7 +48,7 @@ function renderGrafik() {
                             <div class="icon-box" style="background:#EEF2FF;color:#4F46E5;"><i
                                     class="bi bi-people-fill"></i></div>
                             <div>
-                                <div class="value">36</div>
+                                <div class="value" id="val-total-siswa">-</div>
                                 <div class="label">Total Siswa</div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@ function renderGrafik() {
                             <div class="icon-box" style="background:#DCFCE7;color:#16A34A;"><i
                                     class="bi bi-check-circle-fill"></i></div>
                             <div>
-                                <div class="value">29</div>
+                                <div class="value" id="val-hadir">-</div>
                                 <div class="label">Hadir Hari Ini</div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@ function renderGrafik() {
                             <div class="icon-box" style="background:#DBEAFE;color:#2563EB;"><i
                                     class="bi bi-heart-pulse-fill"></i></div>
                             <div>
-                                <div class="value">3</div>
+                                <div class="value" id="val-sakit">-</div>
                                 <div class="label">Sakit</div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@ function renderGrafik() {
                             <div class="icon-box" style="background:#F3E8FF;color:#7C3AED;"><i
                                     class="bi bi-file-earmark-text-fill"></i></div>
                             <div>
-                                <div class="value">1</div>
+                                <div class="value" id="val-izin">-</div>
                                 <div class="label">Izin</div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ function renderGrafik() {
                             <div class="icon-box" style="background:#FEF3C7;color:#D97706;"><i
                                     class="bi bi-clock-fill"></i></div>
                             <div>
-                                <div class="value">1</div>
+                                <div class="value" id="val-terlambat">-</div>
                                 <div class="label">Terlambat</div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@ function renderGrafik() {
                             <div class="icon-box" style="background:#FEE2E2;color:#DC2626;"><i
                                     class="bi bi-x-circle-fill"></i></div>
                             <div>
-                                <div class="value">2</div>
+                                <div class="value" id="val-belum-absen">-</div>
                                 <div class="label">Belum Absen</div>
                             </div>
                         </div>
@@ -193,56 +193,12 @@ function renderGrafik() {
                                     <h3>Perlu Perhatian</h3>
                                     <p>Sering terlambat / tidak hadir bulan ini</p>
                                 </div>
-                                <span class="filterpill"
-                                    style="background:var(--purple-soft);color:var(--purple);border-color:transparent;">6
+                                <span class="filterpill" id="perhatianCountPill"
+                                    style="background:var(--purple-soft);color:var(--purple);border-color:transparent;">0
                                     siswa</span>
                             </div>
-                            <div class="rank-list">
-                                <div class="rank-item top">
-                                    <div class="rank-num">1</div>
-                                    <div class="avatar"></div>
-                                    <div class="rank-info">
-                                        <div class="nm">Mochammad Hifzhi Syaukani</div>
-                                        <div class="rb">PPLG X-3</div>
-                                    </div>
-                                    <span class="rank-tag late">7x Terlambat</span>
-                                </div>
-                                <div class="rank-item top">
-                                    <div class="rank-num">2</div>
-                                    <div class="avatar"></div>
-                                    <div class="rank-info">
-                                        <div class="nm">Yazid Diansyah</div>
-                                        <div class="rb">PPLG X-2</div>
-                                    </div>
-                                    <span class="rank-tag absent">5x Tidak Hadir</span>
-                                </div>
-                                <div class="rank-item">
-                                    <div class="rank-num">3</div>
-                                    <div class="avatar"></div>
-                                    <div class="rank-info">
-                                        <div class="nm">Rafi Aditya Pratama</div>
-                                        <div class="rb">PPLG X-1</div>
-                                    </div>
-                                    <span class="rank-tag late">4x Terlambat</span>
-                                </div>
-                                <div class="rank-item">
-                                    <div class="rank-num">4</div>
-                                    <div class="avatar"></div>
-                                    <div class="rank-info">
-                                        <div class="nm">Salsabila Putri Wijaya</div>
-                                        <div class="rb">PPLG X-2</div>
-                                    </div>
-                                    <span class="rank-tag absent">3x Tidak Hadir</span>
-                                </div>
-                                <div class="rank-item">
-                                    <div class="rank-num">5</div>
-                                    <div class="avatar"></div>
-                                    <div class="rank-info">
-                                        <div class="nm">Dimas Hadi Syandana</div>
-                                        <div class="rb">PPLG X-3</div>
-                                    </div>
-                                    <span class="rank-tag late">3x Terlambat</span>
-                                </div>
+                            <div class="rank-list" id="perhatianList">
+                                <!-- list dikosongkan jika belum cukup data -->
                             </div>
                         </div>
                     </div>
@@ -353,25 +309,152 @@ function gridLines(svg, max, steps) {
 }
 
 // ===================== 1. Kehadiran 7 Hari Terakhir (single line) =====================
-window.initGrafikListerner = function () {
+window.initGrafikListerner = async function () {
   initDashboardListener();
 
+  let users = [];
+  let attendances = [];
+  try {
+    const resA = await fetch("http://localhost:3000/api/attendances");
+    if (resA.ok) {
+      const dataA = await resA.json();
+      if (dataA.success) attendances = dataA.data || [];
+    }
+    const resU = await fetch("http://localhost:3000/api/users");
+    if (resU.ok) {
+      const dataU = await resU.json();
+      if (dataU.success) users = dataU.data || [];
+    }
+  } catch (error) {
+    console.error("Gagal memuat data statistik", error);
+  }
+
+  const td = new Date();
+  const todayAtt = attendances.filter(a => {
+      if(!a.created_at) return false;
+      const d = new Date(a.created_at);
+      return d.getFullYear() === td.getFullYear() && d.getMonth() === td.getMonth() && d.getDate() === td.getDate();
+  });
+  
+  const totalSiswa = users.length;
+  const hadirMap = new Map();
+  todayAtt.forEach(a => {
+      let cId = String(a.idcard || '').trim();
+      if(cId) {
+          if(!hadirMap.has(cId)) {
+              hadirMap.set(cId, a);
+          } else {
+              const existing = hadirMap.get(cId);
+              if (new Date(a.created_at) > new Date(existing.created_at)) {
+                  hadirMap.set(cId, a);
+              }
+          }
+      }
+  });
+  const hadirCards = Array.from(hadirMap.keys());
+  const totalHadir = hadirCards.length;
+  const totalBelum = Math.max(0, totalSiswa - totalHadir);
+
+  // Data List Siswa (Status Hari Ini) & Menghitung Terlambat
+  const studentsList = [];
+  const absentList = [];
+  let countTepat = 0;
+  let countTerlambat = 0;
+  
+  users.forEach(u => {
+     let uId = String(u.idcard || '').trim();
+     if(uId && hadirMap.has(uId)) {
+         let timeStr = "00:00";
+         let isTerlambat = false;
+         const attObj = hadirMap.get(uId);
+         if(attObj && attObj.created_at) {
+             const dtt = new Date(attObj.created_at);
+             const hrs = dtt.getHours();
+             const mins = dtt.getMinutes();
+             if (hrs > 8 || (hrs === 8 && mins > 30)) {
+                 isTerlambat = true;
+             }
+             timeStr = String(hrs).padStart(2,'0') + ':' + String(mins).padStart(2,'0');
+         }
+         if (isTerlambat) countTerlambat++;
+         else countTepat++;
+
+         studentsList.push({ name: u.username, rombel: u.rombel, status: isTerlambat ? "terlambat" : "sudah", time: timeStr });
+     } else {
+         studentsList.push({ name: u.username, rombel: u.rombel, status: "belum" });
+         absentList.push({ name: u.username, rombel: u.rombel, status: "Tidak Hadir" });
+     }
+  });
+
+  const valTotal = document.getElementById("val-total-siswa"); if (valTotal) valTotal.innerText = totalSiswa;
+  const valHadir = document.getElementById("val-hadir"); if (valHadir) valHadir.innerText = totalHadir;
+  const valSakit = document.getElementById("val-sakit"); if (valSakit) valSakit.innerText = "0"; 
+  const valIzin = document.getElementById("val-izin"); if (valIzin) valIzin.innerText = "0";
+  const valTerlambat = document.getElementById("val-terlambat"); if (valTerlambat) valTerlambat.innerText = countTerlambat;
+  const valBelum = document.getElementById("val-belum-absen"); if (valBelum) valBelum.innerText = totalBelum;
+
+  // Data Kehadiran 7 Hari
+  const trendLabels = [];
+  const trendLabelsShort = [];
+  const trendData = [];
+  for(let i=6; i>=0; i--) {
+     const d = new Date();
+     d.setDate(d.getDate() - i);
+     const dmy = d.toLocaleDateString("id-ID", {weekday:"short", day:"numeric", month:"short"});
+     trendLabelsShort.push(dmy.split(',')[0]);
+     trendLabels.push(dmy);
+     
+     const atts = attendances.filter(a => {
+        if(!a.created_at) return false;
+        const ad = new Date(a.created_at);
+        return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth() && ad.getDate() === d.getDate();
+     });
+     const unique = new Set(atts.map(a => String(a.idcard).trim())).size;
+     trendData.push(unique || 0);
+  }
+
+  // Data Distribusi Status (Donut)
+  const donutData = [
+     { label: "Tepat Waktu", value: countTepat, color: "#1FA871" },
+     { label: "Terlambat", value: countTerlambat, color: "#EAB308" },
+     { label: "Sakit/Izin", value: 0, color: "#3FA9E0" },
+     { label: "Tidak Hadir", value: totalBelum, color: "#E25C5C" }
+  ];
+
+  // Jam Tap-in
+  const nowHrs = new Date().getHours(); 
+  const tLabels = [];
+  const startHr = nowHrs - 7;
+  for(let i=0; i<8; i++) {
+      let h = startHr + i;
+      let label = "";
+      if (h < 0) label = "<00:00"; 
+      else label = String(h).padStart(2,'0') + ":00";
+      tLabels.push(label);
+  }
+  
+  let tBins = [0,0,0,0,0,0,0,0];
+  Array.from(hadirMap.values()).forEach(a => {
+     if(a.created_at) {
+         const hrs = new Date(a.created_at).getHours();
+         let binIdx = hrs - startHr;
+         if (binIdx < 0) binIdx = 0;
+         if (binIdx > 7) binIdx = 7;
+         tBins[binIdx]++;
+     }
+  });
+
+  // ===================== 1. Kehadiran 7 Hari Terakhir (single line) =====================
   (function () {
-    const labels = [
-      "Min, 14 Jun",
-      "Sen, 15 Jun",
-      "Sel, 16 Jun",
-      "Rab, 17 Jun",
-      "Kam, 18 Jun",
-      "Jum, 19 Jun",
-      "Sab, 20 Jun",
-    ];
-    const labelsShort = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
-    const data = [10, 19, 13, 15, 12, 17, 20];
-    const max = 150;
+    const labels = trendLabels;
+    const labelsShort = trendLabelsShort;
+    const data = trendData;
+    const max = Math.max(50, ...data) + 10;
     const n = data.length;
 
     const box = document.getElementById("trendChart");
+    if (!box) return;
+    box.innerHTML = '';
     const svg = svgEl("svg", {
       viewBox: `0 0 ${VW} ${VH}`,
       preserveAspectRatio: "none",
@@ -480,34 +563,38 @@ window.initGrafikListerner = function () {
 
     // delta chips
     const deltaRow = document.getElementById("deltaRow");
-    data.forEach((val, i) => {
-      const item = document.createElement("div");
-      item.className = "delta-item";
-      let chipHtml;
-      if (i === 0) {
-        chipHtml = `<span class="chip flat">awal</span>`;
-      } else {
-        const diff = val - data[i - 1];
-        if (diff > 0) chipHtml = `<span class="chip up">▲ ${diff}</span>`;
-        else if (diff < 0)
-          chipHtml = `<span class="chip down">▼ ${Math.abs(diff)}</span>`;
-        else chipHtml = `<span class="chip flat">tetap</span>`;
-      }
-      item.innerHTML = `<div class="dd">${labelsShort[i]}</div><div class="dv">${val}</div>${chipHtml}`;
-      deltaRow.appendChild(item);
-    });
+    if (deltaRow) {
+      deltaRow.innerHTML = '';
+      data.forEach((val, i) => {
+        const item = document.createElement("div");
+        item.className = "delta-item";
+        let chipHtml;
+        if (i === 0) {
+          chipHtml = `<span class="chip flat">awal</span>`;
+        } else {
+          const diff = val - data[i - 1];
+          if (diff > 0) chipHtml = `<span class="chip up">▲ ${diff}</span>`;
+          else if (diff < 0)
+            chipHtml = `<span class="chip down">▼ ${Math.abs(diff)}</span>`;
+          else chipHtml = `<span class="chip flat">tetap</span>`;
+        }
+        item.innerHTML = `<div class="dd">${labelsShort[i]}</div><div class="dv">${val}</div>${chipHtml}`;
+        deltaRow.appendChild(item);
+      });
+    }
   })();
 
   // ===================== 2. Donut Distribusi Status =====================
   (function () {
-    const data = [
-      { label: "Tepat Waktu", value: 120, color: "#1FA871" },
-      { label: "Izin", value: 25, color: "#8B6CE0" },
-      { label: "Sakit", value: 15, color: "#3FA9E0" },
-      { label: "Tidak Hadir", value: 8, color: "#E25C5C" },
-    ];
-    const total = data.reduce((a, b) => a + b.value, 0);
+    const data = donutData;
+    const total = data.reduce((a, b) => a + b.value, 0) || 1; // avg divide by 0
     const box = document.getElementById("donutChart");
+    if (!box) return;
+
+    // clean old svg
+    const oldSvg = box.querySelector('svg');
+    if (oldSvg) oldSvg.remove();
+
     const size = 180,
       r = 70,
       cx = size / 2,
@@ -521,6 +608,10 @@ window.initGrafikListerner = function () {
     });
     box.insertBefore(svg, box.firstChild);
 
+    // update labels dynamically
+    const dc = box.querySelector('.donut-center .big');
+    if(dc) dc.textContent = totalSiswa;
+
     const tip = makeTooltip(box);
     let startAngle = -90;
     const circumference = 2 * Math.PI * r;
@@ -528,6 +619,7 @@ window.initGrafikListerner = function () {
       const frac = seg.value / total;
       const dash = frac * circumference;
       const gap = circumference - dash;
+      if (seg.value === 0) return; // don't draw 0 path
       const path = svgEl("circle", {
         cx,
         cy,
@@ -558,102 +650,78 @@ window.initGrafikListerner = function () {
       svg.appendChild(path);
       startAngle += frac * 360;
     });
+
+    // Update legends
+    const legendRow = box.nextElementSibling;
+    if (legendRow && legendRow.classList.contains("legend-row")) {
+       legendRow.innerHTML = `
+          <div class="legend-item"><span class="l"><span class="dot" style="background:var(--green)"></span>Tepat Waktu</span><span class="v">${countTepat}</span></div>
+          <div class="legend-item"><span class="l"><span class="dot" style="background:#EAB308"></span>Terlambat</span><span class="v">${countTerlambat}</span></div>
+          <div class="legend-item"><span class="l"><span class="dot" style="background:var(--purple)"></span>Sakit/Izin</span><span class="v">0</span></div>
+          <div class="legend-item"><span class="l"><span class="dot" style="background:var(--red)"></span>Tidak Hadir</span><span class="v">${totalBelum}</span></div>
+       `;
+    }
   })();
 
   // ===================== 3. Tidak Hadir Hari Ini (list: foto, nama, rombel, status) =====================
   (function () {
-    const absentStudents = [
-      { name: "Yazid Diansyah", rombel: "PPLG X-2", status: "Tidak Hadir" },
-      { name: "Putri Ayu Lestari", rombel: "PPLG X-1", status: "Sakit" },
-      { name: "Bagas Setiawan", rombel: "PPLG X-4", status: "Izin" },
-      { name: "Nadia Rahmawati", rombel: "PPLG X-3", status: "Sakit" },
-      { name: "Fikri Maulana", rombel: "PPLG X-5", status: "Izin" },
-    ];
+    const absentStudents = absentList;
     const tagClass = { "Tidak Hadir": "absent", Sakit: "sakit", Izin: "izin" };
 
     const list = document.getElementById("absentList");
+    const countPill = document.getElementById("absentCountPill");
+    if(!list) return;
+    list.innerHTML = "";
     absentStudents.forEach((s) => {
       const row = document.createElement("div");
       row.className = "rank-item";
       row.innerHTML = `
       <div class="avatar"></div>
-      <div class="rank-info"><div class="nm">${s.name}</div><div class="rb">${s.rombel}</div></div>
+      <div class="rank-info"><div class="nm">${s.name}</div><div class="rb">${s.rombel || '-'}</div></div>
       <span class="rank-tag ${tagClass[s.status]}">${s.status}</span>`;
       list.appendChild(row);
     });
-    document.getElementById("absentCountPill").textContent =
-      absentStudents.length + " siswa";
+    if(countPill) countPill.textContent = absentStudents.length + " siswa";
   })();
 
   // ===================== 4. Status Tap Hari Ini (list: belum di atas, sudah di bawah) =====================
   (function () {
-    const students = [
-      { name: "Rangga Dwi Saputra", rombel: "PPLG X-1", status: "belum" },
-      { name: "Indah Permata Sari", rombel: "PPLG X-2", status: "belum" },
-      { name: "Naufal Ardiansyah", rombel: "PPLG X-4", status: "belum" },
-      {
-        name: "Dimas Hadi Syandana",
-        rombel: "PPLG X-3",
-        status: "sudah",
-        time: "07:12",
-      },
-      {
-        name: "Mochammad Hifzhi Syaukani",
-        rombel: "PPLG X-3",
-        status: "sudah",
-        time: "07:18",
-      },
-      {
-        name: "Rafi Aditya Pratama",
-        rombel: "PPLG X-1",
-        status: "sudah",
-        time: "07:05",
-      },
-      {
-        name: "Salsabila Putri Wijaya",
-        rombel: "PPLG X-2",
-        status: "sudah",
-        time: "07:22",
-      },
-    ];
-    // belum absen diprioritaskan di atas, sudah absen dikebawahkan
+    const students = studentsList;
+    // belum absen diprioritaskan di atas, lalu terlambat, lalu sudah
     students.sort((a, b) => {
-      if (a.status === b.status) return 0;
-      return a.status === "belum" ? -1 : 1;
+      const rank = { "belum": 1, "terlambat": 2, "sudah": 3 };
+      if (rank[a.status] === rank[b.status]) return 0;
+      return rank[a.status] < rank[b.status] ? -1 : 1;
     });
 
     const list = document.getElementById("statusList");
+    if(!list) return;
+    list.innerHTML = "";
     students.forEach((s) => {
       const row = document.createElement("div");
       row.className = "rank-item";
       const tag =
         s.status === "belum"
           ? `<span class="rank-tag belum">Belum Tap</span>`
+          : s.status === "terlambat"
+          ? `<span class="rank-tag late">Sudah (Terlambat) · ${s.time}</span>`
           : `<span class="rank-tag sudah">Sudah · ${s.time}</span>`;
       row.innerHTML = `
       <div class="avatar"></div>
-      <div class="rank-info"><div class="nm">${s.name}</div><div class="rb">${s.rombel}</div></div>
+      <div class="rank-info"><div class="nm">${s.name}</div><div class="rb">${s.rombel || '-'}</div></div>
       ${tag}`;
       list.appendChild(row);
     });
     const belumCount = students.filter((s) => s.status === "belum").length;
-    document.getElementById("belumCountPill").textContent = belumCount + " belum";
+    const dp = document.getElementById("belumCountPill");
+    if(dp) dp.textContent = belumCount + " belum";
   })();
 
   // ===================== 4. Distribusi Jam Tap-in (bar) =====================
   (function () {
-    const labels = [
-      "07:00",
-      "07:10",
-      "07:20",
-      "07:30",
-      "07:40",
-      "07:50",
-      "08:00",
-      ">08:00",
-    ];
-    const data = [8, 22, 38, 45, 28, 14, 9, 6];
-    const max = 50;
+    const labels = tLabels;
+    const data = tBins; // Dynamic Tbins
+    const max = Math.max(10, ...data) + 5;
     const n = data.length;
 
     const box = document.getElementById("timeChart");

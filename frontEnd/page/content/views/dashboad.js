@@ -14,6 +14,7 @@ function renderDashboard() {
 
 let clockInterval = null;
 let currentSelectedClass = "X";
+let currentSelectedRombel = null;
 
 async function initDashboardListener() {
   const timeElement = document.getElementById("time");
@@ -62,7 +63,21 @@ async function fetchAttendanceData() {
 }
 
 function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
-  const dataFiltered = dataAbsensi;
+  let dataFiltered = dataAbsensi.filter((row) => {
+    const rombel = String(row.rombel || "").toUpperCase();
+    return rombel.includes(namaKelas.toUpperCase());
+  });
+
+  if (currentSelectedRombel && currentSelectedRombel !== "all") {
+    dataFiltered = dataFiltered.filter((row) => {
+      const rombelText = String(row.rombel || "");
+      return (
+        rombelText.endsWith(currentSelectedRombel) ||
+        rombelText.includes(`-${currentSelectedRombel}`)
+      );
+    });
+  }
+
   const totalHadir = dataFiltered.length;
 
   const tableRowsHtml =
@@ -77,20 +92,26 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                 })
               : "-";
 
+            const namaSiswa = row.users
+              ? Array.isArray(row.users)
+                ? row.users[0]?.username
+                : row.users.username
+              : null;
+            const displayNama = namaSiswa || row.idcard || "Tidak Dikenal";
+
             return `
                 <tr>
                     <td class="text-muted">${row.id}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
-                            <img src="/frontEnd/assets/profiles/dimas.png" class="avatar-img" onerror="this.src='https://placehold.co/40'">
-                            <span class="fw-semibold" style="color: #1e293b;">ID: ${row.card_id}</span>
+                            <span class="fw-semibold" style="color: #1e293b;">${displayNama}</span>
                         </div>
                     </td>
-                    <td class="text-muted">${row.mac_address || "SCANGO-WEB"}</td>
+                    <td class="text-muted">${row.idcard}</td>
+                    <td class="fw-semibold">${row.rombel || "-"}</td>
                     <td class="fw-semibold">${jamAbsen}</td>
                     <td class="text-muted">-</td>
                     <td><span class="status-badge status-present">${row.status || "Hadir"}</span></td>
-                    <td class="text-end"><button class="btn btn-link text-muted p-0 border-0 bg-transparent"><i class="bi bi-three-dots"></i></button></td>
                 </tr>
             `;
           })
@@ -171,12 +192,12 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <thead>
                         <tr>
                             <th style="width: 10%;">ID Log</th>
-                            <th style="width: 25%;">UID Kartu</th>
-                            <th style="width: 25%;">Device MAC</th>
+                            <th style="width: 15%;">Nama Lengkap</th>
+                            <th style="width: 15%;">Id RFID</th>
+                            <th style="width: 15%;">Rombel</th>
                             <th style="width: 12%;">Jam Absen</th>
                             <th style="width: 12%;">Keterangan</th>
                             <th style="width: 12%;">Status</th>
-                            <th style="width: 4%;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -220,4 +241,75 @@ async function initTabs() {
       }
     });
   });
+}
+
+async function handleRombelFilter() {
+  const selectElement = document.getElementById("pilihanRombel");
+  if (!selectElement) return;
+  currentSelectedRombel = selectElement.value;
+  const contentContainer = document.getElementById("content");
+
+  if (contentContainer) {
+    contentContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Menyaring rombel...</p></div>`;
+    const dataTerbaru = await fetchAttendanceData();
+    contentContainer.innerHTML = generateKontenKelasTemplate(
+        currentSelectedClass,
+        dataTerbaru
+    );
+  }
+}
+
+async function editAttendancesStatus(id, currentStatus) {
+    const statusBaru = prompt("Ubah status absensi (Hadir / Sakit / Izin / Alpa): ", currentStatus);
+    if (statusBaru === null) return;
+
+    const statusValid = ["Hadir", "Sakit", "Izin", "Alpa"];
+    if (!statusValid.includes(statusBaru.trim())) {
+        alert("Status tidak valid! Masukkan: Hadir, Sakit, Izin, atau Alpa");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "api-token": "123"
+            },
+            body: JSON.stringify({ status: statusBaru.trim() })
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+            alert("Status absensi berhasil diperbarui!");
+            initTabs();
+        } else {
+            alert("Gagal memperbarui status: " + (result.message || "Error server"));
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Terjadi kesalahan koneksi saat memperbarui data");
+    }
+}
+
+async function deleteAttendanceLog(id) {
+    if (!confirm("Apakah anda yakin ingin menghapus data log absensi ini?")) return;
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
+            method: "DELETE",
+            headers: { "api-token": "123" }
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+            alert("Log absensi berhasil dihapus!");
+            initTabs();
+        } else {
+            alert("Gagal menghapus log: " + (result.message || "Error server"));
+        }
+    } catch (error) {
+        console.error(error);
+        alert("terjadi kesahalan koneksi saat menghapus data");
+    }
 }

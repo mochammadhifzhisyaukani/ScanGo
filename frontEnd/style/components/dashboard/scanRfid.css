@@ -1,0 +1,298 @@
+.scan-rfid-container {
+  animation: scanReveal 0.4s ease-out;
+}
+
+@keyframes scanReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scan-card {
+  background-color: var(--color-card-bg, #ffffff);
+  border-radius: 20px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.04),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  padding: 48px 40px 40px;
+  max-width: 520px;
+  margin: 20px auto;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.scan-header h3 {
+  font-weight: 700;
+  color: var(--color-teks, #1e293b);
+  margin: 0 0 6px;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.scan-header p {
+  color: var(--color-teks-sub, #64748b);
+  font-size: 0.88rem;
+  margin: 0 0 32px;
+}
+
+.scan-icon-wrapper {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 28px;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.scan-icon-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(79, 70, 229, 0.15);
+  animation: scanPulse 2s ease-in-out infinite;
+}
+
+@keyframes scanPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.5;
+  }
+}
+
+.scan-icon-wrapper i {
+  font-size: 42px;
+  color: #4f46e5;
+  position: relative;
+  z-index: 1;
+}
+
+.scan-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.scan-status-badge.idle {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.scan-status-badge.scanning {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.scan-status-badge.success {
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+
+.scan-status-badge.error {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+.scan-input-group {
+  max-width: 380px;
+  margin: 24px auto 0;
+}
+
+.scan-input-group .form-control {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1.05rem;
+  font-family: "Inter", "Poppins", sans-serif;
+  color: var(--color-teks, #1e293b);
+  background-color: var(--bg-body, #f8fafc);
+  border: 1.5px solid var(--border-form, #e2e8f0);
+  border-radius: 14px;
+  outline: none;
+  transition: all 0.25s ease;
+  text-align: center;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.scan-input-group .form-control:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.scan-input-group .form-control::placeholder {
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.scan-input-group .form-control:hover:not(:focus) {
+  border-color: #cbd5e1;
+}
+
+.scan-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 28px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: "Inter", "Poppins", sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 14px;
+}
+
+.scan-btn:hover {
+  background: linear-gradient(135deg, #4338ca, #4f46e5);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+  transform: translateY(-2px);
+}
+
+.scan-btn:active {
+  transform: translateY(0);
+}
+
+.scan-btn i {
+  font-size: 1.05rem;
+}
+
+.inputManual-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 28px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: "Inter", "Poppins", sans-serif;
+  color: #4f46e5;
+  background: transparent;
+  border: 1px solid #4f46e5;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 14px;
+}
+
+.inputManual-btn:hover {
+  background: linear-gradient(135deg, #4338ca, #4f46e5);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+  border: none;
+  transform: translateY(-2px);
+  color: white;
+}
+
+.inputManual-btn:active {
+  transform: translateY(0);
+}
+
+.inputManual-btn i {
+  font-size: 1.05rem;
+}
+
+.scan-result {
+  margin-top: 24px;
+  animation: scanReveal 0.3s ease-out;
+}
+
+.scan-result .alert {
+  border: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.scan-result .alert-success {
+  background-color: #ecfdf5;
+  color: #065f46;
+}
+
+.scan-result .alert-danger {
+  background-color: #fef2f2;
+  color: #991b1b;
+}
+
+.scan-result .alert i {
+  font-size: 1.15rem;
+}
+
+.scan-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 28px 0 4px;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.scan-divider::before,
+.scan-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-form, #e2e8f0);
+}
+
+@media (max-width: 600px) {
+  .scan-card {
+    padding: 32px 20px 28px;
+    margin: 12px;
+    border-radius: 16px;
+  }
+
+  .scan-icon-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .scan-icon-wrapper i {
+    font-size: 34px;
+  }
+
+  .scan-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .scan-input-group .form-control {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+
+  .scan-btn {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+  }
+}

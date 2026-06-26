@@ -26,35 +26,104 @@ app.use("/api/admin", authRoutes);
 app.use(express.json());
 
 app.post("/api/attendances/store", async (req, res) => {
-  const apiToken = req.headers["api-token"];
-  const { card_id, mac_address } = req.query;
-
-  if (!apiToken) {
-    return res.status(401).json({ message: "Unauthorized: Token tidak ada!" });
-  }
-
-  if (!card_id || !mac_address) {
-    return res
-      .status(400)
-      .json({ message: "Data card_id atau mac_address kurang lengkap!" });
-  }
-
-  console.log(
-    `AlAT RFID MENDETEKSI: Kartu ${card_id} di-tap di mesin ${mac_address}`,
-  );
-
   try {
-    const { data, error } = await supabase
+    const idcard = req.query.idcard;
+    const mac_address = req.query.mac_address;
+
+    if (!idcard) {
+      return res
+        .status(400)
+        .json({ success: false, message: "UID Kartu tidak terbaca" });
+    }
+
+    const { data: uservalid, error: userError } = await supabase
+      .from("users")
+      .select("username, idcard")
+      .eq("idcard", idcard)
+      .maybeSingle();
+
+    if (userError) {
+      return res
+        .status(500)
+        .json({ success: false, message: userError.message });
+    }
+
+    if (!uservalid) {
+      return res.status(403).json({
+        success: false,
+        message: "ID RFID tidak dikenali! Silahkan registrasi terlebih dahulu.",
+      });
+    }
+
+    const namaPemilik = uservalid.username || "Siswa";
+
+    const { data: attendanceData, error: insertError } = await supabase
       .from("attendances")
-      .insert([{ card_id, mac_address, status: "hadir" }]);
+      .insert([
+        {
+          idcard,
+          mac_address: mac_address || "RFID Reader Card 135KHZ",
+          status: "Hadir",
+        },
+      ])
+      .select();
 
-    if (error) throw error;
+    if (insertError) {
+      return res
+        .status(500)
+        .json({ success: false, message: insertError.message });
+    }
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Absensi berhasil dicatat!" });
+    res.json({
+      success: true,
+      message: `Absensi berhasil dicatat! Selamat belajar ${namaPemilik}`,
+      data: attendanceData,
+    });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/attendances", async (req, res) => {
+  try {
+    const { data: attendances, error: attError } = await supabase
+      .from("attendances")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (attError) throw attError;
+
+    if (!attendances || attendances.length === 0) {
+      return res.json({ success: true, data: [] });
+    }
+
+    const { data: users, error: userError } = await supabase
+      .from("users")
+      .select("*");
+
+    const dataValidUsers = users || [];
+
+    const dataGabungan = attendances.map((att) => {
+      const idKartuAbsen = att.card_id || att.idcard || "";
+
+      const userCocok = dataValidUsers.find((u) => {
+        const idUser = u.idcard || u.card_id || "";
+        return String(idUser).trim() === String(idKartuAbsen).trim();
+      });
+
+      return {
+        ...att,
+        idcard: idKartuAbsen,
+        rombel: userCocok?.rombel || att.rombel || null,
+        users: userCocok
+          ? { username: userCocok.username || userCocok.name || "Siswa" }
+          : null,
+      };
+    });
+
+    res.json({ success: true, data: dataGabungan });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -62,38 +131,14 @@ app.get("/api/users", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("users")
-      .select("nis, username, email, rombel, idcard, role")
-      .order("username", { ascending: true });
+      .select("*")
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 
-    return res.status(200).json({ success: true, data });
+    res.json({ success: true, data: data || [] });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-app.post("/api/auth/register-bulk", async (req, res) => {
-  const { users } = req.body;
-
-  if (!users || !Array.isArray(users)) {
-    return res.status(400).json({
-      success: false,
-      message: "Format data Excel kosong atau salah!",
-    });
-  }
-
-  try {
-    const { data, error } = await supabase.from("users").insert(users);
-
-    if (error) throw error;
-
-    return res
-      .status(200)
-      .json({ success: true, message: "Import massal sukses!" });
-  } catch (error) {
-    console.error("Error Bulk Insert:", error);
-    return res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
@@ -150,6 +195,22 @@ app.get("/api/attendances", async (req, res) => {
     res.json({ success: true, data: data });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.post("/api/auth/register-bulk", async (req, res) => {
+  try {
+    const { users } = req.body;
+    if (!users || !Array.isArray(users) || users.length === 0) {
+      return res.status(400).json({ success: false, message: "Data users tidak valid atau kosong!" });
+    }
+
+    const { data, error } = await supabase.from("users").insert(users).select();
+    if (error) throw error;
+
+    res.json({ success: true, message: `${data.length} data berhasil disimpan!`, data });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 

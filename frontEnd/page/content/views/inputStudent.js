@@ -221,13 +221,12 @@ function initInputSiswaListener() {
         }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
+        const errResult = await response.json().catch(() => ({}));
         showToast("Terjadi kesalahan saat mendaftar", "danger");
         Swal.fire({
           title: "Registrasi Gagal!",
-          text: result.message || "Gagal menyimpan ke database Supabase",
+          text: errResult.message || "Gagal menyimpan ke database Supabase",
           icon: "error",
           customClass: {
             popup: "sweetalert-popup",
@@ -237,6 +236,8 @@ function initInputSiswaListener() {
         });
         return;
       }
+
+      const result = await response.json();
 
       showToast("Akun baru berhasil ditambahkan!", "success");
       Swal.fire({
@@ -288,9 +289,16 @@ async function loadTableSiswa() {
     tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr>`;
 
     const response = await fetch("http://localhost:3000/api/users");
+
+    if (!response.ok) {
+      const errResult = await response.json().catch(() => ({}));
+      tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Gagal memuat data siswa: ${errResult.message || response.statusText}</td></tr>`;
+      return;
+    }
+
     const result = await response.json();
 
-    if (!response.ok || !result.success) {
+    if (!result.success) {
       tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Gagal memuat data siswa!</td></tr>`;
       return;
     }
@@ -393,10 +401,12 @@ function initImportExcelListener() {
           },
         );
 
-        const result = await response.json();
+        if (!response.ok) {
+          const errResult = await response.json().catch(() => ({}));
+          throw new Error(errResult.message || "Gagal Menyimpan Massal!");
+        }
 
-        if (!response.ok)
-          throw new Error(result.message || "Gagal Menyimpan Massal!");
+        const result = await response.json();
 
         Swal.fire({
           title: "Sukses!",
@@ -477,10 +487,13 @@ function initActionButtonsListener() {
         const response = await fetch(`http://localhost:3000/api/users/${nis}`, {
           method: "DELETE",
         });
-        const result = await response.json();
 
-        if (!response.ok)
-          throw new Error(result.message || "Gagal menghapus data");
+        if (!response.ok) {
+          const errResult = await response.json().catch(() => ({}));
+          throw new Error(errResult.message || "Gagal menghapus data");
+        }
+
+        const result = await response.json();
 
         showToast("Data berhasil dihapus!", "success");
         loadTableSiswa();
@@ -565,9 +578,12 @@ async function actionEditSiswa(nis, email) {
       },
     );
 
+    if (!updateResponse.ok) {
+      const errResult = await updateResponse.json().catch(() => ({}));
+      throw new Error(errResult.message || "Gagal mengupdate data");
+    }
+
     const updateResult = await updateResponse.json();
-    if (!updateResponse.ok)
-      throw new Error(updateResult.message || "Gagal mengupdate data");
 
     showToast("Data berhasil diperbarui!", "success");
     loadTableSiswa();
