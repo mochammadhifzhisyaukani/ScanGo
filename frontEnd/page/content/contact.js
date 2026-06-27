@@ -7,22 +7,23 @@ content.innerHTML = `
             
             <div class="">
               <a href="/index.html" class="text-decoration-none text-white d-flex gap-3">
-                <img src="/frontEnd/assets/logo/favicon.png" class="animate__animated animate__fadeInLeft" style="height: 50px;">
-                <h1 class="fw-bold mb-3 animate__animated animate__fadeInDown">ScanGo</h1>
+                <a href="/index.html" class="text-white text-decoration-none d-flex gap-2">
+                    <i class="bi bi-house-fill"></i>
+                    <span>Beranda</span>
 
-                <div class="changeTheme justify-content-end ms-auto animate__animated animate__jackInTheBox mt-3"></div>
+                    <div class="changeTheme justify-content-end ms-auto animate__animated animate__jackInTheBox mt-3"></div>
+                </a>
               </a>
             </div>
 
             <div class="mb-3">
                 <div class="mb-4">
-                    <h1 class="animate__animated animate__jackInTheBox">"Tidak perlu lagi antrean, tidak perlu lagi urusan administrasi. Cukup pindai dan Anda siap berangkat."</h1>
+                    <h1 class="animate__animated animate__jackInTheBox">"Tidak perlu lagi berteriak, Cukup pindai dan Anda siap belajar!."</h1>
                 </div>
 
                 <div class="mb-0 mt-5 animate__animated animate__fadeInUp">
                     <h5 class="fw-bold mb-2"><i class="bi bi-lightbulb me-2 contact-icon"></i> Umpan Balik dan Saran</h5>
                     <p class="contact-desc-small">Kami menghargai masukan Anda dan terus berupaya untuk meningkatkan ScanGo. Masukan Anda sangat penting dalam membentuk masa depan ScanGo.</p>
-                    <a src="" class="text-white" href="collaborate.html">Ingin Berkolaborasi?</a>
                 </div>
             </div>
         </div>
@@ -31,13 +32,8 @@ content.innerHTML = `
             
             <div class="w-100 contact-form-card animate__animated animate__bounceInLeft" style="color: var(--teks-form) !important;">
                 <div class="text-center mb-4">
-                    <div class="d-inline-flex p-3 bg-light rounded-circle mb-3" style="background: #e67e22 !important;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                            <path d="M6 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
-                        </svg>
-                    </div>
-                    <h1 class="fw-bold m-0">Berikan saran terbaik Anda</h1>
-                    <p class="text-muted small" style="color: var(--teks-form) !important;">Anda dapat menghubungi kami kapan saja.</p>
+                    <h1 class="fw-bold m-0">Hubungi Kami!</h1>
+                    <p class="text-muted small" style="color: var(--teks-form) !important;">Mempunyai kritik dan saran? hubungi kami kapan saja.</p>
                 </div>
 
                 <form id="contact">

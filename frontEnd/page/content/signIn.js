@@ -122,6 +122,7 @@ try {
       return;
     }
 
+    localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.user.role);
     localStorage.setItem("username", data.user.username || data.user.email);
 
@@ -137,7 +138,7 @@ try {
       },
       buttonsStyling: false,
     }).then(() => {
-      if (userRole === "admin") {
+      if (userRole === "teacher") {
         showToast("Menuju halaman dashboard (Admin)", "success");
         window.location.href = "/frontEnd/page/structure/dashboard.html";
       } else {

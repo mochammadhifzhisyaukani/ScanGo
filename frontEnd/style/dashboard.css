@@ -181,8 +181,9 @@
 }
 
 .custom-table th {
+  background-color: var(--bg-side) !important;
   font-weight: 500;
-  color: var(--color-sub);
+  color: var(--color-teks) !important;
   font-size: 0.82rem;
   border-bottom: 1px solid var(--border-sidebar);
   padding-bottom: 16px;
@@ -190,10 +191,11 @@
 }
 
 .custom-table td {
+  background-color: var(--bg-side) !important;
   padding: 16px 0;
   border-bottom: 1px solid var(--border-sidebar);
   font-size: 0.88rem;
-  color: var(--color-teks);
+  color: var(--color-teks) !important;
   text-align: left;
 }
 

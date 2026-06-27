@@ -86,7 +86,7 @@ body {
 
 /* Tombol Submit Custom */
 .contact-btn-submit {
-  background-color: #e67e22;
+  background-color: black;
   color: #ffffff;
   padding: 0.8rem;
   border: none;
@@ -95,7 +95,9 @@ body {
 }
 
 .contact-btn-submit:hover {
-  background-color: orange;
+  background-color: black;
+  transform: scale(1.1);
+  transition: 0.3s ease-in-out;
   color: #ffffff;
 }
 

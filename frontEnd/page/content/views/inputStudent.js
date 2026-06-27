@@ -111,6 +111,31 @@ function renderInputSiswa() {
           Daftar Siswa / Guru
         </h5>
         <div class="table-actions">
+            <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
+              <option value="">Rombel</option>
+              <optgroup label="PPLG X">
+                <option value="X_1">PPLG X-1</option>
+                <option value="X_2">PPLG X-2</option>
+                <option value="X_3">PPLG X-3</option>
+                <option value="X_4">PPLG X-4</option>
+                <option value="X_5">PPLG X-5</option>
+              </optgroup>
+              <optgroup label="PPLG XI">
+                <option value="XI_1">PPLG XI-1</option>
+                <option value="XI_2">PPLG XI-2</option>
+                <option value="XI_3">PPLG XI-3</option>
+                <option value="XI_4">PPLG XI-4</option>
+                <option value="XI_5">PPLG XI-5</option>
+              </optgroup>
+              <optgroup label="PPLG XII">
+                <option value="XII_1">PPLG XII-1</option>
+                <option value="XII_2">PPLG XII-2</option>
+                <option value="XII_3">PPLG XII-3</option>
+                <option value="XII_4">PPLG XII-4</option>
+                <option value="XII_5">PPLG XII-5</option>
+              </optgroup>
+            </select>
+
           <input type="file" id="excelInput" accept=".xlsx, .xls, .csv" style="display: none;">
           <button type="button" id="btnImportManual" class="btn-import btn-import-manual">
             <i class="bi bi-pencil-square"></i> Input Manual
@@ -332,6 +357,7 @@ async function loadTableSiswa() {
     });
 
     initActionButtonsListener();
+    attachRombelFilterInput();
   } catch (error) {
     console.error("Error loading table: ", error);
     tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Koneksi ke server terputus!</td></tr>`;
@@ -538,17 +564,25 @@ async function actionEditSiswa(nis, email) {
     const { value: formValues } = await Swal.fire({
       title: "Edit Data Siswa / Guru",
       html: `
-        <div style="text-align: left; margin-bottom: 8px;"><label>Nama Lengkap</label></div>
-        <input id="swal-username" class="swal2-input" style="margin-top:0;" value="${username}">
-        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Email</label></div>
+        <div style="text-align: left; margin-bottom: 8px;">
+        <label>Nama Lengkap</label></div>
+        <input id="swal-username" class="swal2-input" style="margin-top:0; width: 100%; max-width: 100%;" value="${username}">
+
+        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
+        <label>Email</label></div>
         <input id="swal-email" class="swal2-input" style="margin-top:0;" value="${email}">
-        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>UID RFID</label></div>
+
+        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
+        <label>UID RFID</label></div>
         <input id="swal-idcard" class="swal2-input" style="margin-top:0;" value="${idcard}">
-        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Peran</label></div>
+
+        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
+        <label>Peran</label></div>
         <select id="swal-role" class="swal2-input" style="margin-top:0; width: 100%; max-width: 100%;">
           <option value="student" ${role === "student" ? "selected" : ""}>Siswa</option>
           <option value="teacher" ${role === "teacher" ? "selected" : ""}>Guru</option>
         </select>
+
         <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Rombel (Contoh: X_3)</label></div>
         <input id="swal-rombel" class="swal2-input" style="margin-top:0;" value="${rombel}">
       `,
@@ -589,5 +623,46 @@ async function actionEditSiswa(nis, email) {
     loadTableSiswa();
   } catch (error) {
     Swal.fire("Gagal Update!", error.message, "error");
+  }
+}
+
+function attachRombelFilterInput() {
+  const select = document.getElementById("pilihanRombel");
+  if (select) {
+    select.removeEventListener("change", handleRombelFilterInput);
+    select.addEventListener("change", handleRombelFilterInput);
+  }
+}
+
+async function handleRombelFilterInput() {
+  const selectElement = document.getElementById("pilihanRombel");
+  if (!selectElement) return;
+  currentSelectedRombel = selectElement.value || null;
+
+  const tableBody = document.querySelector("#tableSiswaBody");
+  if (!tableBody) return;
+
+  const rows = tableBody.querySelectorAll("tr");
+  let visibleCount = 0;
+
+  rows.forEach((row) => {
+    const rombelCell = row.querySelector("td:nth-child(3)");
+    if (!rombelCell) return;
+
+    const rombelText = rombelCell.textContent.trim();
+    const match = !currentSelectedRombel || rombelText === currentSelectedRombel;
+
+    row.style.display = match ? "" : "none";
+    if (match) visibleCount++;
+  });
+
+  const emptyRow = tableBody.querySelector(".empty-filter-row");
+  if (emptyRow) emptyRow.remove();
+
+  if (visibleCount === 0 && currentSelectedRombel) {
+    const tr = document.createElement("tr");
+    tr.className = "empty-filter-row";
+    tr.innerHTML = `<td colspan="6" style="text-align:center; padding:24px; color:#6c757d;">Siswa belum absen</td>`;
+    tableBody.appendChild(tr);
   }
 }

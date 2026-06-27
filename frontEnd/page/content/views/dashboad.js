@@ -80,9 +80,13 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
 
   const totalHadir = dataFiltered.length;
 
+  const emptyMessage = currentSelectedRombel
+    ? "Siswa belum absen"
+    : "Belum ada riwayat tap kartu hari ini";
+
   const tableRowsHtml =
     dataFiltered.length === 0
-      ? `<tr><td colspan="7" class="text-center text-muted py-4">Belum ada riwayat tap kartu hari ini</td></tr>`
+      ? `<tr><td colspan="7" class="text-center text-muted py-4">${emptyMessage}</td></tr>`
       : dataFiltered
           .map((row) => {
             const jamAbsen = row.created_at
@@ -128,7 +132,7 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <div class="stat-value">${totalHadir}</div>
                     <div class="stat-indicator">
                         <span class="text-success fw-semibold"><i class="bi bi-arrow-up-short"></i> Live</span>
-                        <span class="text-muted ms-1">dari database</span>
+                        <span class="text-muted ms-1" style="color: var(--color-teks) !important;">dari database</span>
                     </div>
                 </div>
             </div>
@@ -140,7 +144,7 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     </div>
                     <div class="stat-value">0</div>
                     <div class="stat-indicator">
-                        <span class="text-muted">Data default</span>
+                        <span class="text-muted" style="color: var(--color-teks) !important;">Data default</span>
                     </div>
                 </div>
             </div>
@@ -152,7 +156,7 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     </div>
                     <div class="stat-value">0</div>
                     <div class="stat-indicator">
-                        <span class="text-muted">Data default</span>
+                        <span class="text-muted" style="color: var(--color-teks) !important;">Data default</span>
                     </div>
                 </div>
             </div>
@@ -164,7 +168,7 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     </div>
                     <div class="stat-value" style="font-size: 1.95rem;">0</div>
                     <div class="stat-indicator">
-                        <span class="text-muted">Data default</span>
+                        <span class="text-muted" style="color: var(--color-teks) !important;">Data default</span>
                     </div>
                 </div>
             </div>
@@ -176,11 +180,30 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <h5 class="fw-bold m-0" style="color: var(--color-teks); font-size: 1.05rem;">Riwayat Absensi Kelas ${namaKelas}</h5>
                 </div>
                 <div class="d-flex gap-2 flex-wrap align-items-center">
-                    <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
-                        <option>Rombel</option>
-                        <option value="1">PPLG ${namaKelas}-1</option>
-                        <option value="2">PPLG ${namaKelas}-2</option>
-                    </select>
+            <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
+              <option value="">Rombel</option>
+              <optgroup label="PPLG X">
+                <option value="X_1">PPLG X-1</option>
+                <option value="X_2">PPLG X-2</option>
+                <option value="X_3">PPLG X-3</option>
+                <option value="X_4">PPLG X-4</option>
+                <option value="X_5">PPLG X-5</option>
+              </optgroup>
+              <optgroup label="PPLG XI">
+                <option value="XI_1">PPLG XI-1</option>
+                <option value="XI_2">PPLG XI-2</option>
+                <option value="XI_3">PPLG XI-3</option>
+                <option value="XI_4">PPLG XI-4</option>
+                <option value="XI_5">PPLG XI-5</option>
+              </optgroup>
+              <optgroup label="PPLG XII">
+                <option value="XII_1">PPLG XII-1</option>
+                <option value="XII_2">PPLG XII-2</option>
+                <option value="XII_3">PPLG XII-3</option>
+                <option value="XII_4">PPLG XII-4</option>
+                <option value="XII_5">PPLG XII-5</option>
+              </optgroup>
+            </select>
                     <div class="btn btn-sm btn-light border-0 rounded-3 text-muted d-flex align-items-center gap-2 px-3" style="height: 34px; font-size: 0.85rem; line-height: 22px;">
                         <i class="bi bi-calendar3"></i> Live Data
                     </div>
@@ -230,6 +253,7 @@ async function initTabs() {
       this.classList.add("active");
 
       currentSelectedClass = this.getAttribute("data-kelas");
+      currentSelectedRombel = null;
 
       if (contentContainer) {
         contentContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Memeriksa database...</p></div>`;
@@ -238,15 +262,27 @@ async function initTabs() {
           currentSelectedClass,
           dataTerbaru,
         );
+        attachRombelFilter();
       }
     });
   });
+
+  attachRombelFilter();
+}
+
+function attachRombelFilter() {
+  const select = document.getElementById("pilihanRombel");
+  if (select) {
+    select.removeEventListener("change", handleRombelFilter);
+    select.addEventListener("change", handleRombelFilter);
+  }
 }
 
 async function handleRombelFilter() {
   const selectElement = document.getElementById("pilihanRombel");
   if (!selectElement) return;
-  currentSelectedRombel = selectElement.value;
+  const val = selectElement.value;
+  currentSelectedRombel = val || null;
   const contentContainer = document.getElementById("content");
 
   if (contentContainer) {
@@ -256,6 +292,7 @@ async function handleRombelFilter() {
         currentSelectedClass,
         dataTerbaru
     );
+    attachRombelFilter();
   }
 }
 
