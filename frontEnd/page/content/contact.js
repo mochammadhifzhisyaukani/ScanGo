@@ -10,7 +10,7 @@ content.innerHTML = `
                 <img src="/frontEnd/assets/logo/favicon.png" class="animate__animated animate__fadeInLeft" style="height: 50px;">
                 <h1 class="fw-bold mb-3 animate__animated animate__fadeInDown">ScanGo</h1>
 
-                <div id="changeTheme" class="justify-content-end ms-auto animate__animated animate__jackInTheBox mt-3"></div>
+                <div class="changeTheme justify-content-end ms-auto animate__animated animate__jackInTheBox mt-3"></div>
               </a>
             </div>
 

@@ -14,7 +14,7 @@
 }
 
 .scan-card {
-  background-color: var(--color-card-bg, #ffffff);
+  background-color: var(--color-card-bg);
   border-radius: 20px;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.04),
@@ -23,7 +23,7 @@
   max-width: 520px;
   margin: 20px auto;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
 }
 
 .scan-header h3 {
@@ -93,8 +93,9 @@
 }
 
 .scan-status-badge.idle {
-  background-color: #f1f5f9;
-  color: #64748b;
+  background-color: var(--bg-body);
+  color: var(--color-sub);
+  border: 1px solid var(--border-form);
 }
 
 .scan-status-badge.scanning {
@@ -140,14 +141,14 @@
 }
 
 .scan-input-group .form-control::placeholder {
-  color: #94a3b8;
+  color: var(--color-placeholder);
   font-size: 0.88rem;
   font-weight: 400;
   letter-spacing: normal;
 }
 
 .scan-input-group .form-control:hover:not(:focus) {
-  border-color: #cbd5e1;
+  border-color: var(--color-sub);
 }
 
 .scan-btn {
@@ -253,7 +254,7 @@
   align-items: center;
   gap: 16px;
   margin: 28px 0 4px;
-  color: #94a3b8;
+  color: var(--color-placeholder);
   font-size: 0.78rem;
   font-weight: 500;
 }

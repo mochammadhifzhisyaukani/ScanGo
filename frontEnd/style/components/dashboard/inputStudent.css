@@ -1,10 +1,10 @@
 /* ── Form Container ── */
 .form-input-container {
-  background-color: var(--color-card-bg, #ffffff);
+  background-color: var(--color-card-bg);
   border-radius: 20px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
   padding: 36px 40px 40px;
-  transition: all 0.3s ease;
+  transition: background-color var(--transition-speed);
   animation: formReveal 0.35s ease-out;
 }
 
@@ -24,7 +24,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #64748b;
+  color: var(--color-sub);
   font-size: 0.88rem;
   font-weight: 500;
   cursor: pointer;
@@ -107,13 +107,13 @@
 }
 
 .form-control-modern::placeholder {
-  color: #94a3b8;
+  color: var(--color-placeholder);
   font-size: 0.82rem;
   font-weight: 400;
 }
 
 .form-control-modern:hover:not(:focus) {
-  border-color: #cbd5e1;
+  border-color: var(--color-sub);
 }
 
 select.form-control-modern {
@@ -127,7 +127,7 @@ select.form-control-modern {
 
 .form-hint {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: var(--color-placeholder);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -205,18 +205,18 @@ select.form-control-modern {
   font-size: 0.88rem;
   font-weight: 500;
   font-family: "Inter", "Poppins", sans-serif;
-  color: #64748b;
+  color: var(--color-sub);
   background-color: transparent;
-  border: 1.5px solid #e2e8f0;
+  border: 1.5px solid var(--border-form);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .btn-cancel:hover {
-  color: #475569;
-  border-color: #cbd5e1;
-  background-color: #f8fafc;
+  color: var(--color-teks);
+  border-color: var(--color-sub);
+  background-color: var(--bg-body);
 }
 
 .btn-cancel i {
@@ -305,26 +305,28 @@ select.form-control-modern {
 }
 
 .table-custom thead {
-  background-color: #f8fafc;
+  background-color: var(--bg-body);
 }
 
 .table-custom th {
   font-weight: 600;
-  color: #64748b;
+  color: var(--color-sub);
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 14px 18px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border-form);
   text-align: left;
   white-space: nowrap;
+  transition: background-color var(--transition-speed);
 }
 
 .table-custom td {
   padding: 14px 18px;
-  border-bottom: 1px solid #f1f5f9;
-  color: var(--color-teks, #334155);
+  border-bottom: 1px solid var(--border-form);
+  color: var(--color-teks);
   vertical-align: middle;
+  transition: border-color var(--transition-speed);
 }
 
 .table-custom tbody tr {
@@ -336,7 +338,7 @@ select.form-control-modern {
 }
 
 .table-custom tbody tr:hover {
-  background-color: rgba(79, 70, 229, 0.02);
+  background-color: var(--bg-hover);
 }
 
 /* ── Student Info Cell ── */
@@ -354,7 +356,7 @@ select.form-control-modern {
 
 .student-nis {
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: var(--color-placeholder);
 }
 
 /* ── Role Badges ── */
@@ -383,11 +385,12 @@ select.form-control-modern {
   font-family: "Inter", monospace;
   font-size: 0.82rem;
   font-weight: 500;
-  color: #475569;
-  background-color: #f1f5f9;
+  color: var(--color-teks-sub);
+  background-color: var(--bg-body);
   padding: 3px 10px;
   border-radius: 6px;
   display: inline-block;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 /* ── Status Badge ── */
@@ -447,7 +450,7 @@ select.form-control-modern {
 .table-state {
   text-align: center;
   padding: 40px 18px !important;
-  color: #94a3b8;
+  color: var(--color-placeholder);
   font-size: 0.88rem;
 }
 

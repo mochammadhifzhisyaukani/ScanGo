@@ -25,9 +25,9 @@ navbar.innerHTML = `
         </div>
 
         <div id="menuAksesibilitas" class="accessibility-dropdown d-none animate__animated animate__fadeIn">
-          <div class="d-flex">
-            <h6 class="mt-2">Mode Terang/Gelap</h6>
-            <div class="justify-content-end ms-auto" id="changeTheme"></div>
+          <div class="d-flex align-items-center">
+            <span id="statusTheme" class="ms-2" style="font-size: 13px;">Mode Terang</span>
+            <div class="justify-content-end ms-auto changeTheme"></div>
           </div>
         </div>
       </div>

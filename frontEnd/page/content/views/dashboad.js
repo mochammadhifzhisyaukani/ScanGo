@@ -104,7 +104,7 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <td class="text-muted">${row.id}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
-                            <span class="fw-semibold" style="color: #1e293b;">${displayNama}</span>
+                            <span class="fw-semibold" style="color: var(--color-teks);">${displayNama}</span>
                         </div>
                     </td>
                     <td class="text-muted">${row.idcard}</td>
@@ -173,7 +173,7 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
         <div class="data-card">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
                 <div class="d-flex align-items-center gap-2">
-                    <h5 class="fw-bold m-0" style="color: #1e293b; font-size: 1.05rem;">Riwayat Absensi Kelas ${namaKelas}</h5>
+                    <h5 class="fw-bold m-0" style="color: var(--color-teks); font-size: 1.05rem;">Riwayat Absensi Kelas ${namaKelas}</h5>
                 </div>
                 <div class="d-flex gap-2 flex-wrap align-items-center">
                     <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">

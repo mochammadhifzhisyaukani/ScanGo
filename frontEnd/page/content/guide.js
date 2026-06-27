@@ -1,7 +1,7 @@
 const content = document.getElementById("content");
 content.innerHTML = `
         <div class="partner container-sm text-center" style="margin-top: 8%;">
-            <div id="changeTheme" class="container-sm d-flex justify-content-center animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
+            <div class="changeTheme container-sm d-flex justify-content-center animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
         </div>
 <section class="py-5 px-3">
     <div class="container">

@@ -84,7 +84,6 @@ content.innerHTML = `
         <div class="row gx-5 row-stretch">
             <div class="col-lg-6">
                 <div class="p-3">
-                    <div id="changeTheme" class="animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
                     <h1 class="title reveal">
                         Merevolusi Kehadiran dengan Kecepatan & Efisiensi Digital.
                     </h1>

@@ -94,7 +94,7 @@ btnSignIn.addEventListener("click", async function (e) {
   btnSignIn.innerText = "Memproses...";
   btnSignIn.disabled = true;
 
-  try {
+try {
     const response = await fetch("http://localhost:3000/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -103,6 +103,24 @@ btnSignIn.addEventListener("click", async function (e) {
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Gagal Login!");
+
+    const userRole = data.user.role ? data.user.role.trim().toLowerCase() : "";
+
+    if (userRole === "student" || userRole === "siswa") {
+      showToast("Akses ditolak! Akun Student tidak diizinkan masuk ke panel ini.", "danger");
+      Swal.fire({
+        title: "Login Gagal",
+        text: "Anda tidak memiliki hak akses administrator.",
+        icon: "error",
+        draggable: true,
+        customClass: {
+          popup: "sweetalert-popup",
+          confirmButton: "sweetalert-btn-error",
+        },
+        buttonsStyling: false,
+      });
+      return;
+    }
 
     localStorage.setItem("role", data.user.role);
     localStorage.setItem("username", data.user.username || data.user.email);
@@ -119,11 +137,11 @@ btnSignIn.addEventListener("click", async function (e) {
       },
       buttonsStyling: false,
     }).then(() => {
-      if (data.user.role.trim().toLowerCase() === "admin") {
+      if (userRole === "admin") {
         showToast("Menuju halaman dashboard (Admin)", "success");
         window.location.href = "/frontEnd/page/structure/dashboard.html";
       } else {
-        showToast("Menuju halaman dashboard", "success");
+        showToast("Menuju halaman index", "success");
         window.location.href = "/index.html";
       }
     });
@@ -142,7 +160,7 @@ btnSignIn.addEventListener("click", async function (e) {
     });
     console.error("Error: ", error.message);
   } finally {
-    btnSignIn.innerText = "Sign In";
+    btnSignIn.innerText = "Masuk";
     btnSignIn.disabled = false;
   }
 });

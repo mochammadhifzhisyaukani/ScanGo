@@ -25,13 +25,22 @@ body {
   --teks-badge-primary: #1e293b;
   --teks-badge-secondary: #64748b;
   --opacity-shape: 0.15;
+
+  --color-sub: #64748b;
+  --color-placeholder: #94a3b8;
+  --bg-content: #f4f6fa;
+  --bg-sidebar: #ffffff;
+  --bg-tab: #e2e8f0;
+  --border-sidebar: #f1f3f7;
+  --bg-hover: rgba(79,70,229,0.02);
+  --color-stat: #1e293b;
 }
 
 [data-theme="dark"] {
   --bg-body: #0f172a;
   --bg-toggle: #ffffff;
   --toggle-circle: black;
-  --color-teks-sub: white;
+  --color-teks-sub: #94a3b8;
   --color-teks: white;
   --bg-card: #121212;
   --border-radius: 10%;
@@ -55,6 +64,15 @@ body {
   --teks-badge-primary: white;
   --teks-badge-secondary: white;
   --opacity-shape: 0.5;
+
+  --color-sub: #94a3b8;
+  --color-placeholder: #64748b;
+  --bg-content: #0f172a;
+  --bg-sidebar: #1e293b;
+  --bg-tab: #1e293b;
+  --border-sidebar: rgba(255,255,255,0.06);
+  --bg-hover: rgba(255,255,255,0.03);
+  --color-stat: #f1f5f9;
 }
 
 /* .card {

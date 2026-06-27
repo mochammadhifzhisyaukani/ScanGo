@@ -22,12 +22,12 @@
     transition: transform var(--transition-speed), background-color var(--transition-speed);
 }
 
-#theme-checkbox:checked + .theme-toggle-label .toggle-circle {
+.theme-toggle-label.dark-mode .toggle-circle {
     transform: translateX(33px);
 }
 
 .icon-moon { display: none; }
 .icon-sun { display: block; color: #f1c40f; }
 
-#theme-checkbox:checked + .theme-toggle-label .icon-moon { display: block; }
-#theme-checkbox:checked + .theme-toggle-label .icon-sun { display: none; }
+.theme-toggle-label.dark-mode .icon-moon { display: block; }
+.theme-toggle-label.dark-mode .icon-sun { display: none; }
