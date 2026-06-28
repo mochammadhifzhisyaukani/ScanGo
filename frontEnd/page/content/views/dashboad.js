@@ -15,6 +15,7 @@ function renderDashboard() {
 let clockInterval = null;
 let currentSelectedClass = "X";
 let currentSelectedRombel = null;
+let currentSelectedDate = new Date().toLocaleDateString("sv-SE");
 
 async function initDashboardListener() {
   const timeElement = document.getElementById("time");
@@ -64,8 +65,16 @@ async function fetchAttendanceData() {
 
 function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
   let dataFiltered = dataAbsensi.filter((row) => {
+    if (!row.created_at) return false;
+
+    const tanggalAbsen = row.created_at.split("T")[0];
+
     const rombel = String(row.rombel || "").toUpperCase();
-    return rombel.includes(namaKelas.toUpperCase());
+    const cocokKelas = rombel.includes(namaKelas.toUpperCase());
+
+    const cocokTanggal = tanggalAbsen === currentSelectedDate;
+
+    return cocokKelas && cocokTanggal;
   });
 
   if (currentSelectedRombel && currentSelectedRombel !== "all") {
@@ -204,9 +213,10 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                 <option value="XII_5">PPLG XII-5</option>
               </optgroup>
             </select>
-                    <div class="btn btn-sm btn-light border-0 rounded-3 text-muted d-flex align-items-center gap-2 px-3" style="height: 34px; font-size: 0.85rem; line-height: 22px;">
-                        <i class="bi bi-calendar3"></i> Live Data
-                    </div>
+<div class="d-flex align-items-center bg-light rounded-3 px-2 border-0" style="height: 34px;">
+    <i class="bi bi-calendar3 text-muted me-2" style="font-size: 0.85rem;"></i>
+    <input type="date" id="filterTanggal" class="form-control form-control-sm bg-transparent border-0 text-muted p-0" style="font-size: 0.85rem; width: 120px; outline: none; boxShadow: none;" value="${currentSelectedDate}">
+</div>
                 </div>
             </div>
 
@@ -262,19 +272,25 @@ async function initTabs() {
           currentSelectedClass,
           dataTerbaru,
         );
-        attachRombelFilter();
+        attachFilters();
       }
     });
   });
 
-  attachRombelFilter();
+  attachFilters();
 }
 
-function attachRombelFilter() {
+function attachFilters() {
   const select = document.getElementById("pilihanRombel");
   if (select) {
     select.removeEventListener("change", handleRombelFilter);
     select.addEventListener("change", handleRombelFilter);
+  }
+
+  const dateInput = document.getElementById("filterTanggal");
+  if (dateInput) {
+    dateInput.removeEventListener("change", handleTanggalFilter);
+    dateInput.addEventListener("change", handleTanggalFilter);
   }
 }
 
@@ -289,64 +305,92 @@ async function handleRombelFilter() {
     contentContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Menyaring rombel...</p></div>`;
     const dataTerbaru = await fetchAttendanceData();
     contentContainer.innerHTML = generateKontenKelasTemplate(
-        currentSelectedClass,
-        dataTerbaru
+      currentSelectedClass,
+      dataTerbaru,
     );
-    attachRombelFilter();
+    attachFilters();
+  }
+}
+
+async function handleTanggalFilter() {
+  const dateInputElement = document.getElementById("filterTanggal");
+  if (!dateInputElement) return;
+
+  currentSelectedDate = dateInputElement.value;
+  const contentContainer = document.getElementById("content");
+
+  if (contentContainer) {
+    contentContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Menyaring tanggal...</p></div>`;
+    const dataTerbaru = await fetchAttendanceData();
+    contentContainer.innerHTML = generateKontenKelasTemplate(
+      currentSelectedClass,
+      dataTerbaru
+    );
+    attachFilters();
   }
 }
 
 async function editAttendancesStatus(id, currentStatus) {
-    const statusBaru = prompt("Ubah status absensi (Hadir / Sakit / Izin / Alpa): ", currentStatus);
-    if (statusBaru === null) return;
+  const statusBaru = prompt(
+    "Ubah status absensi (Hadir / Sakit / Izin / Alpa): ",
+    currentStatus,
+  );
+  if (statusBaru === null) return;
 
-    const statusValid = ["Hadir", "Sakit", "Izin", "Alpa"];
-    if (!statusValid.includes(statusBaru.trim())) {
-        alert("Status tidak valid! Masukkan: Hadir, Sakit, Izin, atau Alpa");
-        return;
+  const statusValid = ["Hadir", "Sakit", "Izin", "Alpa"];
+  if (!statusValid.includes(statusBaru.trim())) {
+    alert("Status tidak valid! Masukkan: Hadir, Sakit, Izin, atau Alpa");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/attendances/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "api-token": "123",
+        },
+        body: JSON.stringify({ status: statusBaru.trim() }),
+      },
+    );
+
+    const result = await response.json();
+    if (response.ok && result.success) {
+      alert("Status absensi berhasil diperbarui!");
+      initTabs();
+    } else {
+      alert("Gagal memperbarui status: " + (result.message || "Error server"));
     }
-
-    try {
-        const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "api-token": "123"
-            },
-            body: JSON.stringify({ status: statusBaru.trim() })
-        });
-
-        const result = await response.json();
-        if (response.ok && result.success) {
-            alert("Status absensi berhasil diperbarui!");
-            initTabs();
-        } else {
-            alert("Gagal memperbarui status: " + (result.message || "Error server"));
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Terjadi kesalahan koneksi saat memperbarui data");
-    }
+  } catch (error) {
+    console.error(error);
+    alert("Terjadi kesalahan koneksi saat memperbarui data");
+  }
 }
 
 async function deleteAttendanceLog(id) {
-    if (!confirm("Apakah anda yakin ingin menghapus data log absensi ini?")) return;
+  if (!confirm("Apakah anda yakin ingin menghapus data log absensi ini?"))
+    return;
 
-    try {
-        const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
-            method: "DELETE",
-            headers: { "api-token": "123" }
-        });
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/attendances/${id}`,
+      {
+        method: "DELETE",
+        headers: { "api-token": "123" },
+      },
+    );
 
-        const result = await response.json();
-        if (response.ok && result.success) {
-            alert("Log absensi berhasil dihapus!");
-            initTabs();
-        } else {
-            alert("Gagal menghapus log: " + (result.message || "Error server"));
-        }
-    } catch (error) {
-        console.error(error);
-        alert("terjadi kesahalan koneksi saat menghapus data");
+    const result = await response.json();
+    if (response.ok && result.success) {
+      alert("Log absensi berhasil dihapus!");
+      initTabs();
+    } else {
+      alert("Gagal menghapus log: " + (result.message || "Error server"));
     }
+  } catch (error) {
+    console.error(error);
+    alert("terjadi kesahalan koneksi saat menghapus data");
+  }
 }
