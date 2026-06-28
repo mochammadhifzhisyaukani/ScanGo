@@ -9,7 +9,7 @@ function renderDashboard() {
             </main>
         </div>
     </div>
-`;
+  `;
 }
 
 let clockInterval = null;
@@ -67,11 +67,9 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
   let dataFiltered = dataAbsensi.filter((row) => {
     if (!row.created_at) return false;
 
-    const tanggalAbsen = row.created_at.split("T")[0];
-
+    const tanggalAbsen = new Date(row.created_at).toLocaleDateString("sv-SE");
     const rombel = String(row.rombel || "").toUpperCase();
     const cocokKelas = rombel.includes(namaKelas.toUpperCase());
-
     const cocokTanggal = tanggalAbsen === currentSelectedDate;
 
     return cocokKelas && cocokTanggal;
@@ -79,19 +77,16 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
 
   if (currentSelectedRombel && currentSelectedRombel !== "all") {
     dataFiltered = dataFiltered.filter((row) => {
-      const rombelText = String(row.rombel || "");
-      return (
-        rombelText.endsWith(currentSelectedRombel) ||
-        rombelText.includes(`-${currentSelectedRombel}`)
-      );
+      const rombelText = String(row.rombel || "").toUpperCase();
+      const rombelKey = currentSelectedRombel.toUpperCase();
+      return rombelText === rombelKey;
     });
   }
 
   const totalHadir = dataFiltered.length;
-
   const emptyMessage = currentSelectedRombel
     ? "Siswa belum absen"
-    : "Belum ada riwayat tap kartu hari ini";
+    : "Belum ada riwayat tap kartu pada tanggal ini";
 
   const tableRowsHtml =
     dataFiltered.length === 0
@@ -189,34 +184,34 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <h5 class="fw-bold m-0" style="color: var(--color-teks); font-size: 1.05rem;">Riwayat Absensi Kelas ${namaKelas}</h5>
                 </div>
                 <div class="d-flex gap-2 flex-wrap align-items-center">
-            <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
-              <option value="">Rombel</option>
-              <optgroup label="PPLG X">
-                <option value="X_1">PPLG X-1</option>
-                <option value="X_2">PPLG X-2</option>
-                <option value="X_3">PPLG X-3</option>
-                <option value="X_4">PPLG X-4</option>
-                <option value="X_5">PPLG X-5</option>
-              </optgroup>
-              <optgroup label="PPLG XI">
-                <option value="XI_1">PPLG XI-1</option>
-                <option value="XI_2">PPLG XI-2</option>
-                <option value="XI_3">PPLG XI-3</option>
-                <option value="XI_4">PPLG XI-4</option>
-                <option value="XI_5">PPLG XI-5</option>
-              </optgroup>
-              <optgroup label="PPLG XII">
-                <option value="XII_1">PPLG XII-1</option>
-                <option value="XII_2">PPLG XII-2</option>
-                <option value="XII_3">PPLG XII-3</option>
-                <option value="XII_4">PPLG XII-4</option>
-                <option value="XII_5">PPLG XII-5</option>
-              </optgroup>
-            </select>
-<div class="d-flex align-items-center bg-light rounded-3 px-2 border-0" style="height: 34px;">
-    <i class="bi bi-calendar3 text-muted me-2" style="font-size: 0.85rem;"></i>
-    <input type="date" id="filterTanggal" class="form-control form-control-sm bg-transparent border-0 text-muted p-0" style="font-size: 0.85rem; width: 120px; outline: none; boxShadow: none;" value="${currentSelectedDate}">
-</div>
+                    <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
+                      <option value="">Rombel</option>
+                      <optgroup label="PPLG X">
+                        <option value="X_1">PPLG X-1</option>
+                        <option value="X_2">PPLG X-2</option>
+                        <option value="X_3">PPLG X-3</option>
+                        <option value="X_4">PPLG X-4</option>
+                        <option value="X_5">PPLG X-5</option>
+                      </optgroup>
+                      <optgroup label="PPLG XI">
+                        <option value="XI_1">PPLG XI-1</option>
+                        <option value="XI_2">PPLG XI-2</option>
+                        <option value="XI_3">PPLG XI-3</option>
+                        <option value="XI_4">PPLG XI-4</option>
+                        <option value="XI_5">PPLG XI-5</option>
+                      </optgroup>
+                      <optgroup label="PPLG XII">
+                        <option value="XII_1">PPLG XII-1</option>
+                        <option value="XII_2">PPLG XII-2</option>
+                        <option value="XII_3">PPLG XII-3</option>
+                        <option value="XII_4">PPLG XII-4</option>
+                        <option value="XII_5">PPLG XII-5</option>
+                      </optgroup>
+                    </select>
+                    <div class="d-flex align-items-center bg-light rounded-3 px-2 border-0" style="height: 34px;">
+                        <i class="bi bi-calendar3 text-muted me-2" style="font-size: 0.85rem;"></i>
+                        <input type="date" id="filterTanggal" class="form-control form-control-sm bg-transparent border-0 text-muted p-0" style="font-size: 0.85rem; width: 120px; outline: none; box-shadow: none;" value="${currentSelectedDate}">
+                    </div>
                 </div>
             </div>
 
@@ -324,7 +319,7 @@ async function handleTanggalFilter() {
     const dataTerbaru = await fetchAttendanceData();
     contentContainer.innerHTML = generateKontenKelasTemplate(
       currentSelectedClass,
-      dataTerbaru
+      dataTerbaru,
     );
     attachFilters();
   }
@@ -391,6 +386,47 @@ async function deleteAttendanceLog(id) {
     }
   } catch (error) {
     console.error(error);
-    alert("terjadi kesahalan koneksi saat menghapus data");
+    alert("Terjadi kesalahan koneksi saat menghapus data");
   }
+}
+
+// ======================== LOGIKA FOTO PROFIL ========================
+const profileInput = document.getElementById("profileInput");
+const previewImage = document.getElementById("previewImage");
+const profileImgElement = document.getElementById("profileImage");
+
+const savedImage = localStorage.getItem("profileImageBase64");
+if (savedImage) {
+  if (profileImgElement) profileImgElement.src = savedImage;
+  if (previewImage) previewImage.src = savedImage;
+}
+
+let selectedImageBase64 = null;
+
+if (profileInput) {
+  profileInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      selectedImageBase64 = e.target.result;
+      if (previewImage) previewImage.src = selectedImageBase64;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+const saveBtn = document.getElementById("saveProfile");
+if (saveBtn) {
+  saveBtn.addEventListener("click", function () {
+    if (!selectedImageBase64) return;
+
+    localStorage.setItem("profileImageBase64", selectedImageBase64);
+    if (profileImgElement) profileImgElement.src = selectedImageBase64;
+
+    if (typeof showAlert === "function") {
+      showAlert("success", "Foto profil berhasil diperbarui!");
+    }
+  });
 }

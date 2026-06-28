@@ -51,8 +51,13 @@
                 <div class="menu-icon text-secondary" onclick="navigateTo('dashboard')">
                     <i class="bi bi-house-door"></i>
                 </div>
+
                 <div class="menu-icon">
-                    <img src="/frontEnd/assets/profiles/dimas.png" style="height: 30px; border-radius: 50%;">
+                    <div class="menu-icon" data-bs-toggle="modal" data-bs-target="#modalProfile">
+
+                        <img id="profileImage" src="/frontEnd/assets/profiles/dimas.png"
+                            style="height:30px; border-radius:50%; cursor:pointer; ">
+                    </div>
                 </div>
                 <div class="menu-icon active" onclick="navigateTo('dashboard')">
                     <i class="bi bi-clock"></i>

@@ -183,21 +183,6 @@ app.put("/api/users/:nis", async (req, res) => {
   }
 });
 
-app.get("/api/attendances", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("attendances")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) throw error;
-
-    res.json({ success: true, data: data });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
 app.post("/api/auth/register-bulk", async (req, res) => {
   try {
     const { users } = req.body;
