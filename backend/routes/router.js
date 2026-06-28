@@ -40,6 +40,17 @@ function navigateTo(page) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    // Sinkronisasi foto profil dari localStorage untuk semua halaman yang memuat router.js
+    const savedImage = localStorage.getItem("profileImageBase64");
+    if (savedImage) {
+        const profileImg = document.getElementById("profileImage");
+        if (profileImg) profileImg.src = savedImage;
+
+        // Fallback untuk img profile yang mungkin tidak punya ID (di sidebar menu yang ada /profiles/)
+        const sidebarImgs = document.querySelectorAll('.sidebar-menu img[src*="profiles"]');
+        sidebarImgs.forEach(img => img.src = savedImage);
+    }
+
     const path = window.location.pathname;
     if (path.includes("statistika")) {
         navigateTo("statistika");

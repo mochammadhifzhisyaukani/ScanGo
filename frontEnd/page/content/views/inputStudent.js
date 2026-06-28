@@ -352,6 +352,10 @@ async function loadTableSiswa() {
           <button class="btn-edit btn btn-primary btn-sm" data-nis="${user.nis}" data-email="${userEmail}">Edit</button>
           <button class="btn-delete btn btn-danger btn-sm" data-nis="${user.nis}">Hapus</button>
         </td>
+
+        <td>
+          <button class= "btn-detail btn btn-secondary btm" data-nis="${user.nis}" data-email="${userEmail}">Detail</button>
+        </td>
       `;
       tableBody.appendChild(row);
     });

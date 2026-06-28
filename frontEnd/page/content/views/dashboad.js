@@ -70,13 +70,24 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
 
   if (currentSelectedRombel && currentSelectedRombel !== "all") {
     dataFiltered = dataFiltered.filter((row) => {
-      const rombelText = String(row.rombel || "");
-      return (
-        rombelText.endsWith(currentSelectedRombel) ||
-        rombelText.includes(`-${currentSelectedRombel}`)
-      );
+      const rombelText = String(row.rombel || "").toUpperCase();
+      const rombelKey = currentSelectedRombel.toUpperCase(); // langsung pakai value option
+      return rombelText === rombelKey;
     });
   }
+
+  // if (currentSelectedRombel && currentSelectedRombel !== "all") {
+  //   dataFiltered = dataFiltered.filter((row) => {
+  //     const rombelText = String(row.rombel || "").toUpperCase();
+  //     // ini fungsi nya untuk X_1 jadi X-1
+  //     const rombelKey = currentSelectedRombel.replace("_", "-").toUpperCase();
+  //     return rombelText.includes(`PPLG ${rombelKey}`);
+  //     // return (
+  //     //   rombelText.endsWith(currentSelectedRombel) ||
+  //     //   rombelText.includes(`-${currentSelectedRombel}`)
+  //     // );
+  //   });
+  // }
 
   const totalHadir = dataFiltered.length;
 
@@ -88,22 +99,22 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
     dataFiltered.length === 0
       ? `<tr><td colspan="7" class="text-center text-muted py-4">${emptyMessage}</td></tr>`
       : dataFiltered
-          .map((row) => {
-            const jamAbsen = row.created_at
-              ? new Date(row.created_at).toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })
-              : "-";
+        .map((row) => {
+          const jamAbsen = row.created_at
+            ? new Date(row.created_at).toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+            : "-";
 
-            const namaSiswa = row.users
-              ? Array.isArray(row.users)
-                ? row.users[0]?.username
-                : row.users.username
-              : null;
-            const displayNama = namaSiswa || row.idcard || "Tidak Dikenal";
+          const namaSiswa = row.users
+            ? Array.isArray(row.users)
+              ? row.users[0]?.username
+              : row.users.username
+            : null;
+          const displayNama = namaSiswa || row.idcard || "Tidak Dikenal";
 
-            return `
+          return `
                 <tr>
                     <td class="text-muted">${row.id}</td>
                     <td>
@@ -118,8 +129,8 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <td><span class="status-badge status-present">${row.status || "Hadir"}</span></td>
                 </tr>
             `;
-          })
-          .join("");
+        })
+        .join("");
 
   return `
         <div class="row g-3 mb-4">
@@ -243,6 +254,7 @@ async function initTabs() {
       currentSelectedClass,
       dataTerbaru,
     );
+    attachRombelFilter();
   }
 
   tabs.forEach((tab) => {
@@ -289,64 +301,109 @@ async function handleRombelFilter() {
     contentContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Menyaring rombel...</p></div>`;
     const dataTerbaru = await fetchAttendanceData();
     contentContainer.innerHTML = generateKontenKelasTemplate(
-        currentSelectedClass,
-        dataTerbaru
+      currentSelectedClass,
+      dataTerbaru
     );
     attachRombelFilter();
   }
 }
 
 async function editAttendancesStatus(id, currentStatus) {
-    const statusBaru = prompt("Ubah status absensi (Hadir / Sakit / Izin / Alpa): ", currentStatus);
-    if (statusBaru === null) return;
+  const statusBaru = prompt("Ubah status absensi (Hadir / Sakit / Izin / Alpa): ", currentStatus);
+  if (statusBaru === null) return;
 
-    const statusValid = ["Hadir", "Sakit", "Izin", "Alpa"];
-    if (!statusValid.includes(statusBaru.trim())) {
-        alert("Status tidak valid! Masukkan: Hadir, Sakit, Izin, atau Alpa");
-        return;
+  const statusValid = ["Hadir", "Sakit", "Izin", "Alpa"];
+  if (!statusValid.includes(statusBaru.trim())) {
+    alert("Status tidak valid! Masukkan: Hadir, Sakit, Izin, atau Alpa");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "api-token": "123"
+      },
+      body: JSON.stringify({ status: statusBaru.trim() })
+    });
+
+    const result = await response.json();
+    if (response.ok && result.success) {
+      alert("Status absensi berhasil diperbarui!");
+      initTabs();
+    } else {
+      alert("Gagal memperbarui status: " + (result.message || "Error server"));
     }
-
-    try {
-        const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "api-token": "123"
-            },
-            body: JSON.stringify({ status: statusBaru.trim() })
-        });
-
-        const result = await response.json();
-        if (response.ok && result.success) {
-            alert("Status absensi berhasil diperbarui!");
-            initTabs();
-        } else {
-            alert("Gagal memperbarui status: " + (result.message || "Error server"));
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Terjadi kesalahan koneksi saat memperbarui data");
-    }
+  } catch (error) {
+    console.error(error);
+    alert("Terjadi kesalahan koneksi saat memperbarui data");
+  }
 }
 
 async function deleteAttendanceLog(id) {
-    if (!confirm("Apakah anda yakin ingin menghapus data log absensi ini?")) return;
+  if (!confirm("Apakah anda yakin ingin menghapus data log absensi ini?")) return;
 
-    try {
-        const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
-            method: "DELETE",
-            headers: { "api-token": "123" }
-        });
+  try {
+    const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
+      method: "DELETE",
+      headers: { "api-token": "123" }
+    });
 
-        const result = await response.json();
-        if (response.ok && result.success) {
-            alert("Log absensi berhasil dihapus!");
-            initTabs();
-        } else {
-            alert("Gagal menghapus log: " + (result.message || "Error server"));
-        }
-    } catch (error) {
-        console.error(error);
-        alert("terjadi kesahalan koneksi saat menghapus data");
+    const result = await response.json();
+    if (response.ok && result.success) {
+      alert("Log absensi berhasil dihapus!");
+      initTabs();
+    } else {
+      alert("Gagal menghapus log: " + (result.message || "Error server"));
     }
+  } catch (error) {
+    console.error(error);
+    alert("terjadi kesahalan koneksi saat menghapus data");
+  }
+}
+
+// ganti profile
+const profileInput = document.getElementById("profileInput");
+const previewImage = document.getElementById("previewImage");
+const profileImgElement = document.getElementById("profileImage");
+
+// 1. Saat halaman dimuat, cek apakah ada foto yang tersimpan di localStorage
+const savedImage = localStorage.getItem("profileImageBase64");
+if (savedImage) {
+  if (profileImgElement) profileImgElement.src = savedImage;
+  if (previewImage) previewImage.src = savedImage;
+}
+
+let selectedImageBase64 = null;
+
+if (profileInput) {
+  profileInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    // 2. Baca file sebagai URL Base64 yang bisa disimpan agar tidak hilang
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      selectedImageBase64 = e.target.result;
+      if (previewImage) previewImage.src = selectedImageBase64;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+const saveBtn = document.getElementById("saveProfile");
+if (saveBtn) {
+  saveBtn.addEventListener("click", function () {
+    if (!selectedImageBase64) return;
+
+    // 3. Simpan string Base64 tersebut ke dalam localStorage browser
+    localStorage.setItem("profileImageBase64", selectedImageBase64);
+    if (profileImgElement) profileImgElement.src = selectedImageBase64;
+
+    // Jika perlu menutup modal secara terprogram, kita bisa tambahkan disini
+    if (typeof showAlert === "function") {
+      showAlert("success", "Foto profil berhasil diperbarui!");
+    }
+  });
 }
