@@ -155,6 +155,7 @@ function renderInputSiswa() {
               <th>UID RFID</th>
               <th>Status</th>
               <th>Aksi</th>
+              <th>Detail</th>
             </tr>
           </thead>
           <tbody id="tableSiswaBody"></tbody>
@@ -356,6 +357,8 @@ async function loadTableSiswa() {
         <td>
           <button class= "btn-detail btn btn-secondary btm" data-nis="${user.nis}" data-email="${userEmail}">Detail</button>
         </td>
+
+  
       `;
       tableBody.appendChild(row);
     });
@@ -495,6 +498,7 @@ function initActionButtonsListener() {
       e.target.classList.contains("btn-delete") ||
       e.target.closest(".btn-delete")
     ) {
+      //delete
       const button = e.target.classList.contains("btn-delete")
         ? e.target
         : e.target.closest(".btn-delete");
@@ -531,7 +535,7 @@ function initActionButtonsListener() {
         Swal.fire("Gagal!", error.message, "error");
       }
     }
-
+    //edit
     if (
       e.target.classList.contains("btn-edit") ||
       e.target.closest(".btn-edit")
@@ -542,6 +546,22 @@ function initActionButtonsListener() {
       const nis = button.getAttribute("data-nis");
       const email = button.getAttribute("data-email");
       actionEditSiswa(nis, email);
+    }
+    //detail
+    if (
+      e.target.classList.contains("btn-detail") ||
+      e.target.closest(".btn-detail")
+    ) {
+      const button = e.target.classList.contains("btn-detail")
+        ? e.target
+        : e.target.closest(".btn-detail");
+      const nis = button.getAttribute("data-nis");
+
+      routerState = {
+        nis: nis
+      };
+
+      navigateTo("detail-siswa");
     }
   };
 }
@@ -668,5 +688,19 @@ async function handleRombelFilterInput() {
     tr.className = "empty-filter-row";
     tr.innerHTML = `<td colspan="6" style="text-align:center; padding:24px; color:#6c757d;">Siswa belum absen</td>`;
     tableBody.appendChild(tr);
+  }
+}
+
+//detailsiswa
+async function actionDetailSiswa(nis) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/users/${nis}`);
+    if (!response.ok) {
+      const errResult = await response.json().catch(() => ({}));
+      throw new Error(errResult.message || "Gagal mengambil data");
+    }
+    const result = await response.json();
+  } catch (error) {
+    Swal.fire("Gagal!", error.message, "error");
   }
 }
