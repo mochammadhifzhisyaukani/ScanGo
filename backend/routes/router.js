@@ -45,8 +45,20 @@ function navigateTo(page) {
             }
             break;
         case "scan-rfid":
-            content.innerHTML = renderScanRfid();
-            initScanRfid();
+            if (typeof renderScanRfid !== 'undefined') {
+                content.innerHTML = renderScanRfid();
+                if (typeof initScanRfid !== 'undefined') initScanRfid();
+            } else {
+                window.location.href = '/frontEnd/page/structure/dashboard.html';
+            }
+            break;
+        case "print":
+            if (typeof renderPrint !== 'undefined') {
+                content.innerHTML = renderPrint();
+                if (typeof initPrint !== 'undefined') initPrint();
+            } else {
+                window.location.href = '/frontEnd/page/structure/dashboard.html';
+            }
             break;
     }
 }

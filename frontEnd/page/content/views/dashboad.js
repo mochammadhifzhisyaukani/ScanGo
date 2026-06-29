@@ -9,12 +9,13 @@ function renderDashboard() {
             </main>
         </div>
     </div>
-`;
+  `;
 }
 
 let clockInterval = null;
 let currentSelectedClass = "X";
 let currentSelectedRombel = null;
+let currentSelectedDate = new Date().toLocaleDateString("sv-SE");
 
 async function initDashboardListener() {
   const timeElement = document.getElementById("time");
@@ -64,57 +65,49 @@ async function fetchAttendanceData() {
 
 function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
   let dataFiltered = dataAbsensi.filter((row) => {
+    if (!row.created_at) return false;
+
+    const tanggalAbsen = new Date(row.created_at).toLocaleDateString("sv-SE");
     const rombel = String(row.rombel || "").toUpperCase();
-    return rombel.includes(namaKelas.toUpperCase());
+    const cocokKelas = rombel.includes(namaKelas.toUpperCase());
+    const cocokTanggal = tanggalAbsen === currentSelectedDate;
+
+    return cocokKelas && cocokTanggal;
   });
 
   if (currentSelectedRombel && currentSelectedRombel !== "all") {
     dataFiltered = dataFiltered.filter((row) => {
       const rombelText = String(row.rombel || "").toUpperCase();
-      const rombelKey = currentSelectedRombel.toUpperCase(); // langsung pakai value option
+      const rombelKey = currentSelectedRombel.toUpperCase();
       return rombelText === rombelKey;
     });
   }
 
-  // if (currentSelectedRombel && currentSelectedRombel !== "all") {
-  //   dataFiltered = dataFiltered.filter((row) => {
-  //     const rombelText = String(row.rombel || "").toUpperCase();
-  //     // ini fungsi nya untuk X_1 jadi X-1
-  //     const rombelKey = currentSelectedRombel.replace("_", "-").toUpperCase();
-  //     return rombelText.includes(`PPLG ${rombelKey}`);
-  //     // return (
-  //     //   rombelText.endsWith(currentSelectedRombel) ||
-  //     //   rombelText.includes(`-${currentSelectedRombel}`)
-  //     // );
-  //   });
-  // }
-
   const totalHadir = dataFiltered.length;
-
   const emptyMessage = currentSelectedRombel
     ? "Siswa belum absen"
-    : "Belum ada riwayat tap kartu hari ini";
+    : "Belum ada riwayat tap kartu pada tanggal ini";
 
   const tableRowsHtml =
     dataFiltered.length === 0
       ? `<tr><td colspan="7" class="text-center text-muted py-4">${emptyMessage}</td></tr>`
       : dataFiltered
-        .map((row) => {
-          const jamAbsen = row.created_at
-            ? new Date(row.created_at).toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })
-            : "-";
+          .map((row) => {
+            const jamAbsen = row.created_at
+              ? new Date(row.created_at).toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "-";
 
-          const namaSiswa = row.users
-            ? Array.isArray(row.users)
-              ? row.users[0]?.username
-              : row.users.username
-            : null;
-          const displayNama = namaSiswa || row.idcard || "Tidak Dikenal";
+            const namaSiswa = row.users
+              ? Array.isArray(row.users)
+                ? row.users[0]?.username
+                : row.users.username
+              : null;
+            const displayNama = namaSiswa || row.idcard || "Tidak Dikenal";
 
-          return `
+            return `
                 <tr>
                     <td class="text-muted">${row.id}</td>
                     <td>
@@ -129,8 +122,8 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <td><span class="status-badge status-present">${row.status || "Hadir"}</span></td>
                 </tr>
             `;
-        })
-        .join("");
+          })
+          .join("");
 
   return `
         <div class="row g-3 mb-4">
@@ -191,32 +184,33 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <h5 class="fw-bold m-0" style="color: var(--color-teks); font-size: 1.05rem;">Riwayat Absensi Kelas ${namaKelas}</h5>
                 </div>
                 <div class="d-flex gap-2 flex-wrap align-items-center">
-            <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
-              <option value="">Rombel</option>
-              <optgroup label="PPLG X">
-                <option value="X_1">PPLG X-1</option>
-                <option value="X_2">PPLG X-2</option>
-                <option value="X_3">PPLG X-3</option>
-                <option value="X_4">PPLG X-4</option>
-                <option value="X_5">PPLG X-5</option>
-              </optgroup>
-              <optgroup label="PPLG XI">
-                <option value="XI_1">PPLG XI-1</option>
-                <option value="XI_2">PPLG XI-2</option>
-                <option value="XI_3">PPLG XI-3</option>
-                <option value="XI_4">PPLG XI-4</option>
-                <option value="XI_5">PPLG XI-5</option>
-              </optgroup>
-              <optgroup label="PPLG XII">
-                <option value="XII_1">PPLG XII-1</option>
-                <option value="XII_2">PPLG XII-2</option>
-                <option value="XII_3">PPLG XII-3</option>
-                <option value="XII_4">PPLG XII-4</option>
-                <option value="XII_5">PPLG XII-5</option>
-              </optgroup>
-            </select>
-                    <div class="btn btn-sm btn-light border-0 rounded-3 text-muted d-flex align-items-center gap-2 px-3" style="height: 34px; font-size: 0.85rem; line-height: 22px;">
-                        <i class="bi bi-calendar3"></i> Live Data
+                    <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
+                      <option value="">Rombel</option>
+                      <optgroup label="PPLG X">
+                        <option value="X_1">PPLG X-1</option>
+                        <option value="X_2">PPLG X-2</option>
+                        <option value="X_3">PPLG X-3</option>
+                        <option value="X_4">PPLG X-4</option>
+                        <option value="X_5">PPLG X-5</option>
+                      </optgroup>
+                      <optgroup label="PPLG XI">
+                        <option value="XI_1">PPLG XI-1</option>
+                        <option value="XI_2">PPLG XI-2</option>
+                        <option value="XI_3">PPLG XI-3</option>
+                        <option value="XI_4">PPLG XI-4</option>
+                        <option value="XI_5">PPLG XI-5</option>
+                      </optgroup>
+                      <optgroup label="PPLG XII">
+                        <option value="XII_1">PPLG XII-1</option>
+                        <option value="XII_2">PPLG XII-2</option>
+                        <option value="XII_3">PPLG XII-3</option>
+                        <option value="XII_4">PPLG XII-4</option>
+                        <option value="XII_5">PPLG XII-5</option>
+                      </optgroup>
+                    </select>
+                    <div class="d-flex align-items-center bg-light rounded-3 px-2 border-0" style="height: 34px;">
+                        <i class="bi bi-calendar3 text-muted me-2" style="font-size: 0.85rem;"></i>
+                        <input type="date" id="filterTanggal" class="form-control form-control-sm bg-transparent border-0 text-muted p-0" style="font-size: 0.85rem; width: 120px; outline: none; box-shadow: none;" value="${currentSelectedDate}">
                     </div>
                 </div>
             </div>
@@ -254,7 +248,6 @@ async function initTabs() {
       currentSelectedClass,
       dataTerbaru,
     );
-    attachRombelFilter();
   }
 
   tabs.forEach((tab) => {
@@ -274,19 +267,25 @@ async function initTabs() {
           currentSelectedClass,
           dataTerbaru,
         );
-        attachRombelFilter();
+        attachFilters();
       }
     });
   });
 
-  attachRombelFilter();
+  attachFilters();
 }
 
-function attachRombelFilter() {
+function attachFilters() {
   const select = document.getElementById("pilihanRombel");
   if (select) {
     select.removeEventListener("change", handleRombelFilter);
     select.addEventListener("change", handleRombelFilter);
+  }
+
+  const dateInput = document.getElementById("filterTanggal");
+  if (dateInput) {
+    dateInput.removeEventListener("change", handleTanggalFilter);
+    dateInput.addEventListener("change", handleTanggalFilter);
   }
 }
 
@@ -302,14 +301,35 @@ async function handleRombelFilter() {
     const dataTerbaru = await fetchAttendanceData();
     contentContainer.innerHTML = generateKontenKelasTemplate(
       currentSelectedClass,
-      dataTerbaru
+      dataTerbaru,
     );
-    attachRombelFilter();
+    attachFilters();
+  }
+}
+
+async function handleTanggalFilter() {
+  const dateInputElement = document.getElementById("filterTanggal");
+  if (!dateInputElement) return;
+
+  currentSelectedDate = dateInputElement.value;
+  const contentContainer = document.getElementById("content");
+
+  if (contentContainer) {
+    contentContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Menyaring tanggal...</p></div>`;
+    const dataTerbaru = await fetchAttendanceData();
+    contentContainer.innerHTML = generateKontenKelasTemplate(
+      currentSelectedClass,
+      dataTerbaru,
+    );
+    attachFilters();
   }
 }
 
 async function editAttendancesStatus(id, currentStatus) {
-  const statusBaru = prompt("Ubah status absensi (Hadir / Sakit / Izin / Alpa): ", currentStatus);
+  const statusBaru = prompt(
+    "Ubah status absensi (Hadir / Sakit / Izin / Alpa): ",
+    currentStatus,
+  );
   if (statusBaru === null) return;
 
   const statusValid = ["Hadir", "Sakit", "Izin", "Alpa"];
@@ -319,14 +339,17 @@ async function editAttendancesStatus(id, currentStatus) {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "api-token": "123"
+    const response = await fetch(
+      `http://localhost:3000/api/attendances/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "api-token": "123",
+        },
+        body: JSON.stringify({ status: statusBaru.trim() }),
       },
-      body: JSON.stringify({ status: statusBaru.trim() })
-    });
+    );
 
     const result = await response.json();
     if (response.ok && result.success) {
@@ -342,13 +365,17 @@ async function editAttendancesStatus(id, currentStatus) {
 }
 
 async function deleteAttendanceLog(id) {
-  if (!confirm("Apakah anda yakin ingin menghapus data log absensi ini?")) return;
+  if (!confirm("Apakah anda yakin ingin menghapus data log absensi ini?"))
+    return;
 
   try {
-    const response = await fetch(`http://localhost:3000/api/attendances/${id}`, {
-      method: "DELETE",
-      headers: { "api-token": "123" }
-    });
+    const response = await fetch(
+      `http://localhost:3000/api/attendances/${id}`,
+      {
+        method: "DELETE",
+        headers: { "api-token": "123" },
+      },
+    );
 
     const result = await response.json();
     if (response.ok && result.success) {
@@ -359,16 +386,15 @@ async function deleteAttendanceLog(id) {
     }
   } catch (error) {
     console.error(error);
-    alert("terjadi kesahalan koneksi saat menghapus data");
+    alert("Terjadi kesalahan koneksi saat menghapus data");
   }
 }
 
-// ganti profile
+// ======================== LOGIKA FOTO PROFIL ========================
 const profileInput = document.getElementById("profileInput");
 const previewImage = document.getElementById("previewImage");
 const profileImgElement = document.getElementById("profileImage");
 
-// 1. Saat halaman dimuat, cek apakah ada foto yang tersimpan di localStorage
 const savedImage = localStorage.getItem("profileImageBase64");
 if (savedImage) {
   if (profileImgElement) profileImgElement.src = savedImage;
@@ -382,7 +408,6 @@ if (profileInput) {
     const file = this.files[0];
     if (!file) return;
 
-    // 2. Baca file sebagai URL Base64 yang bisa disimpan agar tidak hilang
     const reader = new FileReader();
     reader.onload = function (e) {
       selectedImageBase64 = e.target.result;
@@ -397,11 +422,9 @@ if (saveBtn) {
   saveBtn.addEventListener("click", function () {
     if (!selectedImageBase64) return;
 
-    // 3. Simpan string Base64 tersebut ke dalam localStorage browser
     localStorage.setItem("profileImageBase64", selectedImageBase64);
     if (profileImgElement) profileImgElement.src = selectedImageBase64;
 
-    // Jika perlu menutup modal secara terprogram, kita bisa tambahkan disini
     if (typeof showAlert === "function") {
       showAlert("success", "Foto profil berhasil diperbarui!");
     }
