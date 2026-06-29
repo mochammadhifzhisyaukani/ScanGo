@@ -41,16 +41,13 @@
 <body>
 
     <div class="dashboard-container">
-
         <aside class="sidebar">
             <div class="sidebar-logo">
                 <a href="/index.html">
                     <img src="/frontEnd/assets/logo/favicon.png" style="height: 30px;">
                 </a>
             </div>
-
             <div class="sidebar-menu">
-
                 <div class="menu-icon text-secondary" onclick="navigateTo('dashboard')">
                     <i class="bi bi-house-door"></i>
                 </div>
@@ -62,7 +59,6 @@
                             style="height:30px; border-radius:50%; cursor:pointer; ">
                     </div>
                 </div>
-
                 <div class="menu-icon active" onclick="navigateTo('dashboard')">
                     <i class="bi bi-clock"></i>
                 </div>
@@ -86,7 +82,6 @@
                     <i class="bi bi-box-arrow-left text-danger"></i>
                 </div>
 
-                <!-- modal theme -->
                 <div class="modal fade" id="modalTheme" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -101,46 +96,10 @@
                                 <div id="changeTheme2"></div>
                             </div>
                             <div class="modal-footer">
-
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-primary">Simpan Perubahan</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- modal profile -->
-            <div class="modal fade" id="modalProfile" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h5>Ubah Foto Profil</h5>
-
-                            <button class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-
-                        <div class="modal-body text-center">
-
-                            <img id="previewImage" src="/frontEnd/assets/profiles/dimas.png"
-                                style="width:150px;height:150px;border-radius:50%;object-fit:cover;">
-
-                            <br><br>
-
-                            <input type="file" id="profileInput" accept="image/*">
-
-                        </div>
-
-                        <div class="modal-footer">
-
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-
-                            <button class="btn btn-primary" id="saveProfile">
-                                Simpan
-                            </button>
-
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -150,21 +109,20 @@
 
             <header class="header-panel animate__animated animate__fadeIn pe-4">
                 <div class="header-title">
-                    <h4 class="ms-5">Dashboard Monitoring</h4>
+                    <h4 class="ms-5">statistika Monitor</h4>
                 </div>
                 <div class="d-flex align-items-center gap-3">
-                    <!-- <div class="header-nav-tabs justify-content-content-center mx-auto">
+                    <div class="header-nav-tabs justify-content-content-center mx-auto">
                         <a href="#" class="nav-tab-item active" data-kelas="X">Kelas X</a>
                         <a href="#" class="nav-tab-item" data-kelas="XI">Kelas XI</a>
                         <a href="#" class="nav-tab-item" data-kelas="XII">Kelas XII</a>
-                    </div> -->
+                    </div>
                     <div class="clock-date-wrapper me-3">
                         <p id="time"></p>
                         <p id="date"></p>
                     </div>
                 </div>
             </header>
-
 
             <main id="content">
 
@@ -173,9 +131,16 @@
 
             <!-- script changetheme -->
             <script src="/frontEnd/components/changetheme.js"></script>
+            <!-- script content statistika -->
             <script src="/frontEnd/page/content/views/statistika.js"></script>
-            <script src="/frontEnd/page/content/views/print.js"></script>
+
+            <!-- <script src="/frontEnd/page/content/views/inputStudent.js"></script> -->
+            <!-- <script src="/frontEnd/page/content/views/dashboad.js"></script> -->
             <script src="/backend/routes/router.js"></script>
+            <script src="/frontEnd/page/content/views/scanRfid.js"></script>
+
+            <!-- script component navbar -->
+            <!-- <script src="/frontEnd/components/dashboard/navbarDashboard.js"></script> -->
 
             <!-- script bootstrap -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
