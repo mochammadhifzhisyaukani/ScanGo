@@ -63,7 +63,9 @@ async function fetchAttendanceData() {
   }
 }
 
-let data
+let dataSakit = [];
+let dataIzin = [];
+let dataAlpa = [];
 
 function getStatusClass(status) {
   switch ((status || "").toLowerCase()) {
@@ -72,10 +74,11 @@ function getStatusClass(status) {
     case "terlambat":
       return "status-late";
     case "sakit":
+      dataSakit.push(namaSiswa);
       return "status-sick";
     case "alfa":
     case "alpa":
-      return "status-alpha";
+      return "status-alpa";
     case "izin":
       return "status-izin";
     default:
