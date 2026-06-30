@@ -1,0 +1,536 @@
+/* ── Form Container ── */
+.form-input-container {
+  background-color: var(--color-card-bg, #ffffff);
+  border-radius: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  padding: 36px 40px 40px;
+  transition: all 0.3s ease;
+  animation: formReveal 0.35s ease-out;
+}
+
+@keyframes formReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Back Link ── */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  padding: 6px 12px 6px 8px;
+  border-radius: 8px;
+  margin-left: -8px;
+}
+
+.back-link:hover {
+  color: #4f46e5;
+  background-color: rgba(79, 70, 229, 0.06);
+}
+
+.back-link i {
+  font-size: 1.1rem;
+  transition: transform 0.25s ease;
+}
+
+.back-link:hover i {
+  transform: translateX(-3px);
+}
+
+/* ── Form Title ── */
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-teks, #1e293b);
+  margin: 12px 0 28px 0;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+/* ── Form Grid ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-teks-sub, #64748b);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-control-modern {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  font-family: "Inter", "Poppins", sans-serif;
+  color: var(--color-teks, #1e293b);
+  background-color: var(--bg-body, #f8fafc);
+  border: 1.5px solid var(--border-form, #e2e8f0);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.form-control-modern:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-control-modern::placeholder {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
+.form-control-modern:hover:not(:focus) {
+  border-color: #cbd5e1;
+}
+
+select.form-control-modern {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  cursor: pointer;
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.form-hint i {
+  font-size: 0.7rem;
+}
+
+/* ── RFID Field Highlight ── */
+.rfid-field .form-control-modern {
+  border-color: #818cf8;
+  background-color: rgba(79, 70, 229, 0.03);
+}
+
+.rfid-field .form-control-modern:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* ── Form Actions ── */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  justify-content: flex-end;
+  grid-column: 1 / -1;
+}
+
+.btn-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 28px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: "Inter", "Poppins", sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 130px;
+  justify-content: center;
+}
+
+.btn-save:hover {
+  background: linear-gradient(135deg, #4338ca, #4f46e5);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-save:active {
+  transform: translateY(0);
+}
+
+.btn-save:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-save i {
+  font-size: 1rem;
+}
+
+.btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  font-family: "Inter", "Poppins", sans-serif;
+  color: #64748b;
+  background-color: transparent;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-cancel:hover {
+  color: #475569;
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+}
+
+.btn-cancel i {
+  font-size: 1rem;
+}
+
+/* ── Data Container (table card) ── */
+.data-container {
+  margin-top: 28px;
+}
+
+/* ── Table Header ── */
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.table-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-teks, #1e293b);
+  margin: 0;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-import {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: "Inter", "Poppins", sans-serif;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.btn-import-excel {
+  color: #ffffff;
+  background: #10b981;
+}
+
+.btn-import-excel:hover {
+  background: #059669;
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-import-manual {
+  color: #ffffff;
+  background: #3b82f6;
+}
+
+.btn-import-manual:hover {
+  background: #2563eb;
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-import i {
+  font-size: 0.9rem;
+}
+
+/* ── Custom Table ── */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border-form, #f1f5f9);
+}
+
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.table-custom thead {
+  background-color: #f8fafc;
+}
+
+.table-custom th {
+  font-weight: 600;
+  color: #64748b;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table-custom td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--color-teks, #334155);
+  vertical-align: middle;
+}
+
+.table-custom tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table-custom tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-custom tbody tr:hover {
+  background-color: rgba(79, 70, 229, 0.02);
+}
+
+/* ── Student Info Cell ── */
+.student-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.student-name {
+  font-weight: 600;
+  color: var(--color-teks, #1e293b);
+  font-size: 0.88rem;
+}
+
+.student-nis {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+/* ── Role Badges ── */
+.badge-role {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-student {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.badge-teacher {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+/* ── UID Code ── */
+.uid-code {
+  font-family: "Inter", monospace;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #475569;
+  background-color: #f1f5f9;
+  padding: 3px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* ── Status Badge ── */
+.status-aktif {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+
+/* ── Action Buttons ── */
+.action-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.btn-action-edit {
+  color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.btn-action-edit:hover {
+  background-color: #3b82f6;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-action-delete {
+  color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.btn-action-delete:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ── Table States ── */
+.table-state {
+  text-align: center;
+  padding: 40px 18px !important;
+  color: #94a3b8;
+  font-size: 0.88rem;
+}
+
+.table-state i {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.5;
+}
+
+.table-state-error {
+  color: #ef4444;
+}
+
+/* ── Animations ── */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.data-container {
+  animation: fadeSlideUp 0.35s ease-out;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .form-input-container {
+    padding: 24px 20px 28px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+    margin: 8px 0 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .table-actions {
+    width: 100%;
+  }
+
+  .btn-import {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .table-custom th,
+  .table-custom td {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .form-input-container {
+    padding: 18px 14px 22px;
+    border-radius: 16px;
+  }
+
+  .table-actions {
+    flex-direction: column;
+  }
+}

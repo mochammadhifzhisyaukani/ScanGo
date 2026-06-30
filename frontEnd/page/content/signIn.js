@@ -1,36 +1,37 @@
 let content = document.getElementById("content");
 content.innerHTML = `
         <div class="card animate__animated animate__zoomIn">
+            <a href="/index.html" class="back-link"><i class="bi bi-house"></i> Kembali</a>
             <div class="left-panel">
                 <div class="logo">
                     <a href="/index.html">
-                      <img src="/frontEnd/assets/logo/favicon.png" alt="" width="60px">
+                        <img src="/frontEnd/assets/logo/favicon.png" alt="ScanGo Logo" width="60px">
                     </a>
                 </div>
 
-                <h1>Sign In</h1>
-                <p class="subtitle">Continue to access your dashboard</p>
+                <h1>Masuk</h1>
+                <p class="subtitle">Masuk untuk memulai absensi</p>
 
                 <div class="field-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" />
+                    <input type="email" id="email" placeholder="Enter your email" autocomplete="email" />
                 </div>
 
                 <div class="field-group">
                     <div class="field-header">
                         <label for="password">Password</label>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="forgot-link">Forgot Password?</a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="forgot-link">Lupa Password?</a>
                     </div>
 
                     <div class="password-wrapper">
-                        <input type="password" id="password" placeholder="Enter your password" />
+                        <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" />
                         <i class="bi bi-eye-slash toggle-password" id="togglePassword"></i>
                     </div>
                 </div>
 
-                <button class="btn-signin">Sign In</button>
+                <button class="btn-signin">Masuk</button>
 
-                <p class="create-account">Don't have an account? <a href="#">Contact your teacher</a></p>
+                <p class="create-account">Tidak memiliki akun? <a href="#">Hubungi staf Scango</a></p>
             </div>
 
             <div class="right-panel">
@@ -45,7 +46,7 @@ content.innerHTML = `
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <p>Silahkan untuk menghubungi guru jurusan untuk mengganti password!</p>
+                <p>Silahkan untuk menghubungi staf Scango untuk mengganti password!</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="w-100 btn btn-success" data-bs-dismiss="modal">Mengerti</button>

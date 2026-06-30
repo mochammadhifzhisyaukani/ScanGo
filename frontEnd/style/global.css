@@ -10,6 +10,7 @@ body {
   --color-teks: #0f172a;
   --color-teks-sub: #475569;
   --border-radius: 10px;
+  --color-card-bg: #ffffff;
 
   --btn-started: black;
   --color-btnStarted: white;
@@ -18,19 +19,29 @@ body {
   --teks-form: black;
   --bg-formContact: #f8f9fa;
   --border-form: #e9ecef;
+
+  --hero-about: white;
+
+  --teks-badge-primary: #1e293b;
+  --teks-badge-secondary: #64748b;
+  --opacity-shape: 0.15;
 }
 
 [data-theme="dark"] {
   --bg-body: #0f172a;
   --bg-toggle: #ffffff;
   --toggle-circle: black;
+  --color-teks-sub: white;
   --color-teks: white;
   --bg-card: #121212;
   --border-radius: 10%;
+  --color-card-bg: #1e293b;
 
   --btn-started: white;
   --color-btnStarted: black;
   --color-btnViewDemo: black;
+
+  --hero-about: transparent;
 
   --teks-form: #ffffff;
   --bg-formContact: #1e1e1e;
@@ -38,7 +49,17 @@ body {
   --background-input: #1a1a1a;
   --color-input: white;
   --border-input: rgba(255, 255, 255, 0.15);
+
+  /* --bg-card: silver; */
+
+  --teks-badge-primary: white;
+  --teks-badge-secondary: white;
+  --opacity-shape: 0.5;
 }
+
+/* .card {
+  background-color: var(--bg-card) !important;
+} */
 
 @keyframes reveal-animation {
   from {

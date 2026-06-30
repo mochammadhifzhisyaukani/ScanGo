@@ -1,18 +1,11 @@
- const verifyAdmin = (req, res, next) => {
+const verifyAdmin = (req, res, next) => {
   if (!req.user || req.user.role.trim().toLowerCase() !== "admin") {
-    showToast("Akses ditolak! Halaman ini khusus untuk Admin.", "danger")
-    Swal.fire({
-      title: "Login Gagal",
-      icon: "error",
-      draggable: true,
-      customClass: {
-        popup: "sweetalert-popup",
-        confirmButton: "sweetalert-btn-error",
-      },
-
-      buttonsStyling: false,
+    return res.status(403).json({
+      message: "Akses ditolak! Halaman ini khusus untuk Admin.",
     });
   }
+
+  next();
 };
 
 module.exports = verifyAdmin;

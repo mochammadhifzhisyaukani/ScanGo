@@ -1,5 +1,4 @@
 function renderDashboard() {
-    // renderDashboard hanya bertugas menyediakan container utama dan wadah kosong (<div id="content">)
     return `
     <div class="dashboard-container animate__animated animate__fadeIn">
         <div class="main-wrapper mt-4" style="flex: 1; display: flex; flex-direction: column;">
