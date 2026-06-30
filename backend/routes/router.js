@@ -1,4 +1,5 @@
 // 1. Fungsi utamanya ditaruh di atas
+let routerState = {};
 function navigateTo(page) {
     const content = document.getElementById("content");
     if (!content) return;
@@ -20,6 +21,17 @@ function navigateTo(page) {
                 if (typeof initInputSiswaListener !== 'undefined') initInputSiswaListener();
             } else {
                 // Karena inputStudent.js dimuat di dashboard.html, kita bisa redirect ke sana
+                window.location.href = '/frontEnd/page/structure/dashboard.html';
+            }
+            break;
+        case "detail-siswa":
+            if (typeof renderDetailSiswa !== "undefined") {
+                content.innerHTML = renderDetailSiswa();
+
+                if (typeof initDetailSiswaListener !== "undefined") {
+                    initDetailSiswaListener(routerState);
+                }
+            } else {
                 window.location.href = '/frontEnd/page/structure/dashboard.html';
             }
             break;

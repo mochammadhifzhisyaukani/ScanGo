@@ -1,0 +1,293 @@
+.detail-siswa-wrapper {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 4px 0;
+  flex-wrap: wrap;
+}
+
+/* === KARTU PROFIL KIRI === */
+.detail-profile-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 28px 24px 20px;
+  min-width: 260px;
+  max-width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.detail-avatar-wrapper {
+  margin-bottom: 14px;
+}
+
+.detail-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #e8eaff;
+  color: #5c6bc0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.detail-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.detail-nis-code {
+  font-size: 0.82rem;
+  color: #6c757d;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.detail-badges {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.badge-role {
+  background: #e8eaff;
+  color: #5c6bc0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.badge-status-aktif {
+  background: #e8f8ef;
+  color: #2ecc71;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.detail-info-grid {
+  width: 100%;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 16px;
+  margin-bottom: 16px;
+}
+
+.detail-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f7f7f7;
+}
+
+.detail-info-label {
+  font-size: 0.82rem;
+  color: #8a94a6;
+  font-weight: 500;
+}
+
+.detail-info-value {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.detail-info-value.rfid-badge {
+  background: #eef2ff;
+  color: #5c6bc0;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.detail-stats-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.detail-stat-box {
+  flex: 1;
+  background: #f8f9fc;
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.detail-stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+}
+
+.detail-stat-label {
+  font-size: 0.7rem;
+  color: #8a94a6;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.detail-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-detail-edit {
+  width: 100%;
+  padding: 10px;
+  background: #f5a623;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-detail-edit:hover {
+  background: #e0941a;
+}
+
+.btn-detail-back {
+  width: 100%;
+  padding: 10px;
+  background: #f0f2f5;
+  color: #555;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-detail-back:hover {
+  background: #e2e6ea;
+}
+
+/* === PANEL RIWAYAT KANAN === */
+.detail-history-panel {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.detail-history-header {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.detail-history-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8a94a6;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 10px;
+  border-bottom: 2px solid #f0f0f0;
+  text-align: left;
+}
+
+.detail-history-table tbody td {
+  font-size: 0.82rem;
+  color: #2c3e50;
+  padding: 10px 10px;
+  border-bottom: 1px solid #f7f7f7;
+  vertical-align: middle;
+}
+
+.detail-history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.jam-badge-masuk {
+  display: inline-block;
+  background: #e8f8ef;
+  color: #2ecc71;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.jam-badge-keluar {
+  display: inline-block;
+  background: #fef0e8;
+  color: #e67e22;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.status-badge-hadir {
+  display: inline-block;
+  background: #e8f8ef;
+  color: #2ecc71;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.status-badge-lainnya {
+  display: inline-block;
+  background: #f0f2f5;
+  color: #6c757d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.detail-empty-history {
+  text-align: center;
+  color: #adb5bd;
+  padding: 40px 0;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 768px) {
+  .detail-siswa-wrapper {
+    flex-direction: column;
+  }
+  .detail-profile-card {
+    max-width: 100%;
+    width: 100%;
+  }
+}

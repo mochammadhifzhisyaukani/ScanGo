@@ -142,6 +142,64 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+app.get("/api/users/:nis/attendances", async (req, res) => {
+  const { nis } = req.params;
+  try {
+    // Ambil data user berdasarkan NIS untuk dapat idcard-nya
+    const { data: user, error: userErr } = await supabase
+      .from("users")
+      .select("idcard")
+      .eq("nis", nis)
+      .maybeSingle();
+
+    if (userErr) throw userErr;
+    if (!user) return res.status(404).json({ success: false, error: "Siswa tidak ditemukan" });
+
+    // Ambil 15 riwayat absensi terakhir berdasarkan idcard
+    const { data: attendances, error: attErr } = await supabase
+      .from("attendances")
+      .select("*")
+      .eq("idcard", user.idcard)
+      .order("created_at", { ascending: false })
+      .limit(15);
+
+    if (attErr) throw attErr;
+
+    res.json({ success: true, data: attendances || [] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.get("/api/users/:nis", async (req, res) => {
+  const { nis } = req.params;
+
+  try {
+    const { data, error: fetchError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("nis", nis)
+      .maybeSingle();
+
+    if (fetchError) throw fetchError;
+
+    if (!data) {
+      return res.status(404).json({ success: false, error: "Siswa tidak ditemukan" });
+    }
+
+    res.json({
+      success: true,
+      user: data,
+    });
+
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: "Data tidak ditemukan",
+    });
+  }
+})
+
 app.delete("/api/users/:nis", async (req, res) => {
   const { nis } = req.params;
 
