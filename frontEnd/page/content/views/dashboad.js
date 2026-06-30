@@ -63,10 +63,6 @@ async function fetchAttendanceData() {
   }
 }
 
-let dataSakit = [];
-let dataIzin = [];
-let dataAlpa = [];
-
 function getStatusClass(status) {
   switch ((status || "").toLowerCase()) {
     case "hadir":
@@ -74,13 +70,11 @@ function getStatusClass(status) {
     case "terlambat":
       return "status-late";
     case "sakit":
-      dataSakit.push(namaSiswa);
-      return "status-sick";
+    case "izin":
+      return "status-late";
     case "alfa":
     case "alpa":
-      return "status-alpa";
-    case "izin":
-      return "status-izin";
+      return "status-absent";
     default:
       return "status-present";
   }
@@ -106,7 +100,10 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
     });
   }
 
-  const totalHadir = dataFiltered.length;
+  const totalHadir = dataFiltered.filter(r => (r.status || "").toLowerCase() === "hadir" || (r.status || "").toLowerCase() === "terlambat").length;
+  const totalSakit = dataFiltered.filter(r => (r.status || "").toLowerCase() === "sakit").length;
+  const totalIzin = dataFiltered.filter(r => (r.status || "").toLowerCase() === "izin").length;
+  const totalAlpa = dataFiltered.filter(r => (r.status || "").toLowerCase() === "alfa" || (r.status || "").toLowerCase() === "alpa").length;
   const emptyMessage = currentSelectedRombel
     ? "Siswa belum absen"
     : "Belum ada riwayat tap kartu pada tanggal ini";
@@ -169,9 +166,9 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                         <i class="bi bi-clock-history"></i>
                         <span>Total Siswa Sakit</span>
                     </div>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value">${totalSakit}</div>
                     <div class="stat-indicator">
-                        <span class="text-muted" style="color: var(--color-teks) !important;">Data default</span>
+                        <span class="text-muted" style="color: var(--color-teks) !important;">Live rekap</span>
                     </div>
                 </div>
             </div>
@@ -179,23 +176,23 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                 <div class="stat-card">
                     <div class="stat-label text-danger">
                         <i class="bi bi-person-x-fill"></i>
-                        <span>Total Siswa Tidak Hadir</span>
+                        <span>Total Siswa Tidak Hadir (Alfa)</span>
                     </div>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value">${totalAlpa}</div>
                     <div class="stat-indicator">
-                        <span class="text-muted" style="color: var(--color-teks) !important;">Data default</span>
+                        <span class="text-muted" style="color: var(--color-teks) !important;">Live rekap</span>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="stat-card">
-                    <div class="stat-label text-primary">
+                    <div class="stat-label text-warning" style="color: #ffc107 !important;">
                         <i class="bi bi-stopwatch-fill"></i>
                         <span>Total Siswa Izin</span>
                     </div>
-                    <div class="stat-value" style="font-size: 1.95rem;">0</div>
+                    <div class="stat-value">${totalIzin}</div>
                     <div class="stat-indicator">
-                        <span class="text-muted" style="color: var(--color-teks) !important;">Data default</span>
+                        <span class="text-muted" style="color: var(--color-teks) !important;">Live rekap</span>
                     </div>
                 </div>
             </div>

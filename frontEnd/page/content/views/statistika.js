@@ -962,19 +962,33 @@ window.initGrafikListener = async function () {
     const pill = document.getElementById("perhatianCountPill");
     if (!list) return;
 
-    // Hitung absensi 30 hari terakhir per siswa dalam rombel ini
+    // Kumpulkan hari-hari yang memang secara aktual ADA log absensi (Sistem Aktif) di 30 hari terakhir.
+    // Ini mengabaikan hari libur, tanggal merah, atau hari sebelum sistem mulai dipakai.
     const today = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(today.getDate() - 30);
+    const todayStr = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+    const todayMs = today.getTime();
 
-    // Kumpulkan hari-hari sekolah dalam 30 hari terakhir (Senin-Jumat)
-    const schoolDays = [];
-    for (let i = 1; i <= 30; i++) {
-      const d = new Date();
-      d.setDate(today.getDate() - i);
-      const dow = d.getDay();
-      if (dow >= 1 && dow <= 5) schoolDays.push(d);
-    }
+    const schoolDaysMap = new Map();
+
+    attendances.forEach(a => {
+      if (a.created_at) {
+        const d = new Date(a.created_at);
+        const dow = d.getDay();
+        // Hanya hitung jika Senin(1) - Jumat(5)
+        if (dow >= 1 && dow <= 5) {
+          const dStr = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+          const dMs = d.getTime();
+          const diffDays = (todayMs - dMs) / (1000 * 60 * 60 * 24);
+
+          // Sisihkan Hari Ini, dan ambil yang ada di masa lalu (1 - 31 hari ke belakang)
+          if (dStr !== todayStr && diffDays > 0 && diffDays <= 31) {
+            schoolDaysMap.set(dStr, new Date(d.getFullYear(), d.getMonth(), d.getDate()));
+          }
+        }
+      }
+    });
+
+    const schoolDays = Array.from(schoolDaysMap.values());
 
     // Untuk setiap siswa di rombel ini, hitung berapa hari tidak hadir dalam 30 hari
     const perhatianSiswa = [];
@@ -998,7 +1012,6 @@ window.initGrafikListener = async function () {
       }
     });
 
-    // Urutkan dari yang paling banyak absen
     perhatianSiswa.sort((a, b) => b.absentCount - a.absentCount);
 
     list.innerHTML = '';
