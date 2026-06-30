@@ -2,12 +2,8 @@
 function renderGrafik() {
   return `
             <div class="header-nav-tabs justify-content-center" id="rombelTabs">
-                    <a href="#" class="nav-tab-item active">PPLG X-1</a>
-                    <a href="#" class="nav-tab-item">PPLG X-2</a>
-                    <a href="#" class="nav-tab-item">PPLG X-3</a>
-                    <a href="#" class="nav-tab-item">PPLG X-4</a>
-                    <a href="#" class="nav-tab-item">PPLG X-5</a>
-                </div>
+                <!-- rombel tabs diisi oleh renderRombel() -->
+            </div>
 
                 <div class="teacher-schedule">
                     <div class="teacher-schedule-header">
@@ -16,29 +12,7 @@ function renderGrafik() {
                     </div>
 
                     <div class="teacher-list">
-                        <div class="teacher-item">
-                            <div class="teacher-avatar">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="teacher-info">
-                                <div class="teacher-name">Pak Iqbal Fajar Syahbana</div>
-                                <div class="teacher-subject">
-                                    Pemrograman Dasar • 07:00 - 10:00
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="teacher-item">
-                            <div class="teacher-avatar">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="teacher-info">
-                                <div class="teacher-name">Bu Duma dianis sari siregar</div>
-                                <div class="teacher-subject">
-                                    Basis Data • 10:15 - 12:30
-                                </div>
-                            </div>
-                        </div>
+                    <!-- TODO: render teacher list -->
                     </div>
                 </div>
 
@@ -206,7 +180,84 @@ function renderGrafik() {
 
                 </div>
   `;
+
+
 }
+
+
+const guruMap = {
+
+  "PPLG X-1": [
+    {
+      nama: "Pak Iqbal",
+      mapel: "Pemrograman Dasar",
+      jam: "07:00 - 10:00"
+    },
+    {
+      nama: "Bu Duma",
+      mapel: "Basis Data",
+      jam: "10:15 - 12:30"
+    }
+  ],
+
+  "PPLG X-2": [
+    {
+      nama: "Pak Andi",
+      mapel: "Basis Data",
+      jam: "07:00 - 09:30"
+    }
+  ],
+
+  "PPLG XI-1": [
+    {
+      nama: "Bu Sinta",
+      mapel: "Web Programming",
+      jam: "08:00 - 10:00"
+    }
+  ]
+
+};
+
+function renderGuru(rombel) {
+
+  const container = document.querySelector(".teacher-list");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const guru = guruMap[rombel] || [];
+
+  guru.forEach(g => {
+
+    container.innerHTML += `
+        <div class="teacher-item">
+
+            <div class="teacher-avatar">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+            <div class="teacher-info">
+
+                <div class="teacher-name">
+                    ${g.nama}
+                </div>
+
+                <div class="teacher-subject">
+                    ${g.mapel} • ${g.jam}
+                </div>
+
+            </div>
+
+        </div>
+        `;
+
+  });
+
+}
+
+let selectedRombel = "PPLG X-1";
+let selectedKelas = "X";
 const rombelMap = {
   X: [
     "PPLG X-1",
@@ -233,33 +284,64 @@ const rombelMap = {
   ]
 };
 
-function renderRombel(kelas) {
-  const container = document.getElementById("rombelTabs");
-  container.innerHTML = "";
-  for (let i = 1; i <= 5; i++) {
-    container.innerHTML += `
-            <a href="#"
-               class="nav-tab-item ${i === 1 ? "active" : ""}"
-               data-kelas="${kelas}"
-               data-rombel="${i}">
-                PPLG ${kelas}-${i}
-            </a>
-        `;
-  }
-  // console.log(kelas);
-  initTabs();
+function initTabs() {
+  const tabs = document.querySelectorAll("#rombelTabs .nav-tab-item");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", function (e) {
+      e.preventDefault();
+      tabs.forEach(t => t.classList.remove("active"));
+      this.classList.add("active");
+      selectedRombel = this.textContent.trim();
+      renderGuru(selectedRombel);
+      initGrafikListener();
+      // console.log(selectedRombel);
+    });
+  });
 }
 
-const kelasTabs = document.querySelectorAll(".header-panel .nav-tab-item[data-kelas]");
-kelasTabs.forEach(tab => {
-  tab.addEventListener("click", function (e) {
-    e.preventDefault();
-    kelasTabs.forEach(t => t.classList.remove("active"));
-    this.classList.add("active");
-    const kelas = this.dataset.kelas;
-    renderRombel(kelas);
-  });
-});
+function renderRombel(kelas) {
+  const container = document.getElementById("rombelTabs");
+  if (!container) return;
+
+  // Simpan kelas aktif
+  selectedKelas = kelas;
+
+  // Bangun semua tab sekaligus dalam satu string (hindari innerHTML += dalam loop)
+  const tabsHtml = rombelMap[kelas].map((rombel, index) =>
+    `<a href="#" class="nav-tab-item${index === 0 ? ' active' : ''}" data-rombel="${rombel}">${rombel}</a>`
+  ).join('');
+  container.innerHTML = tabsHtml;
+
+  // Set rombel default (pertama)
+  selectedRombel = rombelMap[kelas][0];
+  renderGuru(selectedRombel);
+
+  // Pasang listener rombel tabs SETELAH DOM diperbarui
+  initTabs();
+
+  // Muat data untuk rombel yang aktif
+  initGrafikListener();
+}
+
+// function renderRombel(kelas) {
+//   const container = document.getElementById("rombelTabs");
+//   container.innerHTML = "";
+//   for (let i = 1; i <= 5; i++) {
+//     container.innerHTML += `
+//             <a href="#"
+//                class="nav-tab-item ${i === 1 ? "active" : ""}"
+//                data-kelas="${kelas}"
+//                data-rombel="${i}">
+//                 PPLG ${kelas}-${i}
+//             </a>
+//         `;
+//   }
+//   // console.log(kelas);
+//   initTabs();
+// }
+
+// Listener kelas tabs dipasang di dalam initDashboardListener()
+// agar bekerja saat halaman di-load lewat SPA router
 
 let clockInterval = null;
 
@@ -280,23 +362,37 @@ function initDashboardListener() {
     let minutes = now.getMinutes().toString().padStart(2, "0");
     let seconds = now.getSeconds().toString().padStart(2, "0");
     let localDate = now.toLocaleDateString("id-ID", dateOptions);
-
     if (timeElement) timeElement.innerHTML = `${hours}:${minutes}:${seconds}`;
     if (dateElement) dateElement.innerHTML = `${localDate}`;
   }
 
-  // Perbaikan validasi interval biar gak bikin crash kodingan di bawahnya
   if (typeof clockInterval !== "undefined" && clockInterval !== null) {
     clearInterval(clockInterval);
   }
-
   updateClock();
   clockInterval = setInterval(updateClock, 1000);
 
-  // Jalankan inisialisasi tab kelas
-  if (typeof initTabs === 'function') {
-    initTabs();
-  }
+  // ── Pasang listener untuk Kelas X / XI / XII di sini ──
+  // (harus di dalam initDashboardListener agar bekerja saat SPA router load)
+  const kelasTabs = document.querySelectorAll(".header-panel .nav-tab-item[data-kelas]");
+  kelasTabs.forEach(tab => {
+    // Hapus listener lama dulu supaya tidak dobel
+    const newTab = tab.cloneNode(true);
+    tab.parentNode.replaceChild(newTab, tab);
+  });
+  // Ambil ulang setelah clone
+  document.querySelectorAll(".header-panel .nav-tab-item[data-kelas]").forEach(tab => {
+    tab.addEventListener("click", function (e) {
+      e.preventDefault();
+      document.querySelectorAll(".header-panel .nav-tab-item[data-kelas]").forEach(t => t.classList.remove("active"));
+      this.classList.add("active");
+      const kelas = this.dataset.kelas;
+      renderRombel(kelas);
+    });
+  });
+
+  // Inisialisasi rombel default (Kelas X → PPLG X-1) dan muat data pertama kali
+  renderRombel(selectedKelas);
 }
 
 
@@ -353,9 +449,22 @@ function gridLines(svg, max, steps) {
   }
 }
 
+// ── Helper: normalisasi format rombel ──────────────────────────────────
+// DB menyimpan rombel sebagai "X_3", "XI_2", dsb.
+// Frontend menampilkan sebagai "PPLG X-3", "PPLG XI-2", dsb.
+// Fungsi ini mengubah keduanya ke key yang sama sehingga bisa dibandingkan.
+function normalizeRombel(r) {
+  if (!r) return '';
+  return String(r)
+    .replace(/pplg\s*/i, '')   // hapus prefix "PPLG "
+    .replace(/[-\s]/g, '_')    // ubah dash / spasi jadi underscore
+    .toUpperCase()             // uppercase supaya case-insensitive
+    .trim();
+}
+// ─────────────────────────────────────────────────────────────────────
+
 // ===================== 1. Kehadiran 7 Hari Terakhir (single line) =====================
-window.initGrafikListerner = async function () {
-  initDashboardListener();
+window.initGrafikListener = async function () {
 
   let users = [];
   let attendances = [];
@@ -375,15 +484,27 @@ window.initGrafikListerner = async function () {
   }
 
   const td = new Date();
+  // Filter pakai normalizeRombel supaya cocok walaupun format beda ("PPLG X-3" vs "X_3")
+  const selectedRombelKey = normalizeRombel(selectedRombel);
+  const usersRombel = users.filter(
+    user => normalizeRombel(user.rombel) === selectedRombelKey
+  );
+  const idcards = usersRombel.map(u => String(u.idcard).trim());
+
   const todayAtt = attendances.filter(a => {
     if (!a.created_at) return false;
     const d = new Date(a.created_at);
     return d.getFullYear() === td.getFullYear() && d.getMonth() === td.getMonth() && d.getDate() === td.getDate();
   });
 
-  const totalSiswa = users.length;
+  const todayAttRombel = todayAtt.filter(att =>
+    idcards.includes(String(att.idcard).trim())
+  );
+
+
+  const totalSiswa = usersRombel.length;
   const hadirMap = new Map();
-  todayAtt.forEach(a => {
+  todayAttRombel.forEach(a => {
     let cId = String(a.idcard || '').trim();
     if (cId) {
       if (!hadirMap.has(cId)) {
@@ -406,7 +527,7 @@ window.initGrafikListerner = async function () {
   let countTepat = 0;
   let countTerlambat = 0;
 
-  users.forEach(u => {
+  usersRombel.forEach(u => {
     let uId = String(u.idcard || '').trim();
     if (uId && hadirMap.has(uId)) {
       let timeStr = "00:00";
@@ -416,7 +537,8 @@ window.initGrafikListerner = async function () {
         const dtt = new Date(attObj.created_at);
         const hrs = dtt.getHours();
         const mins = dtt.getMinutes();
-        if (hrs > 8 || (hrs === 8 && mins > 30)) {
+        // Batas tepat waktu: 07:30
+        if (hrs > 7 || (hrs === 7 && mins >= 30)) {
           isTerlambat = true;
         }
         timeStr = String(hrs).padStart(2, '0') + ':' + String(mins).padStart(2, '0');
@@ -452,7 +574,10 @@ window.initGrafikListerner = async function () {
     const atts = attendances.filter(a => {
       if (!a.created_at) return false;
       const ad = new Date(a.created_at);
-      return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth() && ad.getDate() === d.getDate();
+      return (ad.getFullYear() === d.getFullYear() &&
+        ad.getMonth() === d.getMonth() &&
+        ad.getDate() === d.getDate()) &&
+        idcards.includes(String(a.idcard).trim());
     });
     const unique = new Set(atts.map(a => String(a.idcard).trim())).size;
     trendData.push(unique || 0);
@@ -466,23 +591,18 @@ window.initGrafikListerner = async function () {
     { label: "Tidak Hadir", value: totalBelum, color: "#E25C5C" }
   ];
 
-  // Jam Tap-in
-  const nowHrs = new Date().getHours();
+  // Jam Tap-in — selalu tampilkan 07:00 sampai 14:00 (8 slot)
+  const TAP_START_HR = 7; // mulai jam 7 pagi
   const tLabels = [];
-  const startHr = nowHrs - 7;
   for (let i = 0; i < 8; i++) {
-    let h = startHr + i;
-    let label = "";
-    if (h < 0) label = "<00:00";
-    else label = String(h).padStart(2, '0') + ":00";
-    tLabels.push(label);
+    tLabels.push(String(TAP_START_HR + i).padStart(2, '0') + ":00");
   }
 
   let tBins = [0, 0, 0, 0, 0, 0, 0, 0];
   Array.from(hadirMap.values()).forEach(a => {
     if (a.created_at) {
       const hrs = new Date(a.created_at).getHours();
-      let binIdx = hrs - startHr;
+      let binIdx = hrs - TAP_START_HR;
       if (binIdx < 0) binIdx = 0;
       if (binIdx > 7) binIdx = 7;
       tBins[binIdx]++;
@@ -770,10 +890,15 @@ window.initGrafikListerner = async function () {
     const n = data.length;
 
     const box = document.getElementById("timeChart");
+    if (!box) return;
+
+    box.innerHTML = "";
+
     const svg = svgEl("svg", {
       viewBox: `0 0 ${VW} ${VH}`,
       preserveAspectRatio: "none",
     });
+
     box.appendChild(svg);
     gridLines(svg, max, 4);
 
@@ -829,6 +954,69 @@ window.initGrafikListerner = async function () {
       t.textContent = labels[i];
       svg.appendChild(t);
     });
+  })();
+
+  // ===================== 5. Perlu Perhatian (absen >= 3 kali dalam 30 hari) =====================
+  (async function () {
+    const list = document.getElementById("perhatianList");
+    const pill = document.getElementById("perhatianCountPill");
+    if (!list) return;
+
+    // Hitung absensi 30 hari terakhir per siswa dalam rombel ini
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+
+    // Kumpulkan hari-hari sekolah dalam 30 hari terakhir (Senin-Jumat)
+    const schoolDays = [];
+    for (let i = 1; i <= 30; i++) {
+      const d = new Date();
+      d.setDate(today.getDate() - i);
+      const dow = d.getDay();
+      if (dow >= 1 && dow <= 5) schoolDays.push(d);
+    }
+
+    // Untuk setiap siswa di rombel ini, hitung berapa hari tidak hadir dalam 30 hari
+    const perhatianSiswa = [];
+    usersRombel.forEach(u => {
+      const uId = String(u.idcard || '').trim();
+      let absentCount = 0;
+      schoolDays.forEach(sd => {
+        const hadir = attendances.some(a => {
+          if (!a.created_at) return false;
+          const ad = new Date(a.created_at);
+          return String(a.idcard || '').trim() === uId &&
+            ad.getFullYear() === sd.getFullYear() &&
+            ad.getMonth() === sd.getMonth() &&
+            ad.getDate() === sd.getDate();
+        });
+        if (!hadir) absentCount++;
+      });
+      // Masukkan ke 'perlu perhatian' jika absen 3–5 kali atau lebih
+      if (absentCount >= 3) {
+        perhatianSiswa.push({ name: u.username, rombel: u.rombel, absentCount });
+      }
+    });
+
+    // Urutkan dari yang paling banyak absen
+    perhatianSiswa.sort((a, b) => b.absentCount - a.absentCount);
+
+    list.innerHTML = '';
+    if (perhatianSiswa.length === 0) {
+      list.innerHTML = `<div style="padding:16px;text-align:center;color:#9CA3AF;font-size:13px;">Tidak ada siswa yang perlu perhatian khusus 👍</div>`;
+    } else {
+      perhatianSiswa.forEach(s => {
+        const row = document.createElement('div');
+        row.className = 'rank-item';
+        const badgeColor = s.absentCount >= 8 ? '#DC2626' : s.absentCount >= 5 ? '#F0973C' : '#EAB308';
+        row.innerHTML = `
+          <div class="avatar"></div>
+          <div class="rank-info"><div class="nm">${s.name}</div><div class="rb">${s.rombel || '-'}</div></div>
+          <span class="rank-tag" style="background:${badgeColor}20;color:${badgeColor};border:1px solid ${badgeColor}40;">${s.absentCount}x absen</span>`;
+        list.appendChild(row);
+      });
+    }
+    if (pill) pill.textContent = perhatianSiswa.length + ' siswa';
   })();
 };
 

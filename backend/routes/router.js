@@ -39,7 +39,7 @@ function navigateTo(page) {
         case "statistika":
             if (typeof renderGrafik !== 'undefined') {
                 content.innerHTML = renderGrafik();
-                if (typeof initGrafikListerner !== 'undefined') initGrafikListerner();
+                if (typeof initDashboardListener !== 'undefined') initDashboardListener();
             } else {
                 window.location.href = '/frontEnd/page/structure/statistika.html';
             }
