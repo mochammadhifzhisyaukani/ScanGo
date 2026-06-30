@@ -3,7 +3,7 @@ navbar.innerHTML = `
 <nav class="navbar navbar-expand-lg mt-4 animate__animated animate__fadeIn mt-3">
   <div class="container-fluid d-flex align-items-center"> <div class="d-flex align-items-center style-brand">
       <img src="/frontEnd/assets/logo/favicon.png" style="height: 40px;" class="ms-4">
-      <a class="navbar-brand ms-3" href="/index.html" style="font-weight: bold; font-size: 25px; background: black; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ScanGo</a>
+      <a class="navbar-brand ms-3" href="/index.html" style="font-weight: bold; font-size: 25px; color: var(--color-teks) !important;">ScanGo</a>
     </div>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@ navbar.innerHTML = `
         </div>
 
         <div class="d-flex justify-content-center gap-2">
-          <button type="button" id="btnTema" class="nav-link text-center btn-theme px-4"><i class="bi bi-gear-fill" style="margin-right: 5px;"></i> Pengaturan</button>
+          <button type="button" id="btnTema" class="nav-link text-center btn-theme px-4" style="color: var(--teks-nav-btn) !important;"><i class="bi bi-gear-fill" style="margin-right: 5px;"></i> Pengaturan</button>
         </div>
 
         <div id="menuAksesibilitas" class="accessibility-dropdown d-none animate__animated animate__fadeIn">

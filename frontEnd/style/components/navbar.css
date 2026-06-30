@@ -1,5 +1,5 @@
 nav {
-  background-color: #ffffff !important;
+  background-color: var(--bg-sidebar) !important;
   border-radius: 20px;
 }
 
@@ -14,17 +14,11 @@ nav {
 }
 
 .btn-theme {
-  background-color: black !important;
-  color: white !important;
+  background-color: var(--color-teks) !important;
+  color: var(--teks-nav-btn) !important;
   border-radius: 10px;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
-}
-
-.btn-theme:hover {
-  color: black !important;
-  background-color: #f1f5f9 !important;
-  transform: translateY(-1px);
 }
 
 .btn-hero a {
@@ -33,6 +27,7 @@ nav {
 
 .nav-link {
   transition: all 0.2s ease-in-out;
+  color: var(--color-teks) !important;
 }
 
 .nav-link:hover:not(.btn-signIn) {
@@ -45,13 +40,13 @@ nav {
   top: 90px;
   color: black !important;
   right: 10px;
-  width: 320px; 
+  width: 320px;
   min-height: 100px;
   background-color: #ffffff;
-  border-radius: 24px; 
-  padding: 24px; 
+  border-radius: 24px;
+  padding: 24px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-  z-index: 1050; 
+  z-index: 1050;
 }
 
 @media (max-width: 768px) {

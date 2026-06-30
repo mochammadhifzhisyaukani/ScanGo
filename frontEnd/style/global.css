@@ -32,8 +32,10 @@ body {
   --bg-sidebar: #ffffff;
   --bg-tab: #e2e8f0;
   --border-sidebar: #f1f3f7;
-  --bg-hover: rgba(79,70,229,0.02);
+  --bg-hover: rgba(79, 70, 229, 0.02);
   --color-stat: #1e293b;
+
+  --teks-nav-btn: white;
 }
 
 [data-theme="dark"] {
@@ -70,9 +72,11 @@ body {
   --bg-content: #0f172a;
   --bg-sidebar: #1e293b;
   --bg-tab: #1e293b;
-  --border-sidebar: rgba(255,255,255,0.06);
-  --bg-hover: rgba(255,255,255,0.03);
+  --border-sidebar: rgba(255, 255, 255, 0.06);
+  --bg-hover: rgba(255, 255, 255, 0.03);
   --color-stat: #f1f5f9;
+
+  --teks-nav-btn: black;
 }
 
 /* .card {

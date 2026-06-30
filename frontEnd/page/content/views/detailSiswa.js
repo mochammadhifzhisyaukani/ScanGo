@@ -73,11 +73,19 @@ function initDetailSiswaListener(routerState) {
       let totalMenit = 0;
       if (historyData.success && historyData.data.length > 0) {
         historyData.data.forEach((att) => {
-          if (att.status === "Hadir" || !att.status) totalMenit += 480;
+          if (att.time_finish) {
+            const ms = new Date(att.time_finish) - new Date(att.created_at);
+            if (ms > 0) totalMenit += ms / 60000;
+          } else if (att.status === "Hadir" || !att.status) {
+            const ms = Date.now() - new Date(att.created_at);
+            if (ms > 0) totalMenit += ms / 60000;
+          }
         });
       }
       const totalDurasiLabel =
-        totalMenit > 0 ? `${Math.round(totalMenit / 60)} Jam` : "-";
+        totalMenit > 0
+          ? `${Math.floor(totalMenit / 60)}j ${Math.round(totalMenit % 60)}m`
+          : "-";
 
       document.getElementById("profileInfo").innerHTML = `
             <div class="detail-name">${user.username}</div>
@@ -124,6 +132,27 @@ function initDetailSiswaListener(routerState) {
 
       const dataTerbatas = historyData.data.slice(0, 15);
 
+      function formatJam(dateStr) {
+        if (!dateStr) return "-";
+        return new Date(dateStr).toLocaleTimeString("id-ID", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        });
+      }
+
+      function hitungDurasi(masukStr, keluarStr) {
+        if (!masukStr) return "-";
+        const ms = keluarStr
+          ? new Date(keluarStr) - new Date(masukStr)
+          : Date.now() - new Date(masukStr);
+        if (ms <= 0) return "-";
+        const jam = Math.floor(ms / 3600000);
+        const menit = Math.round((ms % 3600000) / 60000);
+        return `${jam}j ${menit}m`;
+      }
+
       const rows = dataTerbatas
         .map((att) => {
           const dt = new Date(att.created_at);
@@ -132,12 +161,9 @@ function initDetailSiswaListener(routerState) {
             month: "short",
             year: "numeric",
           });
-          const jamMasuk = dt.toLocaleTimeString("id-ID", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false,
-          });
+          const jamMasuk = formatJam(att.created_at);
+          const jamKeluar = formatJam(att.time_finish);
+          const durasi = hitungDurasi(att.created_at, att.time_finish);
           const statusClass =
             att.status === "Hadir"
               ? "status-badge-hadir"
@@ -147,8 +173,8 @@ function initDetailSiswaListener(routerState) {
                 <tr>
                     <td><strong>${tanggal}</strong></td>
                     <td><span class="jam-badge-masuk">${jamMasuk}</span></td>
-                    <td><span class="jam-badge-keluar">15:30</span></td>
-                    <td>8 Jam</td>
+                    <td><span class="jam-badge-keluar">${jamKeluar}</span></td>
+                    <td>${durasi}</td>
                     <td><span class="${statusClass}">${att.status || "Hadir"}</span></td>
                 </tr>
             `;

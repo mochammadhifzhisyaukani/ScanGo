@@ -180,7 +180,7 @@ async function cariNamaSiswa(nama) {
     if (!json.success) return;
 
     const found = (json.data || []).find(
-      (u) => (u.username || "").toLowerCase() === nama.toLowerCase()
+      (u) => (u.username || "").toLowerCase() === nama.toLowerCase(),
     );
 
     if (found) {
@@ -193,12 +193,16 @@ async function cariNamaSiswa(nama) {
   }
 }
 
+let lastCardId = null;
+
 async function submitScan() {
   const cardId = document.getElementById("card-id-input").value.trim();
   if (!cardId) {
-    showToast("warning", "Masukkan ID kartu RFID terlebih dahulu");
+    showToast("Masukkan ID kartu RFID terlebih dahulu", "warning");
     return;
   }
+  if (lastCardId === cardId) return;
+  lastCardId = cardId;
 
   const statusEl = document.getElementById("scan-status");
   const resultEl = document.getElementById("scan-result");
@@ -206,22 +210,75 @@ async function submitScan() {
     '<span class="scan-status-badge scanning"><i class="bi bi-arrow-repeat"></i> Memproses...</span>';
 
   try {
-    const response = await fetch(
-      "http://localhost:3000/api/attendances/store?idcard=" +
-        encodeURIComponent(cardId) +
-        "&mac_address=RFID",
-      {
-        method: "POST",
-        headers: { "api-token": "12345" },
-      },
-    );
+    const resCheck = await fetch("http://localhost:3000/api/attendances", {
+      headers: { "api-token": "12345" },
+    });
+    const jsonCheck = await resCheck.json();
+
+    let dataHariIni = null;
+    if (jsonCheck.success) {
+      const todayStr = new Date().toLocaleDateString("sv-SE");
+
+      const logHariIni = (jsonCheck.data || []).filter((row) => {
+        const tglLog = row.created_at
+          ? new Date(row.created_at).toLocaleDateString("sv-SE")
+          : "";
+        return row.idcard === cardId && tglLog === todayStr;
+      });
+
+      if (logHariIni.length > 0) {
+        dataHariIni = logHariIni[0];
+      }
+    }
+
+    let response;
+    if (dataHariIni) {
+      if (dataHariIni.time_finish || dataHariIni.status_keluar) {
+        statusEl.innerHTML =
+          '<span class="scan-status-badge error"><i class="bi bi-exclamation-octagon-fill"></i> Ditolak</span>';
+        resultEl.innerHTML = `<div class="alert alert-warning"><i class="bi bi-exclamation-octagon-fill"></i> Anda sudah absen masuk & keluar hari ini!</div>`;
+        showToast("Kuota absen hari ini sudah habis", "warning");
+        return;
+      }
+
+      const sekarangJam = new Date().toISOString();
+
+      response = await fetch(
+        `http://localhost:3000/api/attendances/${dataHariIni.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "api-token": "12345",
+          },
+          body: JSON.stringify({
+            time_finish: sekarangJam,
+          }),
+        },
+      );
+    } else {
+      response = await fetch(
+        "http://localhost:3000/api/attendances/store?idcard=" +
+          encodeURIComponent(cardId) +
+          "&mac_address=RFID",
+        {
+          method: "POST",
+          headers: { "api-token": "12345" },
+        },
+      );
+    }
 
     const data = await response.json();
 
     if (response.ok && data.success) {
       statusEl.innerHTML =
         '<span class="scan-status-badge success"><i class="bi bi-check-circle-fill"></i> Berhasil!</span>';
-      resultEl.innerHTML = `<div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> ${data.message || "Kehadiran berhasil dicatat"}</div>`;
+
+      const pesanSukses = dataHariIni
+        ? "Absen KELUAR berhasil dicatat!"
+        : "Absen MASUK berhasil dicatat!";
+      resultEl.innerHTML = `<div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> ${pesanSukses}</div>`;
+      showToast(pesanSukses, "success");
 
       setTimeout(() => {
         if (typeof navigateTo === "function") {
@@ -233,20 +290,22 @@ async function submitScan() {
     } else {
       statusEl.innerHTML =
         '<span class="scan-status-badge error"><i class="bi bi-x-circle-fill"></i> Gagal</span>';
-      resultEl.innerHTML = `<div class="alert alert-danger"><i class="bi bi-x-circle-fill"></i> ${data.error || data.message || "Gagal mencatat kehadiran"}</div>`;
+      resultEl.innerHTML = `<div class="alert alert-danger"><i class="bi bi-x-circle-fill"></i> ${data.error || data.message || "Gagal memproses absensi"}</div>`;
     }
   } catch (error) {
     statusEl.innerHTML =
       '<span class="scan-status-badge error"><i class="bi bi-wifi-off"></i> Error</span>';
     resultEl.innerHTML =
-      '<div class="alert alert-danger"><i class="bi bi-wifi-off"></i> Terjadi kesalahan koneksi ke server</div>';
+      '<div class="alert alert-danger">Terjadi kesalahan koneksi ke server</div>';
+  } finally {
+    document.getElementById("card-id-input").value = "";
+    document.getElementById("card-id-input").focus();
+    if (lastCardId === cardId) lastCardId = null;
   }
-
-  document.getElementById("card-id-input").value = "";
-  document.getElementById("card-id-input").focus();
 }
 
 async function submitManual() {
+  if (lastCardId) return;
   const nama = document.getElementById("manual-nama").value.trim();
   const status = document.getElementById("manual-status").value;
   const keterangan = document.getElementById("manual-keterangan").value.trim();
@@ -257,14 +316,68 @@ async function submitManual() {
     document.getElementById("manual-nama").focus();
     return;
   }
+  scanLock = true;
 
   resultManualEl.innerHTML =
     '<div class="alert alert-warning">Menyimpan data...</div>';
 
   try {
-    const response = await fetch(
-      "http://localhost:3000/api/attendances/manual",
-      {
+    const resCheck = await fetch("http://localhost:3000/api/attendances", {
+      headers: { "api-token": "12345" },
+    });
+    const jsonCheck = await resCheck.json();
+
+    let dataHariIni = null;
+    if (jsonCheck.success) {
+      const todayStr = new Date().toLocaleDateString("sv-SE");
+
+      const logHariIni = (jsonCheck.data || []).filter((row) => {
+        const tglLog = row.created_at
+          ? new Date(row.created_at).toLocaleDateString("sv-SE")
+          : "";
+        const namaSiswaLog = row.users
+          ? Array.isArray(row.users)
+            ? row.users[0]?.username
+            : row.users.username
+          : null;
+
+        return (
+          namaSiswaLog &&
+          namaSiswaLog.toLowerCase() === nama.toLowerCase() &&
+          tglLog === todayStr
+        );
+      });
+
+      if (logHariIni.length > 0) {
+        dataHariIni = logHariIni[0];
+      }
+    }
+
+    let response;
+    if (dataHariIni) {
+      if (dataHariIni.time_finish) {
+        resultManualEl.innerHTML = `<div class="alert alert-warning"><i class="bi bi-exclamation-octagon-fill"></i> Siswa ini sudah absen masuk & keluar hari ini!</div>`;
+        showToast("Kuota absensi siswa ini sudah penuh", "warning");
+        return;
+      }
+
+      const sekarangJam = new Date().toISOString();
+
+      response = await fetch(
+        `http://localhost:3000/api/attendances/${dataHariIni.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "api-token": "12345",
+          },
+          body: JSON.stringify({
+            time_finish: sekarangJam,
+          }),
+        },
+      );
+    } else {
+      response = await fetch("http://localhost:3000/api/attendances/manual", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -275,13 +388,16 @@ async function submitManual() {
           status: status,
           keterangan: keterangan,
         }),
-      },
-    );
+      });
+    }
 
     const data = await response.json();
 
     if (response.ok && data.success) {
-      resultManualEl.innerHTML = `<div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> ${data.message || `Absensi manual ${nama} berhasil!`}</div>`;
+      const pesanSukses = dataHariIni
+        ? `Absen keluar untuk ${nama} berhasil diupdate!`
+        : `Absensi manual ${nama} berhasil disimpan!`;
+      resultManualEl.innerHTML = `<div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> ${data.message || pesanSukses}</div>`;
 
       document.getElementById("manual-nama").value = "";
       document.getElementById("manual-keterangan").value = "";
@@ -290,7 +406,7 @@ async function submitManual() {
       const feedback = document.getElementById("nama-feedback");
       if (feedback) feedback.remove();
 
-      showToast("Absensi manual berhasil disimpan!", "success");
+      showToast(pesanSukses, "success");
 
       setTimeout(() => {
         resultManualEl.innerHTML = "";
@@ -298,10 +414,12 @@ async function submitManual() {
       }, 1500);
     } else {
       resultManualEl.innerHTML = `<div class="alert alert-danger">Gagal: ${data.error || data.message || "Terjadi kesalahan"}</div>`;
-      showToast(data.error || "Gagal menyimpan absensi", "danger");
+      showToast(data.error || "Gagal memproses absensi", "danger");
     }
   } catch (error) {
     resultManualEl.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan koneksi ke server</div>`;
     showToast("Koneksi ke server gagal", "danger");
+  } finally {
+    lastCardId = null;
   }
 }

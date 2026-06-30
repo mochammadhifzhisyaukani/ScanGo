@@ -5,18 +5,6 @@ function renderGrafik() {
                 <!-- rombel tabs diisi oleh renderRombel() -->
             </div>
 
-                <div class="teacher-schedule">
-                    <div class="teacher-schedule-header">
-                        <i class="bi bi-person-workspace"></i>
-                        <span>Guru Mengajar Hari Ini</span>
-                    </div>
-
-                    <div class="teacher-list">
-                    <!-- TODO: render teacher list -->
-                    </div>
-                </div>
-
-
                 <div class="wrap">
                     <div class="summary">
                         <div class="scard">
@@ -185,38 +173,38 @@ function renderGrafik() {
 }
 
 
-const guruMap = {
+// const guruMap = {
 
-  "PPLG X-1": [
-    {
-      nama: "Pak Iqbal",
-      mapel: "Pemrograman Dasar",
-      jam: "07:00 - 10:00"
-    },
-    {
-      nama: "Bu Duma",
-      mapel: "Basis Data",
-      jam: "10:15 - 12:30"
-    }
-  ],
+//   "PPLG X-1": [
+//     {
+//       nama: "Pak Iqbal",
+//       mapel: "Pemrograman Dasar",
+//       jam: "07:00 - 10:00"
+//     },
+//     {
+//       nama: "Bu Duma",
+//       mapel: "Basis Data",
+//       jam: "10:15 - 12:30"
+//     }
+//   ],
 
-  "PPLG X-2": [
-    {
-      nama: "Pak Andi",
-      mapel: "Basis Data",
-      jam: "07:00 - 09:30"
-    }
-  ],
+//   "PPLG X-2": [
+//     {
+//       nama: "Pak Andi",
+//       mapel: "Basis Data",
+//       jam: "07:00 - 09:30"
+//     }
+//   ],
 
-  "PPLG XI-1": [
-    {
-      nama: "Bu Sinta",
-      mapel: "Web Programming",
-      jam: "08:00 - 10:00"
-    }
-  ]
+//   "PPLG XI-1": [
+//     {
+//       nama: "Bu Sinta",
+//       mapel: "Web Programming",
+//       jam: "08:00 - 10:00"
+//     }
+//   ]
 
-};
+// };
 
 function renderGuru(rombel) {
 

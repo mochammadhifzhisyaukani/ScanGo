@@ -47,6 +47,30 @@ app.post("/api/attendances/store", async (req, res) => {
 
     const namaPemilik = uservalid.username || "Siswa";
 
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const { data: existing, error: existingError } = await supabase
+      .from("attendances")
+      .select("id, time_finish")
+      .eq("idcard", idcard)
+      .gte("created_at", todayStart.toISOString())
+      .lte("created_at", todayEnd.toISOString())
+      .maybeSingle();
+
+    if (existingError) throw existingError;
+
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        message: `Kartu ini sudah absen hari ini. Silahkan tap sekali lagi untuk absen keluar.`,
+        already_checked_in: true,
+        attendance_id: existing.id,
+      });
+    }
+
     const { data: attendanceData, error: insertError } = await supabase
       .from("attendances")
       .insert([
@@ -279,6 +303,60 @@ app.put("/api/users/:nis", async (req, res) => {
   } catch (error) {
     console.error("Error saat update: ", error);
     return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.put("/api/attendances/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { time_finish, status, note } = req.body;
+
+    const updateData = {};
+    if (time_finish) updateData.time_finish = time_finish;
+    if (status) updateData.status = status;
+    if (note !== undefined) updateData.note = note;
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ success: false, error: "Tidak ada data yang diupdate" });
+    }
+
+    const { data, error } = await supabase
+      .from("attendances")
+      .update(updateData)
+      .eq("id", id)
+      .select();
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ success: false, error: "Data absensi tidak ditemukan" });
+    }
+
+    res.json({ success: true, message: "Data absensi berhasil diupdate", data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.delete("/api/attendances/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { data, error } = await supabase
+      .from("attendances")
+      .delete()
+      .eq("id", id)
+      .select();
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ success: false, error: "Data absensi tidak ditemukan" });
+    }
+
+    res.json({ success: true, message: "Data absensi berhasil dihapus" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

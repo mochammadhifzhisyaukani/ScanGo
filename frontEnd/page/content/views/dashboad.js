@@ -100,10 +100,22 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
     });
   }
 
-  const totalHadir = dataFiltered.filter(r => (r.status || "").toLowerCase() === "hadir" || (r.status || "").toLowerCase() === "terlambat").length;
-  const totalSakit = dataFiltered.filter(r => (r.status || "").toLowerCase() === "sakit").length;
-  const totalIzin = dataFiltered.filter(r => (r.status || "").toLowerCase() === "izin").length;
-  const totalAlpa = dataFiltered.filter(r => (r.status || "").toLowerCase() === "alfa" || (r.status || "").toLowerCase() === "alpa").length;
+  const totalHadir = dataFiltered.filter(
+    (r) =>
+      (r.status || "").toLowerCase() === "hadir" ||
+      (r.status || "").toLowerCase() === "terlambat",
+  ).length;
+  const totalSakit = dataFiltered.filter(
+    (r) => (r.status || "").toLowerCase() === "sakit",
+  ).length;
+  const totalIzin = dataFiltered.filter(
+    (r) => (r.status || "").toLowerCase() === "izin",
+  ).length;
+  const totalAlpa = dataFiltered.filter(
+    (r) =>
+      (r.status || "").toLowerCase() === "alfa" ||
+      (r.status || "").toLowerCase() === "alpa",
+  ).length;
   const emptyMessage = currentSelectedRombel
     ? "Siswa belum absen"
     : "Belum ada riwayat tap kartu pada tanggal ini";
@@ -115,6 +127,13 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
           .map((row) => {
             const jamAbsen = row.created_at
               ? new Date(row.created_at).toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "-";
+
+            const jamKeluar = row.time_finish
+              ? new Date(row.time_finish).toLocaleTimeString("en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })
@@ -138,6 +157,7 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     <td class="text-muted">${row.idcard || "-"}</td>
                     <td class="fw-semibold">${row.rombel || "-"}</td>
                     <td class="fw-semibold">${jamAbsen || "-"}</td>
+                    <td class="fw-semibold">${jamKeluar || "-"}</td>
                     <td class="text-muted">${row.note || "-"}</td>
                     <td><span class="status-badge ${getStatusClass(row.status)}">${row.status || "Hadir"}</span></td>
                 </tr>
@@ -243,7 +263,8 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                             <th style="width: 15%;">Nama Lengkap</th>
                             <th style="width: 15%;">Id RFID</th>
                             <th style="width: 15%;">Rombel</th>
-                            <th style="width: 12%;">Jam Absen</th>
+                            <th style="width: 12%;">Absen Masuk</th>
+                            <th style="width: 12%;">Absen Keluar</th>
                             <th style="width: 12%;">Keterangan</th>
                             <th style="width: 12%;">Status</th>
                         </tr>
@@ -449,4 +470,3 @@ if (saveBtn) {
     }
   });
 }
-
