@@ -15,50 +15,95 @@
 }
 
 .sidebar {
-  width: 72px;
+  width: 240px;
+  /* Diubah dari 72px ke 240px agar muat tulisan */
   background-color: var(--bg-sidebar);
   border-right: 1px solid var(--border-sidebar);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
+  align-items: flex-start;
+  /* Diubah dari center ke flex-start agar teks rata kiri */
+  padding: 24px;
+  /* Diubah agar padding-nya merata dan rapi */
   gap: 24px;
   flex-shrink: 0;
   transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
+.sidebar.collapsed {
+  width: 0 !important;
+  padding: 0 !important;
+  border-right: none !important;
+}
+
 .sidebar-logo {
-  width: 42px;
-  height: 42px;
-  background-color: #e0e7ff;
-  border-radius: 12px;
+  width: 100%;
+  height: auto;
+  background-color: transparent !important;
+  /* Menghapus warna biru yang memanjang */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Tetap rata kiri */
+  padding-left: 8px;
+  /* Jarak logo dari pinggir sidebar */
+  margin-bottom: 24px;
+}
+
+.sidebar-logo a {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4f46e5;
-  font-size: 1.4rem;
-  margin-bottom: 12px;
+  width: 42px;
+  /* Mengunci lebar kotak logo */
+  height: 42px;
+  /* Mengunci tinggi kotak logo */
+  background-color: #e0e7ff;
+  /* Warna biru kotak kecil dipasang di sini */
+  border-radius: 12px;
+  /* Sudut membulat kotak logo */
+}
+
+.sidebar-logo a img {
+  height: 24px;
+  /* Sesuaikan tingginya agar tidak mentok kotak biru */
+  width: auto;
+  object-fit: contain;
 }
 
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
+  /* Diperkecil jarak antar menu vertikalnya agar lebih rapi */
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .menu-icon {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--color-sub);
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  /* Diubah dari 40px ke 100% agar memanjang ke kanan */
+  height: 44px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  /* Diubah dari center ke flex-start */
+  padding: 0 12px;
+  /* Tambah padding dalam agar tidak mentok kiri */
+  gap: 12px;
+  /* Jarak antara ikon dan teks menu */
   border-radius: 10px;
+  text-decoration: none;
+  /* Jaga-jaga kalau pakai tag <a> */
+}
+
+.menu-icon span {
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .menu-icon:hover,
@@ -72,6 +117,43 @@
   padding: 24px 32px;
   background-color: var(--bg-content);
   transition: background-color var(--transition-speed);
+}
+
+/* Efek interaktif tombol menu grid di dalam handphone */
+.offcanvas-body .row .col-4 {
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.offcanvas-body .row .col-4:active {
+  transform: scale(0.95);
+  /* Efek membal saat ditekan di HP */
+}
+
+/* Memastikan background bottom sheet mengikuti variabel tema dashboard kamu */
+.offcanvas.offcanvas-bottom {
+  background-color: var(--color-card-bg) !important;
+  color: var(--color-teks) !important;
+  border-top: 1px solid var(--border-sidebar);
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid var(--border-form) !important;
+}
+
+.offcanvas-title {
+  color: var(--color-teks) !important;
+  font-weight: 700;
+}
+
+/* Mengatur ukuran teks icon menu di bottom sheet */
+.offcanvas-body .bi {
+  color: var(--color-sub);
+}
+
+/* Mengatur warna label menu di bottom sheet */
+.offcanvas-body .small {
+  color: var(--color-teks-sub, var(--color-sub));
 }
 
 .header-panel {
@@ -207,6 +289,21 @@
   display: inline-block;
 }
 
+.status-sick {
+  background-color: #FA6868;
+  color: white;
+}
+
+.status-alpha {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.status-izin {
+  background-color: #89D4FF;
+  color: #1A05A2;
+}
+
 .status-present {
   background-color: #ecfdf5;
   color: #10b981;
@@ -265,8 +362,8 @@
 }
 
 .modal-backdrop {
-  background-color: rgba(15, 23, 42, 0.3) !important; 
-  backdrop-filter: blur(4px); 
+  background-color: rgba(15, 23, 42, 0.3) !important;
+  backdrop-filter: blur(4px);
 }
 
 #modalTheme .modal-content {
@@ -280,12 +377,12 @@
 }
 
 #modalTheme .modal-header {
-  border-bottom: 1px solid var(--border-form) !important; 
+  border-bottom: 1px solid var(--border-form) !important;
   padding: 20px 24px !important;
 }
 
 #modalTheme .modal-title {
-  color: var(--color-teks); 
+  color: var(--color-teks);
   font-weight: 700 !important;
   font-size: 1.2rem !important;
   letter-spacing: -0.02em;
@@ -299,7 +396,7 @@
 }
 
 #modalTheme .btn-close:focus {
-  box-shadow: none !important; 
+  box-shadow: none !important;
   background-color: var(--bg-hover);
 }
 
@@ -317,92 +414,107 @@
 
 /* Container Card Tema */
 #changeTheme2 .theme-cards-container {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
 }
 
 /* Base Style Tombol / Card Tema */
 .theme-card {
-    background: var(--color-card-bg);
-    border: 2px solid var(--border-form);
-    border-radius: 12px;
-    padding: 8px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 100%;
+  background: var(--color-card-bg);
+  border: 2px solid var(--border-form);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
 }
 
 /* Ilustrasi Mini Dashboard di Dalam Card */
 .theme-preview {
-    width: 100%;
-    height: 60px;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-    background: var(--bg-body);
+  width: 100%;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  background: var(--bg-body);
 }
 
 /* Komponen Ilustrasi Mini */
 .preview-sidebar {
-    width: 25%;
-    height: 100%;
+  width: 25%;
+  height: 100%;
 }
 
 .preview-content {
-    width: 75%;
-    height: 100%;
-    padding: 4px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    position: relative;
+  width: 75%;
+  height: 100%;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
 }
 
 .preview-header {
-    height: 8px;
-    width: 100%;
-    border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  height: 8px;
+  width: 100%;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .preview-badge {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 6px;
-    right: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
 }
 
 /* Label Nama Tema */
 .theme-label {
-    font-size: 0.78rem !important;
-    font-weight: 600 !important;
-    color: var(--color-sub);
-    margin-bottom: 0 !important;
-    transition: color 0.2s ease;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  color: var(--color-sub);
+  margin-bottom: 0 !important;
+  transition: color 0.2s ease;
 }
 
 /* Hover Effect */
 .theme-card:hover {
-    border-color: var(--color-sub);
-    transform: translateY(-2px);
+  border-color: var(--color-sub);
+  transform: translateY(-2px);
 }
 
 /* State Aktif / Terpilih (Active Style) */
 .theme-card.active {
-    border-color: #3b82f6;
-    background-color: rgba(59, 130, 246, 0.08);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.08);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
 
 .theme-card.active .theme-label {
-    color: #3b82f6;
+  color: #3b82f6;
+}
+
+@media (max-width: 767.98px) {
+  .main-content {
+    padding: 16px;
+    /* Lebih ramah layar HP */
+  }
+}
+
+@media (max-width: 767.98px) {
+  .header-panel {
+    margin-bottom: 16px;
+    padding-left: 0 !important;
+    /* Menghilangkan margin/padding bawaan desktop */
+  }
 }

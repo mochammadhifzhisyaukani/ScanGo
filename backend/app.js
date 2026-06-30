@@ -13,16 +13,6 @@ app.use(
   }),
 );
 
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "api-token"],
-  }),
-);
-
-app.use("/api/admin", authRoutes);
-
 app.use(express.json());
 
 app.post("/api/attendances/store", async (req, res) => {
@@ -81,6 +71,57 @@ app.post("/api/attendances/store", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.post("/api/attendances/manual", async (req, res) => {
+  try {
+    const { username, status, keterangan } = req.body;
+
+    if (!username || !username.trim()) {
+      return res.status(400).json({ success: false, error: "Nama siswa wajib diisi!" });
+    }
+
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("username, idcard")
+      .ilike("username", username.trim())
+      .maybeSingle();
+
+    if (userError) {
+      return res.status(500).json({ success: false, error: userError.message });
+    }
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: `Nama "${username}" tidak ditemukan di database. Pastikan nama sesuai dengan data yang terdaftar.`,
+      });
+    }
+
+    const { data: attendanceData, error: insertError } = await supabase
+      .from("attendances")
+      .insert([
+        {
+          idcard: user.idcard,
+          mac_address: "Manual Input",
+          status: status || "Hadir",
+          note: keterangan || null,
+        },
+      ])
+      .select();
+
+    if (insertError) {
+      return res.status(500).json({ success: false, error: insertError.message });
+    }
+
+    res.json({
+      success: true,
+      message: `Absensi manual berhasil! ${user.username} tercatat dengan RFID ${user.idcard}`,
+      data: attendanceData,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

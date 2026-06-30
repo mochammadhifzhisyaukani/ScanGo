@@ -50,7 +50,7 @@ function renderScanRfid() {
           
           <div>
             <label style="font-size: 0.85rem; font-weight: 600; color: #444; display: block; margin-bottom: 5px;">Nama Siswa</label>
-            <input type="text" id="manual-nama" class="form-control" placeholder="Ketik nama siswa..." style="width: 100%;">
+            <input type="text" id="manual-nama" class="form-control" placeholder="Ketik nama siswa..." list="daftar-siswa" style="width: 100%;">
           </div>
 
           <div>
@@ -66,6 +66,7 @@ function renderScanRfid() {
           <div>
             <label style="font-size: 0.85rem; font-weight: 600; color: #444; display: block; margin-bottom: 5px;">Keterangan</label>
             <textarea id="manual-keterangan" class="form-control" rows="3" placeholder="Tulis alasan atau keterangan di sini..." style="width: 100%; height: auto; padding: 8px 12px;"></textarea>
+            <datalist id="daftar-siswa"></datalist>
           </div>
 
           <div style="display: flex; gap: 10px; margin-top: 10px;">
@@ -115,6 +116,80 @@ function initScanRfid() {
       }
     });
     setTimeout(() => input.focus(), 100);
+  }
+
+  loadDaftarSiswa();
+  initManualNamaListener();
+}
+
+async function loadDaftarSiswa() {
+  try {
+    const res = await fetch("http://localhost:3000/api/users", {
+      headers: { "api-token": "12345" },
+    });
+    const json = await res.json();
+    if (!json.success) return;
+
+    const datalist = document.getElementById("daftar-siswa");
+    if (!datalist) return;
+
+    datalist.innerHTML = "";
+    (json.data || []).forEach((user) => {
+      const opt = document.createElement("option");
+      opt.value = user.username || user.name || "";
+      datalist.appendChild(opt);
+    });
+  } catch (e) {
+    /* silently ignore */
+  }
+}
+
+function initManualNamaListener() {
+  const inputNama = document.getElementById("manual-nama");
+  if (!inputNama) return;
+
+  let timer = null;
+  inputNama.addEventListener("keyup", function () {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const nama = this.value.trim();
+      const feedback = document.getElementById("nama-feedback");
+      if (!nama) {
+        if (feedback) feedback.remove();
+        return;
+      }
+      cariNamaSiswa(nama);
+    }, 400);
+  });
+}
+
+async function cariNamaSiswa(nama) {
+  let feedback = document.getElementById("nama-feedback");
+  if (!feedback) {
+    feedback = document.createElement("div");
+    feedback.id = "nama-feedback";
+    feedback.style.cssText = "font-size:0.8rem; margin-top:4px;";
+    document.getElementById("manual-nama").parentNode.appendChild(feedback);
+  }
+
+  try {
+    const res = await fetch("http://localhost:3000/api/users", {
+      headers: { "api-token": "12345" },
+    });
+    const json = await res.json();
+    if (!json.success) return;
+
+    const found = (json.data || []).find(
+      (u) => (u.username || "").toLowerCase() === nama.toLowerCase()
+    );
+
+    if (found) {
+      feedback.innerHTML = `<span style="color:#28a745;"><i class="bi bi-check-circle-fill"></i> Sesuai — RFID: ${found.idcard || "-"}</span>`;
+    } else {
+      feedback.innerHTML = `<span style="color:#dc3545;"><i class="bi bi-exclamation-circle-fill"></i> Nama tidak ditemukan di database</span>`;
+    }
+  } catch (e) {
+    /* ignore */
   }
 }
 
@@ -178,7 +253,8 @@ async function submitManual() {
   const resultManualEl = document.getElementById("manual-result");
 
   if (!nama) {
-    alert("Nama siswa wajib diisi!");
+    showToast("Nama siswa wajib diisi!", "warning");
+    document.getElementById("manual-nama").focus();
     return;
   }
 
@@ -205,11 +281,16 @@ async function submitManual() {
     const data = await response.json();
 
     if (response.ok && data.success) {
-      resultManualEl.innerHTML = `<div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> Absensi manual ${nama} berhasil disimpan!</div>`;
+      resultManualEl.innerHTML = `<div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> ${data.message || `Absensi manual ${nama} berhasil!`}</div>`;
 
       document.getElementById("manual-nama").value = "";
       document.getElementById("manual-keterangan").value = "";
       document.getElementById("manual-status").value = "Hadir";
+
+      const feedback = document.getElementById("nama-feedback");
+      if (feedback) feedback.remove();
+
+      showToast("Absensi manual berhasil disimpan!", "success");
 
       setTimeout(() => {
         resultManualEl.innerHTML = "";
@@ -217,8 +298,10 @@ async function submitManual() {
       }, 1500);
     } else {
       resultManualEl.innerHTML = `<div class="alert alert-danger">Gagal: ${data.error || data.message || "Terjadi kesalahan"}</div>`;
+      showToast(data.error || "Gagal menyimpan absensi", "danger");
     }
   } catch (error) {
     resultManualEl.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan koneksi ke server</div>`;
+    showToast("Koneksi ke server gagal", "danger");
   }
 }

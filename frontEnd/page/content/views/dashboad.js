@@ -63,6 +63,26 @@ async function fetchAttendanceData() {
   }
 }
 
+let data
+
+function getStatusClass(status) {
+  switch ((status || "").toLowerCase()) {
+    case "hadir":
+      return "status-present";
+    case "terlambat":
+      return "status-late";
+    case "sakit":
+      return "status-sick";
+    case "alfa":
+    case "alpa":
+      return "status-alpha";
+    case "izin":
+      return "status-izin";
+    default:
+      return "status-present";
+  }
+}
+
 function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
   let dataFiltered = dataAbsensi.filter((row) => {
     if (!row.created_at) return false;
@@ -115,11 +135,11 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                             <span class="fw-semibold" style="color: var(--color-teks);">${displayNama}</span>
                         </div>
                     </td>
-                    <td class="text-muted">${row.idcard}</td>
+                    <td class="text-muted">${row.idcard || "-"}</td>
                     <td class="fw-semibold">${row.rombel || "-"}</td>
-                    <td class="fw-semibold">${jamAbsen}</td>
-                    <td class="text-muted">-</td>
-                    <td><span class="status-badge status-present">${row.status || "Hadir"}</span></td>
+                    <td class="fw-semibold">${jamAbsen || "-"}</td>
+                    <td class="text-muted">${row.note || "-"}</td>
+                    <td><span class="status-badge ${getStatusClass(row.status)}">${row.status || "Hadir"}</span></td>
                 </tr>
             `;
           })
@@ -390,7 +410,6 @@ async function deleteAttendanceLog(id) {
   }
 }
 
-// ======================== LOGIKA FOTO PROFIL ========================
 const profileInput = document.getElementById("profileInput");
 const previewImage = document.getElementById("previewImage");
 const profileImgElement = document.getElementById("profileImage");
@@ -430,3 +449,4 @@ if (saveBtn) {
     }
   });
 }
+
