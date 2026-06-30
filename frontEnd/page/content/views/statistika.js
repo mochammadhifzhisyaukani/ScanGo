@@ -1,6 +1,7 @@
+
 function renderGrafik() {
   return `
-  <div class="header-nav-tabs justify-content-center">
+            <div class="header-nav-tabs justify-content-center" id="rombelTabs">
                     <a href="#" class="nav-tab-item active">PPLG X-1</a>
                     <a href="#" class="nav-tab-item">PPLG X-2</a>
                     <a href="#" class="nav-tab-item">PPLG X-3</a>
@@ -206,6 +207,60 @@ function renderGrafik() {
                 </div>
   `;
 }
+const rombelMap = {
+  X: [
+    "PPLG X-1",
+    "PPLG X-2",
+    "PPLG X-3",
+    "PPLG X-4",
+    "PPLG X-5",
+  ],
+
+  XI: [
+    "PPLG XI-1",
+    "PPLG XI-2",
+    "PPLG XI-3",
+    "PPLG XI-4",
+    "PPLG XI-5",
+  ],
+
+  XII: [
+    "PPLG XII-1",
+    "PPLG XII-2",
+    "PPLG XII-3",
+    "PPLG XII-4",
+    "PPLG XII-5",
+  ]
+};
+
+function renderRombel(kelas) {
+  const container = document.getElementById("rombelTabs");
+  container.innerHTML = "";
+  for (let i = 1; i <= 5; i++) {
+    container.innerHTML += `
+            <a href="#"
+               class="nav-tab-item ${i === 1 ? "active" : ""}"
+               data-kelas="${kelas}"
+               data-rombel="${i}">
+                PPLG ${kelas}-${i}
+            </a>
+        `;
+  }
+  // console.log(kelas);
+  initTabs();
+}
+
+const kelasTabs = document.querySelectorAll(".header-panel .nav-tab-item[data-kelas]");
+kelasTabs.forEach(tab => {
+  tab.addEventListener("click", function (e) {
+    e.preventDefault();
+    kelasTabs.forEach(t => t.classList.remove("active"));
+    this.classList.add("active");
+    const kelas = this.dataset.kelas;
+    renderRombel(kelas);
+  });
+});
+
 let clockInterval = null;
 
 function initDashboardListener() {
@@ -244,16 +299,6 @@ function initDashboardListener() {
   }
 }
 
-function initTabs() {
-  const tabs = document.querySelectorAll('.nav-tab-item');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      e.preventDefault();
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-    });
-  });
-}
 
 //dasborad statistik
 // ===================== helpers =====================
@@ -331,25 +376,25 @@ window.initGrafikListerner = async function () {
 
   const td = new Date();
   const todayAtt = attendances.filter(a => {
-      if(!a.created_at) return false;
-      const d = new Date(a.created_at);
-      return d.getFullYear() === td.getFullYear() && d.getMonth() === td.getMonth() && d.getDate() === td.getDate();
+    if (!a.created_at) return false;
+    const d = new Date(a.created_at);
+    return d.getFullYear() === td.getFullYear() && d.getMonth() === td.getMonth() && d.getDate() === td.getDate();
   });
-  
+
   const totalSiswa = users.length;
   const hadirMap = new Map();
   todayAtt.forEach(a => {
-      let cId = String(a.card_id || '').trim();
-      if(cId) {
-          if(!hadirMap.has(cId)) {
-              hadirMap.set(cId, a);
-          } else {
-              const existing = hadirMap.get(cId);
-              if (new Date(a.created_at) > new Date(existing.created_at)) {
-                  hadirMap.set(cId, a);
-              }
-          }
+    let cId = String(a.idcard || '').trim();
+    if (cId) {
+      if (!hadirMap.has(cId)) {
+        hadirMap.set(cId, a);
+      } else {
+        const existing = hadirMap.get(cId);
+        if (new Date(a.created_at) > new Date(existing.created_at)) {
+          hadirMap.set(cId, a);
+        }
       }
+    }
   });
   const hadirCards = Array.from(hadirMap.keys());
   const totalHadir = hadirCards.length;
@@ -360,35 +405,35 @@ window.initGrafikListerner = async function () {
   const absentList = [];
   let countTepat = 0;
   let countTerlambat = 0;
-  
-  users.forEach(u => {
-     let uId = String(u.idcard || '').trim();
-     if(uId && hadirMap.has(uId)) {
-         let timeStr = "00:00";
-         let isTerlambat = false;
-         const attObj = hadirMap.get(uId);
-         if(attObj && attObj.created_at) {
-             const dtt = new Date(attObj.created_at);
-             const hrs = dtt.getHours();
-             const mins = dtt.getMinutes();
-             if (hrs > 8 || (hrs === 8 && mins > 30)) {
-                 isTerlambat = true;
-             }
-             timeStr = String(hrs).padStart(2,'0') + ':' + String(mins).padStart(2,'0');
-         }
-         if (isTerlambat) countTerlambat++;
-         else countTepat++;
 
-         studentsList.push({ name: u.username, rombel: u.rombel, status: isTerlambat ? "terlambat" : "sudah", time: timeStr });
-     } else {
-         studentsList.push({ name: u.username, rombel: u.rombel, status: "belum" });
-         absentList.push({ name: u.username, rombel: u.rombel, status: "Tidak Hadir" });
-     }
+  users.forEach(u => {
+    let uId = String(u.idcard || '').trim();
+    if (uId && hadirMap.has(uId)) {
+      let timeStr = "00:00";
+      let isTerlambat = false;
+      const attObj = hadirMap.get(uId);
+      if (attObj && attObj.created_at) {
+        const dtt = new Date(attObj.created_at);
+        const hrs = dtt.getHours();
+        const mins = dtt.getMinutes();
+        if (hrs > 8 || (hrs === 8 && mins > 30)) {
+          isTerlambat = true;
+        }
+        timeStr = String(hrs).padStart(2, '0') + ':' + String(mins).padStart(2, '0');
+      }
+      if (isTerlambat) countTerlambat++;
+      else countTepat++;
+
+      studentsList.push({ name: u.username, rombel: u.rombel, status: isTerlambat ? "terlambat" : "sudah", time: timeStr });
+    } else {
+      studentsList.push({ name: u.username, rombel: u.rombel, status: "belum" });
+      absentList.push({ name: u.username, rombel: u.rombel, status: "Tidak Hadir" });
+    }
   });
 
   const valTotal = document.getElementById("val-total-siswa"); if (valTotal) valTotal.innerText = totalSiswa;
   const valHadir = document.getElementById("val-hadir"); if (valHadir) valHadir.innerText = totalHadir;
-  const valSakit = document.getElementById("val-sakit"); if (valSakit) valSakit.innerText = "0"; 
+  const valSakit = document.getElementById("val-sakit"); if (valSakit) valSakit.innerText = "0";
   const valIzin = document.getElementById("val-izin"); if (valIzin) valIzin.innerText = "0";
   const valTerlambat = document.getElementById("val-terlambat"); if (valTerlambat) valTerlambat.innerText = countTerlambat;
   const valBelum = document.getElementById("val-belum-absen"); if (valBelum) valBelum.innerText = totalBelum;
@@ -397,51 +442,51 @@ window.initGrafikListerner = async function () {
   const trendLabels = [];
   const trendLabelsShort = [];
   const trendData = [];
-  for(let i=6; i>=0; i--) {
-     const d = new Date();
-     d.setDate(d.getDate() - i);
-     const dmy = d.toLocaleDateString("id-ID", {weekday:"short", day:"numeric", month:"short"});
-     trendLabelsShort.push(dmy.split(',')[0]);
-     trendLabels.push(dmy);
-     
-     const atts = attendances.filter(a => {
-        if(!a.created_at) return false;
-        const ad = new Date(a.created_at);
-        return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth() && ad.getDate() === d.getDate();
-     });
-     const unique = new Set(atts.map(a => String(a.card_id).trim())).size;
-     trendData.push(unique || 0);
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dmy = d.toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short" });
+    trendLabelsShort.push(dmy.split(',')[0]);
+    trendLabels.push(dmy);
+
+    const atts = attendances.filter(a => {
+      if (!a.created_at) return false;
+      const ad = new Date(a.created_at);
+      return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth() && ad.getDate() === d.getDate();
+    });
+    const unique = new Set(atts.map(a => String(a.idcard).trim())).size;
+    trendData.push(unique || 0);
   }
 
   // Data Distribusi Status (Donut)
   const donutData = [
-     { label: "Tepat Waktu", value: countTepat, color: "#1FA871" },
-     { label: "Terlambat", value: countTerlambat, color: "#EAB308" },
-     { label: "Sakit/Izin", value: 0, color: "#3FA9E0" },
-     { label: "Tidak Hadir", value: totalBelum, color: "#E25C5C" }
+    { label: "Tepat Waktu", value: countTepat, color: "#1FA871" },
+    { label: "Terlambat", value: countTerlambat, color: "#EAB308" },
+    { label: "Sakit/Izin", value: 0, color: "#3FA9E0" },
+    { label: "Tidak Hadir", value: totalBelum, color: "#E25C5C" }
   ];
 
   // Jam Tap-in
-  const nowHrs = new Date().getHours(); 
+  const nowHrs = new Date().getHours();
   const tLabels = [];
   const startHr = nowHrs - 7;
-  for(let i=0; i<8; i++) {
-      let h = startHr + i;
-      let label = "";
-      if (h < 0) label = "<00:00"; 
-      else label = String(h).padStart(2,'0') + ":00";
-      tLabels.push(label);
+  for (let i = 0; i < 8; i++) {
+    let h = startHr + i;
+    let label = "";
+    if (h < 0) label = "<00:00";
+    else label = String(h).padStart(2, '0') + ":00";
+    tLabels.push(label);
   }
-  
-  let tBins = [0,0,0,0,0,0,0,0];
+
+  let tBins = [0, 0, 0, 0, 0, 0, 0, 0];
   Array.from(hadirMap.values()).forEach(a => {
-     if(a.created_at) {
-         const hrs = new Date(a.created_at).getHours();
-         let binIdx = hrs - startHr;
-         if (binIdx < 0) binIdx = 0;
-         if (binIdx > 7) binIdx = 7;
-         tBins[binIdx]++;
-     }
+    if (a.created_at) {
+      const hrs = new Date(a.created_at).getHours();
+      let binIdx = hrs - startHr;
+      if (binIdx < 0) binIdx = 0;
+      if (binIdx > 7) binIdx = 7;
+      tBins[binIdx]++;
+    }
   });
 
   // ===================== 1. Kehadiran 7 Hari Terakhir (single line) =====================
@@ -610,7 +655,7 @@ window.initGrafikListerner = async function () {
 
     // update labels dynamically
     const dc = box.querySelector('.donut-center .big');
-    if(dc) dc.textContent = totalSiswa;
+    if (dc) dc.textContent = totalSiswa;
 
     const tip = makeTooltip(box);
     let startAngle = -90;
@@ -654,7 +699,7 @@ window.initGrafikListerner = async function () {
     // Update legends
     const legendRow = box.nextElementSibling;
     if (legendRow && legendRow.classList.contains("legend-row")) {
-       legendRow.innerHTML = `
+      legendRow.innerHTML = `
           <div class="legend-item"><span class="l"><span class="dot" style="background:var(--green)"></span>Tepat Waktu</span><span class="v">${countTepat}</span></div>
           <div class="legend-item"><span class="l"><span class="dot" style="background:#EAB308"></span>Terlambat</span><span class="v">${countTerlambat}</span></div>
           <div class="legend-item"><span class="l"><span class="dot" style="background:var(--purple)"></span>Sakit/Izin</span><span class="v">0</span></div>
@@ -670,7 +715,7 @@ window.initGrafikListerner = async function () {
 
     const list = document.getElementById("absentList");
     const countPill = document.getElementById("absentCountPill");
-    if(!list) return;
+    if (!list) return;
     list.innerHTML = "";
     absentStudents.forEach((s) => {
       const row = document.createElement("div");
@@ -681,7 +726,7 @@ window.initGrafikListerner = async function () {
       <span class="rank-tag ${tagClass[s.status]}">${s.status}</span>`;
       list.appendChild(row);
     });
-    if(countPill) countPill.textContent = absentStudents.length + " siswa";
+    if (countPill) countPill.textContent = absentStudents.length + " siswa";
   })();
 
   // ===================== 4. Status Tap Hari Ini (list: belum di atas, sudah di bawah) =====================
@@ -695,7 +740,7 @@ window.initGrafikListerner = async function () {
     });
 
     const list = document.getElementById("statusList");
-    if(!list) return;
+    if (!list) return;
     list.innerHTML = "";
     students.forEach((s) => {
       const row = document.createElement("div");
@@ -704,8 +749,8 @@ window.initGrafikListerner = async function () {
         s.status === "belum"
           ? `<span class="rank-tag belum">Belum Tap</span>`
           : s.status === "terlambat"
-          ? `<span class="rank-tag late">Sudah (Terlambat) · ${s.time}</span>`
-          : `<span class="rank-tag sudah">Sudah · ${s.time}</span>`;
+            ? `<span class="rank-tag late">Sudah (Terlambat) · ${s.time}</span>`
+            : `<span class="rank-tag sudah">Sudah · ${s.time}</span>`;
       row.innerHTML = `
       <div class="avatar"></div>
       <div class="rank-info"><div class="nm">${s.name}</div><div class="rb">${s.rombel || '-'}</div></div>
@@ -714,7 +759,7 @@ window.initGrafikListerner = async function () {
     });
     const belumCount = students.filter((s) => s.status === "belum").length;
     const dp = document.getElementById("belumCountPill");
-    if(dp) dp.textContent = belumCount + " belum";
+    if (dp) dp.textContent = belumCount + " belum";
   })();
 
   // ===================== 4. Distribusi Jam Tap-in (bar) =====================
@@ -786,3 +831,48 @@ window.initGrafikListerner = async function () {
     });
   })();
 };
+
+// ganti profile
+const profileInput = document.getElementById("profileInput");
+const previewImage = document.getElementById("previewImage");
+const profileImgElement = document.getElementById("profileImage");
+
+// 1. Saat halaman dimuat, cek apakah ada foto yang tersimpan di localStorage
+const savedImage = localStorage.getItem("profileImageBase64");
+if (savedImage) {
+  if (profileImgElement) profileImgElement.src = savedImage;
+  if (previewImage) previewImage.src = savedImage;
+}
+
+let selectedImageBase64 = null;
+
+if (profileInput) {
+  profileInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    // 2. Baca file sebagai URL Base64 yang bisa disimpan agar tidak hilang
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      selectedImageBase64 = e.target.result;
+      if (previewImage) previewImage.src = selectedImageBase64;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+const saveBtn = document.getElementById("saveProfile");
+if (saveBtn) {
+  saveBtn.addEventListener("click", function () {
+    if (!selectedImageBase64) return;
+
+    // 3. Simpan string Base64 tersebut ke dalam localStorage browser
+    localStorage.setItem("profileImageBase64", selectedImageBase64);
+    if (profileImgElement) profileImgElement.src = selectedImageBase64;
+
+    // Jika perlu menutup modal secara terprogram, kita bisa tambahkan disini
+    if (typeof showAlert === "function") {
+      showAlert("success", "Foto profil berhasil diperbarui!");
+    }
+  });
+}

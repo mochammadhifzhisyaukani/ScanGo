@@ -84,7 +84,6 @@ content.innerHTML = `
         <div class="row gx-5 row-stretch">
             <div class="col-lg-6">
                 <div class="p-3">
-                    <div id="changeTheme" class="animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
                     <h1 class="title reveal">
                         Merevolusi Kehadiran dengan Kecepatan & Efisiensi Digital.
                     </h1>
@@ -132,6 +131,16 @@ content.innerHTML = `
             </div>
             <div class="row g-4 justify-content-center">
                 <div class="col-12 col-md-4 reveal">
+                    <div class="card d-flex shadow-sm rounded-5 position-relative overflow-hidden" style="border: none; background-image: url('/frontEnd/assets/profiles/sampulProfileHifzhi.png'); background-size: cover; background-position: left center; background-repeat: no-repeat;">
+                        <h6 class="ms-5 text-white" style="font-weight: 600; margin-bottom: 1px; margin-top: 110%;">Mochammad Hifzhi <span class="text-white">Syaukani</h6>
+                        <p class="ms-5 mb-4" style="font-size: 14px; color: white;">Fullstack Development</p>
+                        <a href="javascript:void(0)" onclick="profileHifzhi()" class="linkedin-icon-btn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 reveal">
                     <div class="card d-flex shadow-sm rounded-5 position-relative overflow-hidden" style="border: none; background-image: url('/frontEnd/assets/profiles/sampulProfileDimas.png'); background-size: cover; background-position: left center; background-repeat: no-repeat;">
                         <h6 class="ms-5" style="font-weight: 600; margin-bottom: 1px; margin-top: 110%;">Dimas Hadi Syandana</h6>
                         <p class="ms-5 mb-4" style="font-size: 14px; color: #6c757d;">Lead of Project</p>
@@ -140,19 +149,11 @@ content.innerHTML = `
                         </a>
                     </div>
                 </div>
+
                 <div class="col-12 col-md-4 reveal">
-                    <div class="card d-flex shadow-sm rounded-5 position-relative overflow-hidden" style="border: none; background-image: url('/frontEnd/assets/profiles/sampulProfileDimas.png'); background-size: cover; background-position: left center; background-repeat: no-repeat;">
-                        <h6 class="ms-5" style="font-weight: 600; margin-bottom: 1px; margin-top: 110%;">Mochammad Hifzhi Syaukani</h6>
-                        <p class="ms-5 mb-4" style="font-size: 14px; color: #6c757d;">Fullstack Development</p>
-                        <a href="javascript:void(0)" onclick="profileHifzhi()" class="linkedin-icon-btn">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4 reveal">
-                    <div class="card d-flex shadow-sm rounded-5 position-relative overflow-hidden" style="border: none; background-image: url('/frontEnd/assets/profiles/sampulProfileDimas.png'); background-size: cover; background-position: left center; background-repeat: no-repeat;">
-                        <h6 class="ms-5" style="font-weight: 600; margin-bottom: 1px; margin-top: 110%;">Yazid Diansyah</h6>
-                        <p class="ms-5 mb-4" style="font-size: 14px; color: #6c757d;">UI/UX & Frontend</p>
+                    <div class="card d-flex shadow-sm rounded-5 position-relative overflow-hidden" style="border: none; background-image: url('/frontEnd/assets/profiles/sampulProfileYazid.png'); background-size: cover; background-position: left center; background-repeat: no-repeat;">
+                        <h6 class="ms-5 text-white" style="font-weight: 600; margin-bottom: 1px; margin-top: 110%;">Yazid Diansyah</h6>
+                        <p class="ms-5 mb-4" style="font-size: 14px; color: white;">UI/UX & Frontend</p>
                         <a href="javascript:void(0)" onclick="profileYazid()" class="linkedin-icon-btn">
                             <i class="bi bi-linkedin"></i>
                         </a>

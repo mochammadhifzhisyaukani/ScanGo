@@ -1,27 +1,45 @@
 function renderScanRfid() {
   return `
-        <div class="scan-rfid-container">
-            <div class="scan-header">
-                <h3><i class="bi bi-upc-scan"></i> Scan RFID</h3>
-                <p class="text-muted">Scan kartu RFID siswa untuk mencatat kehadiran</p>
-            </div>
-            <div class="scan-body text-center">
-                <div class="scan-animation mb-4">
-                    <i class="bi bi-upc-scan" style="font-size: 80px; color: var(--primary-color);"></i>
-                </div>
-                <div id="scan-status" class="mb-3">
-                    <span class="badge bg-secondary p-2 fs-6">Menunggu scan kartu...</span>
-                </div>
-                <div class="scan-input-group mb-3">
-                    <input type="text" id="card-id-input" class="form-control form-control-lg text-center" placeholder="Tempelkan kartu RFID..." autofocus>
-                    <button class="btn btn-primary btn-lg mt-2" onclick="submitScan()">
-                        <i class="bi bi-search"></i> Cari
-                    </button>
-                </div>
-                <div id="scan-result" class="mt-3"></div>
-            </div>
+    <div class="scan-rfid-container">
+      <div class="scan-card">
+        <div class="scan-header">
+          <h3>Scan RFID</h3>
+          <p>Tempelkan kartu RFID siswa untuk mencatat kehadiran</p>
         </div>
-    `;
+
+        <div class="scan-icon-wrapper">
+          <i class="bi bi-upc-scan"></i>
+        </div>
+
+        <div id="scan-status">
+          <span class="scan-status-badge idle">
+            <i class="bi bi-radio"></i> Menunggu scan kartu...
+          </span>
+        </div>
+
+        <div class="scan-input-group">
+          <input
+            type="text"
+            id="card-id-input"
+            class="form-control"
+            placeholder="Tempelkan kartu RFID..."
+            autofocus
+          >
+          <button class="scan-btn" onclick="submitScan()">
+            <i class="bi bi-upc-scan"></i> Scan Sekarang
+          </button>
+
+          <div class="scan-divider">atau</div>
+
+          <button class="inputManual-btn" onclick="submitScan()">
+            <i class="bi bi-upc-scan"></i> Input Manual
+          </button>
+      </div>
+
+        <div id="scan-result"></div>
+      </div>
+    </div>
+  `;
 }
 
 function initScanRfid() {
@@ -46,13 +64,13 @@ async function submitScan() {
   const statusEl = document.getElementById("scan-status");
   const resultEl = document.getElementById("scan-result");
   statusEl.innerHTML =
-    '<span class="badge bg-warning p-2 fs-6">Memproses...</span>';
+    '<span class="scan-status-badge scanning"><i class="bi bi-arrow-repeat"></i> Memproses...</span>';
 
   try {
     const response = await fetch(
-      "http://localhost:3000/api/attendances/store?card_id=" +
+      "http://localhost:3000/api/attendances/store?idcard=" +
         encodeURIComponent(cardId) +
-        "&mac_address=RFID Reader",
+        "&mac_address=RFID",
       {
         method: "POST",
         headers: { "api-token": "12345" },
@@ -63,34 +81,34 @@ async function submitScan() {
 
     if (response.ok && data.success) {
       statusEl.innerHTML =
-        '<span class="badge bg-success p-2 fs-6">Berhasil!</span>';
+        '<span class="scan-status-badge success"><i class="bi bi-check-circle-fill"></i> Berhasil!</span>';
       resultEl.innerHTML =
-        '<div class="alert alert-success">' +
+        '<div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> ' +
         (data.message || "Kehadiran berhasil dicatat") +
         "</div>";
       
       // Arahkan ke statistik setelah berhasil
       setTimeout(() => {
         if (typeof navigateTo === "function") {
-          navigateTo("statistika");
+          navigateTo("scan-rfid");
         } else {
-          window.location.href = "/frontEnd/page/structure/statistika.html";
+          window.location.href = "/frontEnd/page/structure/dashboard.html";
         }
       }, 1500);
     } else {
       statusEl.innerHTML =
-        '<span class="badge bg-danger p-2 fs-6">Gagal</span>';
+        '<span class="scan-status-badge error"><i class="bi bi-x-circle-fill"></i> Gagal</span>';
       resultEl.innerHTML =
-        '<div class="alert alert-danger">' +
+        '<div class="alert alert-danger"><i class="bi bi-x-circle-fill"></i> ' +
         (data.error ||
           data.message ||
           "Gagal mencatat kehadiran (Eror " + response.status + ")") +
         "</div>";
     }
   } catch (error) {
-    statusEl.innerHTML = '<span class="badge bg-danger p-2 fs-6">Error</span>';
+    statusEl.innerHTML = '<span class="scan-status-badge error"><i class="bi bi-wifi-off"></i> Error</span>';
     resultEl.innerHTML =
-      '<div class="alert alert-danger">Terjadi kesalahan koneksi ke server</div>';
+      '<div class="alert alert-danger"><i class="bi bi-wifi-off"></i> Terjadi kesalahan koneksi ke server</div>';
   }
 
   document.getElementById("card-id-input").value = "";

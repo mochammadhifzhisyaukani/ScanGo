@@ -91,7 +91,7 @@ const renderSideList = (data) =>
 
 content.innerHTML = `
     <div class="container-sm blog-header-container">
-        <div id="changeTheme" class="btn-changeTheme container-sm d-flex justify-content-center animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
+        <div class="changeTheme btn-changeTheme container-sm d-flex justify-content-center animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
         <div class="d-flex justify-content-center mt-3">
             <a class="bg-light rounded-4 text-decoration-none text-black animate__animated animate__fadeIn" style="padding: 10px;">Blog</a>
         </div>

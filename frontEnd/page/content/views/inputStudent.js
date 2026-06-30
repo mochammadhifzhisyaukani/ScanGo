@@ -111,6 +111,31 @@ function renderInputSiswa() {
           Daftar Siswa / Guru
         </h5>
         <div class="table-actions">
+            <select id="pilihanRombel" class="form-select form-select-sm bg-light border-0 text-muted rounded-3" style="width: auto; height: 34px; font-size: 0.85rem;">
+              <option value="">Rombel</option>
+              <optgroup label="PPLG X">
+                <option value="X_1">PPLG X-1</option>
+                <option value="X_2">PPLG X-2</option>
+                <option value="X_3">PPLG X-3</option>
+                <option value="X_4">PPLG X-4</option>
+                <option value="X_5">PPLG X-5</option>
+              </optgroup>
+              <optgroup label="PPLG XI">
+                <option value="XI_1">PPLG XI-1</option>
+                <option value="XI_2">PPLG XI-2</option>
+                <option value="XI_3">PPLG XI-3</option>
+                <option value="XI_4">PPLG XI-4</option>
+                <option value="XI_5">PPLG XI-5</option>
+              </optgroup>
+              <optgroup label="PPLG XII">
+                <option value="XII_1">PPLG XII-1</option>
+                <option value="XII_2">PPLG XII-2</option>
+                <option value="XII_3">PPLG XII-3</option>
+                <option value="XII_4">PPLG XII-4</option>
+                <option value="XII_5">PPLG XII-5</option>
+              </optgroup>
+            </select>
+
           <input type="file" id="excelInput" accept=".xlsx, .xls, .csv" style="display: none;">
           <button type="button" id="btnImportManual" class="btn-import btn-import-manual">
             <i class="bi bi-pencil-square"></i> Input Manual
@@ -130,6 +155,7 @@ function renderInputSiswa() {
               <th>UID RFID</th>
               <th>Status</th>
               <th>Aksi</th>
+              <th>Detail</th>
             </tr>
           </thead>
           <tbody id="tableSiswaBody"></tbody>
@@ -221,13 +247,12 @@ function initInputSiswaListener() {
         }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
+        const errResult = await response.json().catch(() => ({}));
         showToast("Terjadi kesalahan saat mendaftar", "danger");
         Swal.fire({
           title: "Registrasi Gagal!",
-          text: result.message || "Gagal menyimpan ke database Supabase",
+          text: errResult.message || "Gagal menyimpan ke database Supabase",
           icon: "error",
           customClass: {
             popup: "sweetalert-popup",
@@ -237,6 +262,8 @@ function initInputSiswaListener() {
         });
         return;
       }
+
+      const result = await response.json();
 
       showToast("Akun baru berhasil ditambahkan!", "success");
       Swal.fire({
@@ -288,9 +315,16 @@ async function loadTableSiswa() {
     tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr>`;
 
     const response = await fetch("http://localhost:3000/api/users");
+
+    if (!response.ok) {
+      const errResult = await response.json().catch(() => ({}));
+      tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Gagal memuat data siswa: ${errResult.message || response.statusText}</td></tr>`;
+      return;
+    }
+
     const result = await response.json();
 
-    if (!response.ok || !result.success) {
+    if (!result.success) {
       tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Gagal memuat data siswa!</td></tr>`;
       return;
     }
@@ -319,11 +353,18 @@ async function loadTableSiswa() {
           <button class="btn-edit btn btn-primary btn-sm" data-nis="${user.nis}" data-email="${userEmail}">Edit</button>
           <button class="btn-delete btn btn-danger btn-sm" data-nis="${user.nis}">Hapus</button>
         </td>
+
+        <td>
+          <button class= "btn-detail btn btn-secondary btm" data-nis="${user.nis}" data-email="${userEmail}">Detail</button>
+        </td>
+
+  
       `;
       tableBody.appendChild(row);
     });
 
     initActionButtonsListener();
+    attachRombelFilterInput();
   } catch (error) {
     console.error("Error loading table: ", error);
     tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Koneksi ke server terputus!</td></tr>`;
@@ -393,10 +434,12 @@ function initImportExcelListener() {
           },
         );
 
-        const result = await response.json();
+        if (!response.ok) {
+          const errResult = await response.json().catch(() => ({}));
+          throw new Error(errResult.message || "Gagal Menyimpan Massal!");
+        }
 
-        if (!response.ok)
-          throw new Error(result.message || "Gagal Menyimpan Massal!");
+        const result = await response.json();
 
         Swal.fire({
           title: "Sukses!",
@@ -455,6 +498,7 @@ function initActionButtonsListener() {
       e.target.classList.contains("btn-delete") ||
       e.target.closest(".btn-delete")
     ) {
+      //delete
       const button = e.target.classList.contains("btn-delete")
         ? e.target
         : e.target.closest(".btn-delete");
@@ -477,10 +521,13 @@ function initActionButtonsListener() {
         const response = await fetch(`http://localhost:3000/api/users/${nis}`, {
           method: "DELETE",
         });
-        const result = await response.json();
 
-        if (!response.ok)
-          throw new Error(result.message || "Gagal menghapus data");
+        if (!response.ok) {
+          const errResult = await response.json().catch(() => ({}));
+          throw new Error(errResult.message || "Gagal menghapus data");
+        }
+
+        const result = await response.json();
 
         showToast("Data berhasil dihapus!", "success");
         loadTableSiswa();
@@ -488,7 +535,7 @@ function initActionButtonsListener() {
         Swal.fire("Gagal!", error.message, "error");
       }
     }
-
+    //edit
     if (
       e.target.classList.contains("btn-edit") ||
       e.target.closest(".btn-edit")
@@ -499,6 +546,22 @@ function initActionButtonsListener() {
       const nis = button.getAttribute("data-nis");
       const email = button.getAttribute("data-email");
       actionEditSiswa(nis, email);
+    }
+    //detail
+    if (
+      e.target.classList.contains("btn-detail") ||
+      e.target.closest(".btn-detail")
+    ) {
+      const button = e.target.classList.contains("btn-detail")
+        ? e.target
+        : e.target.closest(".btn-detail");
+      const nis = button.getAttribute("data-nis");
+
+      routerState = {
+        nis: nis
+      };
+
+      navigateTo("detail-siswa");
     }
   };
 }
@@ -525,17 +588,25 @@ async function actionEditSiswa(nis, email) {
     const { value: formValues } = await Swal.fire({
       title: "Edit Data Siswa / Guru",
       html: `
-        <div style="text-align: left; margin-bottom: 8px;"><label>Nama Lengkap</label></div>
-        <input id="swal-username" class="swal2-input" style="margin-top:0;" value="${username}">
-        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Email</label></div>
+        <div style="text-align: left; margin-bottom: 8px;">
+        <label>Nama Lengkap</label></div>
+        <input id="swal-username" class="swal2-input" style="margin-top:0; width: 100%; max-width: 100%;" value="${username}">
+
+        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
+        <label>Email</label></div>
         <input id="swal-email" class="swal2-input" style="margin-top:0;" value="${email}">
-        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>UID RFID</label></div>
+
+        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
+        <label>UID RFID</label></div>
         <input id="swal-idcard" class="swal2-input" style="margin-top:0;" value="${idcard}">
-        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Peran</label></div>
+
+        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
+        <label>Peran</label></div>
         <select id="swal-role" class="swal2-input" style="margin-top:0; width: 100%; max-width: 100%;">
           <option value="student" ${role === "student" ? "selected" : ""}>Siswa</option>
           <option value="teacher" ${role === "teacher" ? "selected" : ""}>Guru</option>
         </select>
+
         <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;"><label>Rombel (Contoh: X_3)</label></div>
         <input id="swal-rombel" class="swal2-input" style="margin-top:0;" value="${rombel}">
       `,
@@ -565,13 +636,71 @@ async function actionEditSiswa(nis, email) {
       },
     );
 
+    if (!updateResponse.ok) {
+      const errResult = await updateResponse.json().catch(() => ({}));
+      throw new Error(errResult.message || "Gagal mengupdate data");
+    }
+
     const updateResult = await updateResponse.json();
-    if (!updateResponse.ok)
-      throw new Error(updateResult.message || "Gagal mengupdate data");
 
     showToast("Data berhasil diperbarui!", "success");
     loadTableSiswa();
   } catch (error) {
     Swal.fire("Gagal Update!", error.message, "error");
+  }
+}
+
+function attachRombelFilterInput() {
+  const select = document.getElementById("pilihanRombel");
+  if (select) {
+    select.removeEventListener("change", handleRombelFilterInput);
+    select.addEventListener("change", handleRombelFilterInput);
+  }
+}
+
+async function handleRombelFilterInput() {
+  const selectElement = document.getElementById("pilihanRombel");
+  if (!selectElement) return;
+  currentSelectedRombel = selectElement.value || null;
+
+  const tableBody = document.querySelector("#tableSiswaBody");
+  if (!tableBody) return;
+
+  const rows = tableBody.querySelectorAll("tr");
+  let visibleCount = 0;
+
+  rows.forEach((row) => {
+    const rombelCell = row.querySelector("td:nth-child(3)");
+    if (!rombelCell) return;
+
+    const rombelText = rombelCell.textContent.trim();
+    const match = !currentSelectedRombel || rombelText === currentSelectedRombel;
+
+    row.style.display = match ? "" : "none";
+    if (match) visibleCount++;
+  });
+
+  const emptyRow = tableBody.querySelector(".empty-filter-row");
+  if (emptyRow) emptyRow.remove();
+
+  if (visibleCount === 0 && currentSelectedRombel) {
+    const tr = document.createElement("tr");
+    tr.className = "empty-filter-row";
+    tr.innerHTML = `<td colspan="6" style="text-align:center; padding:24px; color:#6c757d;">Siswa belum absen</td>`;
+    tableBody.appendChild(tr);
+  }
+}
+
+//detailsiswa
+async function actionDetailSiswa(nis) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/users/${nis}`);
+    if (!response.ok) {
+      const errResult = await response.json().catch(() => ({}));
+      throw new Error(errResult.message || "Gagal mengambil data");
+    }
+    const result = await response.json();
+  } catch (error) {
+    Swal.fire("Gagal!", error.message, "error");
   }
 }

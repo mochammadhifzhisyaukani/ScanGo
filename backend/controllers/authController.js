@@ -124,7 +124,7 @@ const login = async (req, res) => {
         rombel: user.rombel,
         nis: user.nis
       },
-      process.env.JWT_SECREET || "Secreet__",
+      process.env.JWT_SECRET || "Secreet__",
       { expiresIn: "1d" },
     );
 

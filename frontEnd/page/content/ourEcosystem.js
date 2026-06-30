@@ -1,7 +1,7 @@
 const content = document.getElementById("content");
 content.innerHTML = `
     <div class="partner container-sm text-center" style="margin-top: 8%;">
-        <div id="changeTheme" class="container-sm d-flex justify-content-center animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
+        <div class="changeTheme container-sm d-flex justify-content-center animate__animated animate__jackInTheBox" style="margin-top: 8%;"></div>
         <p class="badge mt-3 animate__animated animate__fadeIn">Rekan / Mitra</p>
         <h1 class="title animate__animated animate__backInDown" style="color: var(--color-teks);">Dipercaya oleh Lembaga-Lembaga yang Berpikiran Maju</h1>
         <p class="subtitle animate__animated animate__fadeInDown" style="color: var(--color-teks);">Kami bangga dapat berkolaborasi dan mendukung berbagai instansi dalam mendigitalisasi sistem manajemen kehadiran mereka secara efisien.</p>
