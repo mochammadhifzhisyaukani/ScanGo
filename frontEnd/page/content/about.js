@@ -39,7 +39,7 @@ content.innerHTML = `
                 <div class="container text-center" style="margin-top: 10%;">
                   <div class="row row-cols-2">
                     <div class="col">
-                      <div class="card" style="border: none !important; background-color: #f8fafc;">
+                      <div class="card" style="border: none !important; background-color: var(--bg-sidebar) !important; color: var(--color-teks) !important;">
                         <div class="card-body">
                           <h3><b>500K+</b></h3>
                           <p>Total Pemindaian</p>
@@ -47,7 +47,7 @@ content.innerHTML = `
                       </div>
                     </div>
                     <div class="col">
-                      <div class="card" style="border: none !important; background-color: #f8fafc;">
+                      <div class="card" style="border: none !important; background-color: var(--bg-sidebar) !important; color: var(--color-teks) !important;">
                         <div class="card-body">
                           <h3><b>1.5K+</b></h3>
                           <p>Perangkat Aktif</p>
@@ -55,7 +55,7 @@ content.innerHTML = `
                       </div>
                     </div>
                     <div class="col">
-                      <div class="card mt-4" style="border: none !important; background-color: #f8fafc;">
+                      <div class="card mt-4" style="border: none !important; background-color: var(--bg-sidebar) !important; color: var(--color-teks) !important;">
                         <div class="card-body">
                           <h3><b>90%</b></h3>
                           <p>Dampak Nyata</p>
@@ -63,7 +63,7 @@ content.innerHTML = `
                       </div>
                     </div>
                     <div class="col">
-                      <div class="card mt-4" style="border: none !important; background-color: #f8fafc;">
+                      <div class="card mt-4" style="border: none !important; background-color: var(--bg-sidebar) !important; color: var(--color-teks) !important;">
                         <div class="card-body">
                           <h3><b>V1.1</b> <button class="btn btn-success btn-sm">Beta</button></h3>
                           <p>Versi Update</p>

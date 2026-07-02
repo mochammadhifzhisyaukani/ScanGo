@@ -2,17 +2,17 @@ function renderPrint() {
   const currentMonth = new Date().toISOString().substring(0, 7);
   return `
         <div class="print-container animate__animated animate__fadeIn mt-4" style="padding: 20px;">
-        <div class="data-card p-4" style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <div class="data-card p-4" style="max-width: 600px; margin: 0 auto; background: var(--bg-sidebar); color: var(--color-teks) !important; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
             <div class="text-center mb-4">
                 <i class="bi bi-printer-fill text-primary" style="font-size: 2.5rem;"></i>
                 <h4 class="fw-bold mt-2" style="color: var(--color-teks);">Cetak Rekapitulasi Absensi</h4>
-                <p class="text-muted" style="font-size: 0.9rem;">Unduh laporan absensi siswa dalam format Excel (.xlsx)</p>
+                <p style="font-size: 0.9rem;">Unduh laporan absensi siswa dalam format Excel (.xlsx)</p>
             </div>
             
-            <hr class="text-muted mb-4">
+            <hr class="mb-4">
 
             <div class="mb-3">
-                <label class="form-label fw-semibold text-muted" style="font-size: 0.85rem;">Pilih Kelas</label>
+                <label class="form-label fw-semibold" style="font-size: 0.85rem;">Pilih Kelas</label>
                 <select id="printKelas" class="form-select bg-light border-0 rounded-3" style="height: 40px; font-size: 0.9rem;">
                     <option value="X">Kelas X</option>
                     <option value="XI">Kelas XI</option>
@@ -21,7 +21,7 @@ function renderPrint() {
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold text-muted" style="font-size: 0.85rem;">Pilih Rombel</label>
+                <label class="form-label fw-semibold" style="font-size: 0.85rem;">Pilih Rombel</label>
                 <select id="printRombel" class="form-select bg-light border-0 rounded-3" style="height: 40px; font-size: 0.9rem;">
                     <option value="X_1">PPLG X-1</option>
                     <option value="X_2">PPLG X-2</option>
@@ -32,7 +32,7 @@ function renderPrint() {
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold text-muted" style="font-size: 0.85rem;">Jenis Rekapitulasi</label>
+                <label class="form-label fw-semibold" style="font-size: 0.85rem;">Jenis Rekapitulasi</label>
                 <div class="d-flex gap-4 mt-1">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="jenisRekap" id="rekapMingguan" value="mingguan" checked>
@@ -46,7 +46,7 @@ function renderPrint() {
             </div>
 
             <div class="mb-4" id="boxPilihanBulan" style="display: none;">
-                <label class="form-label fw-semibold text-muted" style="font-size: 0.85rem;">Pilih Bulan & Tahun</label>
+                <label class="form-label fw-semibold" style="font-size: 0.85rem;">Pilih Bulan & Tahun</label>
                 <input type="month" id="printBulan" class="form-control bg-light border-0 rounded-3" style="height: 40px;" value="${currentMonth}">
             </div>
 

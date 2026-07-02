@@ -107,7 +107,6 @@ function renderInputSiswa() {
     <div class="data-card">
       <div class="table-header">
         <h5 class="table-title">
-          <i class="bi bi-table" style="color: #4f46e5; margin-right: 6px;"></i>
           Daftar Siswa / Guru
         </h5>
         <div class="table-actions">

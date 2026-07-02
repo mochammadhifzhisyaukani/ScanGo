@@ -1,35 +1,42 @@
 body {
-    background-color: var(--bg-body) !important;
+  background-color: var(--bg-body) !important;
 }
 
-.badge {
-  background-color: #e67e22;
+.promote {
+  height: 100%;
+  padding: 100px;
+  color: white !important;
+  background-image: url("/frontEnd/assets/background/9333f00957425e173ae553ca70f5b930\ -\ Copy.png");
+  background-repeat: none !important;
+  background-size: cover;
+
+  background-size: 100% auto;
+  background-position: center;
+  transition: background-size 0.5s ease-in-out;
 }
 
-.title {
-  font-size: 50px;
+.card {
+  background-color: var(--bg-sidebar) !important;
+  color: var(--color-teks) !important;
 }
 
-.card:hover {
-  box-shadow: 0 24px 100px #e67e22;
-  transform: translateY(-20px);
-  transition: 0.3s ease-in-out;
+.promote:hover {
+  background-size: 110% auto;
 }
 
-.techStack {
-    margin-top: 10% !important;
-}
+@media (max-width: 768px) {
+  .container-support {
+    margin-top: 30% !important;
+  }
 
-@media(max-width: 768px) {
-    #changeTheme {
-        margin-top: 40% !important;
-    }
+  .gambar-depan-wikrama {
+    display: none;
+  }
 
-    .partner img {
-        height: 100px !important;
-    }
-
-    .techStack {
-        margin-top: 50% !important;
-    }
+  .promote {
+    background-repeat: none !important;
+    background-size: cover !important;
+    /* background-image: none;
+    background-color: var(--bg-sidebar); */
+  }
 }

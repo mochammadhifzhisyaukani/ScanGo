@@ -55,7 +55,7 @@ content.innerHTML = `
         <div class="container" style="margin-top: 50px;">
   <div class="row">
     <div class="col">
-      <div class="card rounded-5" style="padding: 20px; height: 5z00px; border: none !important;" style="width: 100%;">
+      <div class="card rounded-5" style="padding: 20px; background: var(--bg-sidebar); height: 500px; border: none !important; color: var(--color-teks); width: 100%;">
   <img src="/frontEnd/assets/mascot/bertanya-tanya.png" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title"><b>ScanGo</b></h5>
@@ -64,24 +64,16 @@ content.innerHTML = `
 </div>
     </div>
     <div class="col">
-        <div class="card d-flex align-items-center justify-content-center text-center rounded-5" style="width: 100%; padding: 20px; height: 500px; border: none !important;">  
+        <div class="card d-flex align-items-center justify-content-center text-center rounded-5" style="width: 100%; background-color: var(--bg-sidebar); padding: 20px; height: 500px; color: var(--color-teks); border: none !important;">  
             <h5>Projek Belum tersedia</h5>
         </div>
     </div>
     <div class="col">
-        <div class="card d-flex align-items-center justify-content-center text-center rounded-5" style="width: 100%; padding: 20px; height: 500px; border: none !important;">  
+        <div class="card d-flex align-items-center justify-content-center text-center rounded-5" style="width: 100%; background-color: var(--bg-sidebar); padding: 20px; height: 500px; color: var(--color-teks); border: none !important;">  
             <h5>Projek Belum tersedia</h5>
         </div>
     </div>
     </div>
-    </div>
-
-    <div class="text-center" style="margin-top: 5%;">
-        <p style="color: var(--color-teks);">Didukung oleh</p>
-        <div class="d-flex gap-3 justify-content-center">
-            <img src="/frontend/assets/logo/msi-log.png" alt="MSI" style="background-color: #f8f9fa; border-radius: 10px; padding: 10px;" class="img-merkLaptop reveal">
-            <img src="/frontend/assets/logo/lenovo-log.png" alt="Lenovo" style="background-color: #f8f9fa; border-radius: 10px; padding: 10px;" class="img-merkLaptop reveal">
-        </div>
     </div>
 
     <div class="text-center" style="margin-top: 5%;">
@@ -97,42 +89,3 @@ content.innerHTML = `
       </div>
     </div>
 `;
-
-const swiper = new Swiper(".mySwiper", {
-  loop: true,
-  speed: 3000,
-  autoplay: {
-    delay: 0,
-    disableOnInteraction: false,
-    pauseOnMouseEnter: true,
-  },
-  breakpoints: {
-    320: {
-      slidesPerView: 1.2,
-      spaceBetween: 12,
-    },
-    480: {
-      slidesPerView: 2,
-      spaceBetween: 16,
-    },
-    768: {
-      slidesPerView: 2.5,
-      spaceBetween: 20,
-    },
-    1024: {
-      slidesPerView: 3,
-      spaceBetween: 24,
-    },
-  },
-});
-
-const swiperEl = document.querySelector(".mySwiper");
-
-swiperEl.addEventListener("mouseenter", () => {
-  swiper.autoplay.stop();
-});
-
-swiperEl.addEventListener("mouseleave", () => {
-  swiper.autoplay.start();
-});
-

@@ -18,7 +18,7 @@ content.innerHTML = `
 
         <div class="d-flex mt-5 gap-3 animate__animated animate__fadeIn">
             <button type="button" onclick="btnGetStarted()" class="btn btn-lg btn-started">Mari Memulai</button>
-            <button class="btn btn-lg btn-watch">Lihat Demo</button>
+            <button class="btn btn-lg btn-watch" onclick="btnGuide()">Lihat Demo</button>
         </div>
 
         <a href="/frontend/page/structure/about.html#dev" class="d-flex gap-2 mt-5 animate__animated animate__fadeInUp text-decoration-none" style="color: var(--color-teks) !important;">
@@ -230,6 +230,10 @@ content.innerHTML = `
 
 function btnGetStarted() {
   window.location.href = "/frontEnd/page/structure/signIn.html";
+}
+
+function btnGuide() {
+  window.location.href = "/frontEnd/page/structure/guide.html";
 }
 
 const swiperEl = document.querySelector(".mySwiper");
