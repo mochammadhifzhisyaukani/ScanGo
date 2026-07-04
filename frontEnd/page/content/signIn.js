@@ -98,6 +98,7 @@ try {
     const response = await fetch("http://localhost:3000/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ email: email, password: passwordValue }),
     });
 
@@ -122,10 +123,9 @@ try {
       return;
     }
 
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("role", data.user.role);
-    localStorage.setItem("username", data.user.username || data.user.email);
-
+    sessionStorage.setItem("token", data.token);
+    sessionStorage.setItem("role", data.user.role);
+    sessionStorage.setItem("username", data.user.username || data.user.email);
     showToast("Login Berhasil! Selamat Datang.", "success");
 
     Swal.fire({

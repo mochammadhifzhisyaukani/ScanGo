@@ -272,7 +272,7 @@ const rombelMap = {
   ]
 };
 
-function initTabs() {
+function initRombelTabs() {
   const tabs = document.querySelectorAll("#rombelTabs .nav-tab-item");
   tabs.forEach(tab => {
     tab.addEventListener("click", function (e) {
@@ -282,7 +282,6 @@ function initTabs() {
       selectedRombel = this.textContent.trim();
       renderGuru(selectedRombel);
       initGrafikListener();
-      // console.log(selectedRombel);
     });
   });
 }
@@ -305,7 +304,7 @@ function renderRombel(kelas) {
   renderGuru(selectedRombel);
 
   // Pasang listener rombel tabs SETELAH DOM diperbarui
-  initTabs();
+  initRombelTabs();
 
   // Muat data untuk rombel yang aktif
   initGrafikListener();
@@ -331,9 +330,9 @@ function renderRombel(kelas) {
 // Listener kelas tabs dipasang di dalam initDashboardListener()
 // agar bekerja saat halaman di-load lewat SPA router
 
-let clockInterval = null;
+if (typeof window.clockInterval === "undefined") window.clockInterval = null;
 
-function initDashboardListener() {
+function initStatistikaListener() {
   const timeElement = document.getElementById("time");
   const dateElement = document.getElementById("date");
 
@@ -457,12 +456,12 @@ window.initGrafikListener = async function () {
   let users = [];
   let attendances = [];
   try {
-    const resA = await fetch("http://localhost:3000/api/attendances");
+    const resA = await fetch("http://localhost:3000/api/attendances", { credentials: "include" });
     if (resA.ok) {
       const dataA = await resA.json();
       if (dataA.success) attendances = dataA.data || [];
     }
-    const resU = await fetch("http://localhost:3000/api/users");
+    const resU = await fetch("http://localhost:3000/api/users", { credentials: "include" });
     if (resU.ok) {
       const dataU = await resU.json();
       if (dataU.success) users = dataU.data || [];

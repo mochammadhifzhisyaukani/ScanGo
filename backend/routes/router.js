@@ -1,66 +1,71 @@
-// 1. Fungsi utamanya ditaruh di atas
 let routerState = {};
+if (typeof window.routerState === "undifined") {
+  window.routerState = {};
+}
+
 function navigateTo(page) {
-    const content = document.getElementById("content");
-    if (!content) return;
+  const content = document.getElementById("content");
+  if (!content) return;
 
-    content.innerHTML = "";
+  content.innerHTML = "";
 
-    switch (page) {
-        case "dashboard":
-            if (typeof renderDashboard !== 'undefined') {
-                content.innerHTML = renderDashboard();
-                if (typeof initDashboardListener !== 'undefined') initDashboardListener();
-            } else {
-                window.location.href = '/frontEnd/page/structure/dashboard.html';
-            }
-            break;
-        case "input-siswa":
-            if (typeof renderInputSiswa !== 'undefined') {
-                content.innerHTML = renderInputSiswa();
-                if (typeof initInputSiswaListener !== 'undefined') initInputSiswaListener();
-            } else {
-                // Karena inputStudent.js dimuat di dashboard.html, kita bisa redirect ke sana
-                window.location.href = '/frontEnd/page/structure/dashboard.html';
-            }
-            break;
-        case "detail-siswa":
-            if (typeof renderDetailSiswa !== "undefined") {
-                content.innerHTML = renderDetailSiswa();
+  switch (page) {
+    case "dashboard":
+      if (typeof renderDashboard !== "undefined") {
+        content.innerHTML = renderDashboard();
+        if (typeof initDashboardListener !== "undefined")
+          initDashboardListener();
+      } else {
+        window.location.href = "/frontEnd/page/structure/dashboard.html";
+      }
+      break;
+    case "input-siswa":
+      if (typeof renderInputSiswa !== "undefined") {
+        content.innerHTML = renderInputSiswa();
+        if (typeof initInputSiswaListener !== "undefined")
+          initInputSiswaListener();
+      } else {
+        window.location.href = "/frontEnd/page/structure/dashboard.html";
+      }
+      break;
+    case "detail-siswa":
+      if (typeof renderDetailSiswa !== "undefined") {
+        content.innerHTML = renderDetailSiswa();
 
-                if (typeof initDetailSiswaListener !== "undefined") {
-                    initDetailSiswaListener(routerState);
-                }
-            } else {
-                window.location.href = '/frontEnd/page/structure/dashboard.html';
-            }
-            break;
-        case "grafik":
-        case "statistika":
-            if (typeof renderGrafik !== 'undefined') {
-                content.innerHTML = renderGrafik();
-                if (typeof initDashboardListener !== 'undefined') initDashboardListener();
-            } else {
-                window.location.href = '/frontEnd/page/structure/statistika.html';
-            }
-            break;
-        case "scan-rfid":
-            if (typeof renderScanRfid !== 'undefined') {
-                content.innerHTML = renderScanRfid();
-                if (typeof initScanRfid !== 'undefined') initScanRfid();
-            } else {
-                window.location.href = '/frontEnd/page/structure/dashboard.html';
-            }
-            break;
-        case "print":
-            if (typeof renderPrint !== 'undefined') {
-                content.innerHTML = renderPrint();
-                if (typeof initPrint !== 'undefined') initPrint();
-            } else {
-                window.location.href = '/frontEnd/page/structure/dashboard.html';
-            }
-            break;
-    }
+        if (typeof initDetailSiswaListener !== "undefined") {
+          initDetailSiswaListener(routerState);
+        }
+      } else {
+        window.location.href = "/frontEnd/page/structure/dashboard.html";
+      }
+      break;
+    case "grafik":
+    case "statistika":
+      if (typeof renderGrafik !== "undefined") {
+        content.innerHTML = renderGrafik();
+        if (typeof initStatistikaListener !== "undefined")
+          initStatistikaListener();
+      } else {
+        window.location.href = "/frontEnd/page/structure/statistika.html";
+      }
+      break;
+    case "scan-rfid":
+      if (typeof renderScanRfid !== "undefined") {
+        content.innerHTML = renderScanRfid();
+        if (typeof initScanRfid !== "undefined") initScanRfid();
+      } else {
+        window.location.href = "/frontEnd/page/structure/dashboard.html";
+      }
+      break;
+    case "print":
+      if (typeof renderPrint !== "undefined") {
+        content.innerHTML = renderPrint();
+        if (typeof initPrint !== "undefined") initPrint();
+      } else {
+        window.location.href = "/frontEnd/page/structure/dashboard.html";
+      }
+      break;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {

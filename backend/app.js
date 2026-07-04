@@ -1,21 +1,44 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
+const adminRoutes = require("./routes/adminRoutes");
 const authRoutes = require("./routes/authRoutes");
 const supabase = require("./config/db");
+const verifyToken = require("./middlewares/authMiddleware");
+const verifyAdmin = require("./middlewares/adminMiddleware");
+const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
+const ORIGIN_FRONTEND = process.env.CORS_ORIGIN;
 
 app.use(
   cors({
-    origin: "*",
+    origin: ORIGIN_FRONTEND,
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "api-token"],
   }),
 );
 
 app.use(express.json());
+app.use(cookieParser());
 
-app.post("/api/attendances/store", async (req, res) => {
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+
+app.use(helmet());
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { success: false, message: "Terlalu banyak permintaan. Coba lagi nanti." }
+});
+
+app.use("/api", globalLimiter);
+
+app.post("/api/attendances/store", verifyToken, async (req, res) => {
   try {
     const idcard = req.query.idcard;
     const mac_address = req.query.mac_address;
@@ -33,9 +56,10 @@ app.post("/api/attendances/store", async (req, res) => {
       .maybeSingle();
 
     if (userError) {
+      console.error("Error store user lookup:", userError.message);
       return res
         .status(500)
-        .json({ success: false, message: userError.message });
+        .json({ success: false, message: "Terjadi kesalahan saat memverifikasi kartu." });
     }
 
     if (!uservalid) {
@@ -60,7 +84,10 @@ app.post("/api/attendances/store", async (req, res) => {
       .lte("created_at", todayEnd.toISOString())
       .maybeSingle();
 
-    if (existingError) throw existingError;
+    if (existingError) {
+      console.error("Error check existing:", existingError.message);
+      throw existingError;
+    }
 
     if (existing) {
       return res.status(409).json({
@@ -83,9 +110,10 @@ app.post("/api/attendances/store", async (req, res) => {
       .select();
 
     if (insertError) {
+      console.error("Error insert attendance:", insertError.message);
       return res
         .status(500)
-        .json({ success: false, message: insertError.message });
+        .json({ success: false, message: "Gagal menyimpan absensi." });
     }
 
     res.json({
@@ -94,16 +122,19 @@ app.post("/api/attendances/store", async (req, res) => {
       data: attendanceData,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Error store attendance:", error.message);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan pada server." });
   }
 });
 
-app.post("/api/attendances/manual", async (req, res) => {
+app.post("/api/attendances/manual", verifyToken, async (req, res) => {
   try {
     const { username, status, keterangan } = req.body;
 
     if (!username || !username.trim()) {
-      return res.status(400).json({ success: false, error: "Nama siswa wajib diisi!" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Nama siswa wajib diisi!" });
     }
 
     const { data: user, error: userError } = await supabase
@@ -113,7 +144,8 @@ app.post("/api/attendances/manual", async (req, res) => {
       .maybeSingle();
 
     if (userError) {
-      return res.status(500).json({ success: false, error: userError.message });
+      console.error("Error manual user lookup:", userError.message);
+      return res.status(500).json({ success: false, error: "Gagal mencari data siswa." });
     }
 
     if (!user) {
@@ -136,7 +168,10 @@ app.post("/api/attendances/manual", async (req, res) => {
       .select();
 
     if (insertError) {
-      return res.status(500).json({ success: false, error: insertError.message });
+      console.error("Error manual insert:", insertError.message);
+      return res
+        .status(500)
+        .json({ success: false, error: "Gagal menyimpan absensi manual." });
     }
 
     res.json({
@@ -145,18 +180,22 @@ app.post("/api/attendances/manual", async (req, res) => {
       data: attendanceData,
     });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    console.error("Error manual attendance:", error.message);
+    res.status(500).json({ success: false, error: "Terjadi kesalahan pada server." });
   }
 });
 
-app.get("/api/attendances", async (req, res) => {
+app.get("/api/attendances", verifyToken, async (req, res) => {
   try {
     const { data: attendances, error: attError } = await supabase
       .from("attendances")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (attError) throw attError;
+    if (attError) {
+      console.error("Error fetch attendances:", attError.message);
+      throw attError;
+    }
 
     if (!attendances || attendances.length === 0) {
       return res.json({ success: true, data: [] });
@@ -165,6 +204,10 @@ app.get("/api/attendances", async (req, res) => {
     const { data: users, error: userError } = await supabase
       .from("users")
       .select("*");
+
+    if (userError) {
+      console.error("Error fetch users:", userError.message);
+    }
 
     const dataValidUsers = users || [];
 
@@ -188,125 +231,12 @@ app.get("/api/attendances", async (req, res) => {
 
     res.json({ success: true, data: dataGabungan });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    console.error("Error get attendances:", error.message);
+    res.status(500).json({ success: false, error: "Gagal memuat data absensi." });
   }
 });
 
-app.get("/api/users", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("users")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) throw error;
-
-    res.json({ success: true, data: data || [] });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
-app.get("/api/users/:nis/attendances", async (req, res) => {
-  const { nis } = req.params;
-  try {
-    // Ambil data user berdasarkan NIS untuk dapat idcard-nya
-    const { data: user, error: userErr } = await supabase
-      .from("users")
-      .select("idcard")
-      .eq("nis", nis)
-      .maybeSingle();
-
-    if (userErr) throw userErr;
-    if (!user) return res.status(404).json({ success: false, error: "Siswa tidak ditemukan" });
-
-    // Ambil 15 riwayat absensi terakhir berdasarkan idcard
-    const { data: attendances, error: attErr } = await supabase
-      .from("attendances")
-      .select("*")
-      .eq("idcard", user.idcard)
-      .order("created_at", { ascending: false })
-      .limit(15);
-
-    if (attErr) throw attErr;
-
-    res.json({ success: true, data: attendances || [] });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-app.get("/api/users/:nis", async (req, res) => {
-  const { nis } = req.params;
-
-  try {
-    const { data, error: fetchError } = await supabase
-      .from("users")
-      .select("*")
-      .eq("nis", nis)
-      .maybeSingle();
-
-    if (fetchError) throw fetchError;
-
-    if (!data) {
-      return res.status(404).json({ success: false, error: "Siswa tidak ditemukan" });
-    }
-
-    res.json({
-      success: true,
-      user: data,
-    });
-
-  } catch (error) {
-    res.status(404).json({
-      success: false,
-      message: "Data tidak ditemukan",
-    });
-  }
-})
-
-app.delete("/api/users/:nis", async (req, res) => {
-  const { nis } = req.params;
-
-  try {
-    const { data, error } = await supabase
-      .from("users")
-      .delete()
-      .eq("nis", nis);
-
-    if (error) throw error;
-
-    return res
-      .status(200)
-      .json({ success: true, message: "Data berhasil dihapus!" });
-  } catch (error) {
-    console.error("Error Delete: ", error);
-    return res.status(500).json({ success: false, message: error.message });
-  }
-});
-
-app.put("/api/users/:nis", async (req, res) => {
-  const { nis } = req.params;
-  const { username, email, rombel, role, idcard } = req.body;
-
-  try {
-    const { data, error } = await supabase
-      .from("users")
-      .update({ username, email, rombel, role, idcard })
-      .eq("nis", nis);
-
-    if (error) throw error;
-
-    return res
-      .status(200)
-      .json({ success: true, message: "Data berhasil diupdate!" });
-  } catch (error) {
-    console.error("Error saat update: ", error);
-    return res.status(500).json({ success: false, message: error.message });
-  }
-});
-
-app.put("/api/attendances/:id", async (req, res) => {
+app.put("/api/attendances/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { time_finish, status, note } = req.body;
@@ -317,7 +247,9 @@ app.put("/api/attendances/:id", async (req, res) => {
     if (note !== undefined) updateData.note = note;
 
     if (Object.keys(updateData).length === 0) {
-      return res.status(400).json({ success: false, error: "Tidak ada data yang diupdate" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Tidak ada data yang diupdate" });
     }
 
     const { data, error } = await supabase
@@ -326,19 +258,29 @@ app.put("/api/attendances/:id", async (req, res) => {
       .eq("id", id)
       .select();
 
-    if (error) throw error;
-
-    if (!data || data.length === 0) {
-      return res.status(404).json({ success: false, error: "Data absensi tidak ditemukan" });
+    if (error) {
+      console.error("Error update attendance:", error.message);
+      throw error;
     }
 
-    res.json({ success: true, message: "Data absensi berhasil diupdate", data });
+    if (!data || data.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Data absensi tidak ditemukan" });
+    }
+
+    res.json({
+      success: true,
+      message: "Data absensi berhasil diupdate",
+      data,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    console.error("Error put attendance:", error.message);
+    res.status(500).json({ success: false, error: "Gagal memperbarui data absensi." });
   }
 });
 
-app.delete("/api/attendances/:id", async (req, res) => {
+app.delete("/api/attendances/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -348,38 +290,176 @@ app.delete("/api/attendances/:id", async (req, res) => {
       .eq("id", id)
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Error delete attendance:", error.message);
+      throw error;
+    }
 
     if (!data || data.length === 0) {
-      return res.status(404).json({ success: false, error: "Data absensi tidak ditemukan" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Data absensi tidak ditemukan" });
     }
 
     res.json({ success: true, message: "Data absensi berhasil dihapus" });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    console.error("Error delete attendance:", error.message);
+    res.status(500).json({ success: false, error: "Gagal menghapus data absensi." });
   }
 });
 
-app.post("/api/auth/register-bulk", async (req, res) => {
+app.get("/api/users", verifyToken, async (req, res) => {
+  try {
+    const { data: users, error } = await supabase
+      .from("users")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetch users:", error.message);
+      throw error;
+    }
+
+    res.json({ success: true, data: users || [] });
+  } catch (error) {
+    console.error("Error get users:", error.message);
+    res.status(500).json({ success: false, message: "Gagal memuat data pengguna." });
+  }
+});
+
+app.get("/api/users/:nis", verifyToken, async (req, res) => {
+  const { nis } = req.params;
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("nis", nis)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Error get user by nis:", error.message);
+      throw error;
+    }
+    if (!data)
+      return res
+        .status(404)
+        .json({ success: false, error: "Siswa tidak ditemukan" });
+
+    res.json({ success: true, user: data });
+  } catch (error) {
+    console.error("Error get user by nis:", error.message);
+    res.status(500).json({ success: false, message: "Gagal memuat data siswa." });
+  }
+});
+
+app.put("/api/users/:nis", verifyToken, verifyAdmin, async (req, res) => {
+  const { nis } = req.params;
+  const { username, email, rombel, role, idcard } = req.body;
+
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .update({ username, email, rombel, role, idcard })
+      .eq("nis", nis);
+
+    if (error) {
+      console.error("Error update user:", error.message);
+      throw error;
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Data berhasil diupdate!" });
+  } catch (error) {
+    console.error("Error update user catch:", error.message);
+    return res.status(500).json({ success: false, message: "Terjadi kesalahan saat memperbarui data." });
+  }
+});
+
+app.delete("/api/users/:nis", verifyToken, verifyAdmin, async (req, res) => {
+  const { nis } = req.params;
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .delete()
+      .eq("nis", nis);
+
+    if (error) {
+      console.error("Error delete user:", error.message);
+      throw error;
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Data berhasil dihapus!" });
+  } catch (error) {
+    console.error("Error delete user catch:", error.message);
+    return res.status(500).json({ success: false, message: "Terjadi kesalahan saat menghapus data." });
+  }
+});
+
+app.get("/api/users/:nis/attendances", verifyToken, async (req, res) => {
+  const { nis } = req.params;
+  try {
+    const { data: user, error: userErr } = await supabase
+      .from("users")
+      .select("idcard")
+      .eq("nis", nis)
+      .maybeSingle();
+
+    if (userErr) {
+      console.error("Error get user by nis:", userErr.message);
+      throw userErr;
+    }
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, error: "Siswa tidak ditemukan" });
+
+    const { data: attendances, error: attErr } = await supabase
+      .from("attendances")
+      .select("*")
+      .eq("idcard", user.idcard)
+      .order("created_at", { ascending: false })
+      .limit(15);
+
+    if (attErr) {
+      console.error("Error fetch attendances:", attErr.message);
+      throw attErr;
+    }
+
+    res.json({ success: true, data: attendances || [] });
+  } catch (error) {
+    console.error("Error get user attendances:", error.message);
+    res.status(500).json({ success: false, error: "Gagal memuat riwayat absensi." });
+  }
+});
+
+app.post("/api/auth/register-bulk", verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { users } = req.body;
     if (!users || !Array.isArray(users) || users.length === 0) {
-      return res.status(400).json({ success: false, message: "Data users tidak valid atau kosong!" });
+      return res.status(400).json({
+        success: false,
+        message: "Data users tidak valid atau kosong!",
+      });
     }
 
     const { data, error } = await supabase.from("users").insert(users).select();
     if (error) throw error;
 
-    res.json({ success: true, message: `${data.length} data berhasil disimpan!`, data });
+    res.json({
+      success: true,
+      message: `${data.length} data berhasil disimpan!`,
+      data,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Error register-bulk:", error.message);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan saat menyimpan data." });
   }
 });
 
-app.use("/api/admin", authRoutes);
-app.use("/api/auth", authRoutes);
-
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server STANDBY di: http://localhost:${PORT}`);
 });

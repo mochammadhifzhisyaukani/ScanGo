@@ -234,6 +234,7 @@ function initInputSiswaListener() {
       const response = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           username,
           email,
@@ -312,7 +313,10 @@ async function loadTableSiswa() {
   try {
     tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr>`;
 
-    const response = await fetch("http://localhost:3000/api/users");
+    const response = await fetch("http://localhost:3000/api/users", {
+      method: "GET",
+      credentials: "include"
+    });
 
     if (!response.ok) {
       const errResult = await response.json().catch(() => ({}));
@@ -424,6 +428,7 @@ function initImportExcelListener() {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ users: jsonData }),
           },
         );
@@ -492,7 +497,7 @@ function initActionButtonsListener() {
       e.target.classList.contains("btn-delete") ||
       e.target.closest(".btn-delete")
     ) {
-      //delete
+      // delete
       const button = e.target.classList.contains("btn-delete")
         ? e.target
         : e.target.closest(".btn-delete");
@@ -514,6 +519,7 @@ function initActionButtonsListener() {
       try {
         const response = await fetch(`http://localhost:3000/api/users/${nis}`, {
           method: "DELETE",
+          credentials: "include"
         });
 
         if (!response.ok) {
@@ -626,6 +632,7 @@ async function actionEditSiswa(nis, email) {
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(formValues),
       },
     );
@@ -688,7 +695,11 @@ async function handleRombelFilterInput() {
 //detailsiswa
 async function actionDetailSiswa(nis) {
   try {
-    const response = await fetch(`http://localhost:3000/api/users/${nis}`);
+    const response = await fetch(`http://localhost:3000/api/users/${nis}`, {
+      method: "GET",
+      credentials: "include"
+    });
+
     if (!response.ok) {
       const errResult = await response.json().catch(() => ({}));
       throw new Error(errResult.message || "Gagal mengambil data");

@@ -120,6 +120,22 @@
             </main>
 
 
+            <!-- auth helper -->
+            <script>
+            (function() {
+                const origFetch = window.fetch;
+                window.fetch = function(url, options) {
+                    options = options || {};
+                    options.headers = options.headers || {};
+                    options.credentials = options.credentials || "include";
+                    const token = localStorage.getItem("token");
+                    if (token && !options.headers["Authorization"]) {
+                        options.headers["Authorization"] = "Bearer " + token;
+                    }
+                    return origFetch.call(this, url, options);
+                };
+            })();
+            </script>
             <!-- script changetheme -->
             <script src="/frontEnd/components/changetheme.js"></script>
             <!-- script content statistika -->

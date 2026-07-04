@@ -21,7 +21,6 @@ function renderDetailSiswa() {
             <!-- Panel Riwayat Kanan -->
             <div class="detail-history-panel">
                 <div class="detail-history-header">
-                    <i class="bi bi-clock-history" style="color:#6c8cff;"></i>
                     Riwayat 15 Kunjungan Terakhir
                 </div>
                 <div id="historyContent">
@@ -51,8 +50,8 @@ function initDetailSiswaListener(routerState) {
   }
 
   Promise.all([
-    fetch(`http://localhost:3000/api/users/${nis}`).then((r) => r.json()),
-    fetch(`http://localhost:3000/api/users/${nis}/attendances`).then((r) =>
+    fetch(`http://localhost:3000/api/users/${nis}`, { credentials: "include" }).then((r) => r.json()),
+    fetch(`http://localhost:3000/api/users/${nis}/attendances`, { credentials: "include" }).then((r) =>
       r.json(),
     ),
   ])

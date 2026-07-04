@@ -12,10 +12,10 @@ function renderDashboard() {
   `;
 }
 
-let clockInterval = null;
-let currentSelectedClass = "X";
-let currentSelectedRombel = null;
-let currentSelectedDate = new Date().toLocaleDateString("sv-SE");
+if (typeof window.clockInterval === "undefined") window.clockInterval = null;
+if (typeof window.currentSelectedClass === "undefined") window.currentSelectedClass = "X";
+if (typeof window.currentSelectedRombel === "undefined") window.currentSelectedRombel = null;
+if (typeof window.currentSelectedDate === "undefined") window.currentSelectedDate = new Date().toLocaleDateString("sv-SE");
 
 async function initDashboardListener() {
   const timeElement = document.getElementById("time");
@@ -53,7 +53,7 @@ async function fetchAttendanceData() {
   try {
     const response = await fetch("http://localhost:3000/api/attendances", {
       method: "GET",
-      headers: { "api-token": "12345" },
+      credentials: "include"
     });
     const result = await response.json();
     return result.success ? result.data : [];
@@ -386,8 +386,8 @@ async function editAttendancesStatus(id, currentStatus) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "api-token": "123",
         },
+        credentials: "include",
         body: JSON.stringify({ status: statusBaru.trim() }),
       },
     );
@@ -414,7 +414,7 @@ async function deleteAttendanceLog(id) {
       `http://localhost:3000/api/attendances/${id}`,
       {
         method: "DELETE",
-        headers: { "api-token": "123" },
+        credentials: "include",
       },
     );
 

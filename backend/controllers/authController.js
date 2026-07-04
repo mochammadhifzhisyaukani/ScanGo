@@ -46,7 +46,8 @@ const register = async (req, res) => {
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const userRole = role || "user";
+    const allowedRoles = ["admin", "user", "teacher", "student"];
+    const userRole = allowedRoles.includes(role) ? role : "user";
 
     const { data, error } = await supabase
       .from("users")
@@ -124,9 +125,16 @@ const login = async (req, res) => {
         rombel: user.rombel,
         nis: user.nis
       },
-      process.env.JWT_SECRET || "Secreet__",
-      { expiresIn: "1d" },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" },
     );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json({
       message: "Login berhasil!",

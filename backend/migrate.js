@@ -3,18 +3,16 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-const PROJECT_REF = "xbbraeijgltzzbfrugmg";
+const PROJECT_REF = process.env.PROJECT_REF;
 
 async function migrate() {
     const client = new Client({
         user: `postgres.${PROJECT_REF}`,
-        password: "Mazdimmm810",
+        password: process.env.DATABASE_PASSWORD,
         host: "aws-0-ap-southeast-1.pooler.supabase.com",
         port: 6543,
         database: "postgres",
-        ssl: { rejectUnauthorized: false },
+        ssl: { rejectUnauthorized: true },
         connectionTimeoutMillis: 10000,
     });
 
@@ -32,12 +30,12 @@ async function migrate() {
         console.log("Mencoba koneksi langsung ke database...");
         try {
             const directClient = new Client({
-                user: "postgres",
-                password: "Mazdimmm810",
+                user: `postgres.${PROJECT_REF}`,
+                password: process.env.DATABASE_PASSWORD,
                 host: `db.${PROJECT_REF}.supabase.co`,
                 port: 5432,
                 database: "postgres",
-                ssl: { rejectUnauthorized: false },
+                ssl: { rejectUnauthorized: true },
                 connectionTimeoutMillis: 10000,
             });
             await directClient.connect();

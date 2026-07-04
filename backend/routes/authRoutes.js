@@ -32,4 +32,13 @@ router.get("/test-vip", apiLimiter, verifyToken, (req, res) => {
   });
 });
 
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+  res.json({ success: true, message: "Logout berhasil!" });
+});
+
 module.exports = router;

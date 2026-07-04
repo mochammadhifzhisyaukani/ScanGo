@@ -125,7 +125,8 @@ function initScanRfid() {
 async function loadDaftarSiswa() {
   try {
     const res = await fetch("http://localhost:3000/api/users", {
-      headers: { "api-token": "12345" },
+      method: "GET",
+      credentials: "include"
     });
     const json = await res.json();
     if (!json.success) return;
@@ -140,7 +141,7 @@ async function loadDaftarSiswa() {
       datalist.appendChild(opt);
     });
   } catch (e) {
-    /* silently ignore */
+
   }
 }
 
@@ -174,7 +175,8 @@ async function cariNamaSiswa(nama) {
 
   try {
     const res = await fetch("http://localhost:3000/api/users", {
-      headers: { "api-token": "12345" },
+      method: "GET",
+      credentials: "include"
     });
     const json = await res.json();
     if (!json.success) return;
@@ -189,7 +191,6 @@ async function cariNamaSiswa(nama) {
       feedback.innerHTML = `<span style="color:#dc3545;"><i class="bi bi-exclamation-circle-fill"></i> Nama tidak ditemukan di database</span>`;
     }
   } catch (e) {
-    /* ignore */
   }
 }
 
@@ -211,7 +212,8 @@ async function submitScan() {
 
   try {
     const resCheck = await fetch("http://localhost:3000/api/attendances", {
-      headers: { "api-token": "12345" },
+      method: "GET",
+      credentials: "include"
     });
     const jsonCheck = await resCheck.json();
 
@@ -249,8 +251,8 @@ async function submitScan() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "api-token": "12345",
           },
+          credentials: "include",
           body: JSON.stringify({
             time_finish: sekarangJam,
           }),
@@ -263,7 +265,7 @@ async function submitScan() {
           "&mac_address=RFID",
         {
           method: "POST",
-          headers: { "api-token": "12345" },
+          credentials: "include"
         },
       );
     }
@@ -323,7 +325,8 @@ async function submitManual() {
 
   try {
     const resCheck = await fetch("http://localhost:3000/api/attendances", {
-      headers: { "api-token": "12345" },
+      method: "GET",
+      credentials: "include"
     });
     const jsonCheck = await resCheck.json();
 
@@ -369,8 +372,8 @@ async function submitManual() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "api-token": "12345",
           },
+          credentials: "include",
           body: JSON.stringify({
             time_finish: sekarangJam,
           }),
@@ -381,8 +384,8 @@ async function submitManual() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-token": "12345",
         },
+        credentials: "include",
         body: JSON.stringify({
           username: nama,
           status: status,
