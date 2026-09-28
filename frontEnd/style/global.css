@@ -1,0 +1,258 @@
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-body) !important;
+}
+
+body {
+  font-family: "Poppins", Arial, sans-serif !important;
+}
+
+:root {
+  color-scheme: light;
+  --bg-body: #f8fafc;
+  --bg-toggle: black;
+  --toggle-circle: #ffffff;
+  --transition-speed: 0.4s;
+  --color-teks: #0f172a;
+  --color-teks-sub: #475569;
+  --border-radius: 10px;
+  --color-card-bg: #ffffff;
+
+  --btn-started: black;
+  --color-btnStarted: white;
+  --btn-viewDemo: #f1f5f9;
+
+  --teks-form: black;
+  --bg-formContact: #f8f9fa;
+  --border-form: #e9ecef;
+
+  --hero-about: white;
+
+  --teks-badge-primary: #1e293b;
+  --teks-badge-secondary: #64748b;
+  --opacity-shape: 0.15;
+
+  --color-sub: #64748b;
+  --color-placeholder: #94a3b8;
+  --bg-content: #f4f6fa;
+  --bg-sidebar: #ffffff;
+  --bg-tab: #e2e8f0;
+  --border-sidebar: #f1f3f7;
+  --bg-hover: rgba(79, 70, 229, 0.02);
+  --color-stat: #1e293b;
+
+  --teks-nav-btn: white;
+
+  --color-danger: #dc2626;
+  --color-warning: #b45309;
+  --color-success: #15803d;
+  --color-primary: #1d4ed8;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-body: #0f172a;
+  --bg-toggle: #ffffff;
+  --toggle-circle: black;
+  --color-teks-sub: #94a3b8;
+  --color-teks: white; 
+  --bg-card: #121212;
+  --border-radius: 10%;
+  --color-card-bg: #1e293b;
+
+  --btn-started: white;
+  --color-btnStarted: black;
+  --color-btnViewDemo: black;
+
+  --hero-about: transparent;
+
+  --teks-form: #ffffff;
+  --bg-formContact: #1e1e1e;
+  --border-form: rgba(255, 255, 255, 0.08);
+  --background-input: #1a1a1a;
+  --color-input: white;
+  --border-input: rgba(255, 255, 255, 0.15);
+
+  /* --bg-card: silver; */
+
+  --teks-badge-primary: white;
+  --teks-badge-secondary: white;
+  --opacity-shape: 0.5;
+
+  --color-sub: #94a3b8;
+  --color-placeholder: #ffffff;
+  --bg-content: #0f172a;
+  --bg-sidebar: #1e293b;
+  --bg-tab: #1e293b;
+  --border-sidebar: rgba(255, 255, 255, 0.06);
+  --bg-hover: rgba(255, 255, 255, 0.03);
+  --color-stat: #f1f5f9;
+
+  --teks-nav-btn: black;
+
+  --color-danger: #f87171;
+  --color-warning: #fbbf24;
+  --color-success: #4ade80;
+  --color-primary: #93c5fd;
+}
+
+/* .card {
+  background-color: var(--bg-card) !important;
+} */
+
+.sweetalert-btn:hover {
+  background-color: #bd2130;
+}
+
+.sweetalert-popup {
+  background-color: var(--bg-formContact) !important;
+  color: var(--teks-form) !important;
+  border-radius: 15px !important;
+  border: 1px solid var(--border-form);
+}
+
+.swal2-actions {
+  display: flex !important;
+  width: 100% !important;
+  padding: 0 20px !important; /* Biar ada jarak kanan-kiri gak terlalu nempel dinding */
+  box-sizing: border-box;
+}
+
+.sweetalert-btn-error {
+  width: 100% !important;
+  display: block !important;
+  background-color: #dc3545;
+  height: 50px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.sweetalert-btn-success {
+  width: 100% !important;
+  display: block !important;
+  background-color: green;
+  height: 50px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* =========================================
+   Kontras warna di mode gelap
+   ========================================= */
+
+/* Hamburger navbar tetap terlihat di latar gelap */
+[data-theme="dark"] .navbar-toggler-icon {
+  filter: invert(1) grayscale(1) brightness(1.2);
+}
+
+/* Tombol tutup di modal/offcanvas yang mengikuti tema gelap */
+[data-theme="dark"] #modalTheme .btn-close,
+[data-theme="dark"] #mobileMenu .btn-close,
+[data-theme="dark"] #modalProfile .btn-close {
+  filter: invert(1) grayscale(1) brightness(1.2);
+}
+
+/* Panah dropdown pada select mengikuti tema gelap */
+[data-theme="dark"] .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* =========================================
+   Input, Select & Textarea: teks & placeholder putih di mode gelap
+   ========================================= */
+
+/* Semua input, select, textarea → teks putih */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  color: var(--color-teks) !important;
+}
+
+/* Placeholder putih di semua input/textarea */
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--color-placeholder) !important;
+  opacity: 1;
+}
+
+/* Bootstrap .form-control & .form-select → ikut tema gelap */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  color: var(--color-teks) !important;
+  background-color: var(--color-card-bg) !important;
+  border-color: var(--border-form) !important;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--color-placeholder) !important;
+}
+
+/* Bootstrap .bg-light → ikut tema gelap */
+[data-theme="dark"] .bg-light {
+  background-color: var(--bg-body) !important;
+}
+
+/* Bootstrap .text-muted → ikut tema gelap */
+[data-theme="dark"] .text-muted {
+  color: var(--color-placeholder) !important;
+}
+
+/* Utility teks Bootstrap: terang di mode gelap agar tetap kontras */
+[data-theme="dark"] .text-danger {
+  color: var(--color-danger) !important;
+}
+
+[data-theme="dark"] .text-warning {
+  color: var(--color-warning) !important;
+}
+
+[data-theme="dark"] .text-success {
+  color: var(--color-success) !important;
+}
+
+[data-theme="dark"] .text-primary {
+  color: var(--color-primary) !important;
+}
+
+/* Teks putih harus tetap putih (menang atas utility gelap di atas) */
+.text-white {
+  color: #ffffff !important;
+}
+
+/* Card Bootstrap default putih: ikut tema di mode gelap agar teks tetap terbaca */
+[data-theme="dark"] .card {
+  background-color: var(--color-card-bg);
+  color: var(--color-teks);
+  border-color: var(--border-sidebar);
+}
+
+/* Modal tema dashboard & statistika ikut warna tema */
+#modalTheme .modal-content,
+#modalProfile .modal-content {
+  background-color: var(--color-card-bg) !important;
+  color: var(--color-teks) !important;
+}
+
+#modalTheme .modal-header,
+#modalProfile .modal-header {
+  border-bottom: 1px solid var(--border-form) !important;
+}
+
+#modalTheme .modal-title,
+#modalProfile h5 {
+  color: var(--color-teks) !important;
+}
+
+#modalTheme .modal-body > span {
+  color: var(--color-teks-sub);
+}

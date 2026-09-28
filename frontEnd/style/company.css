@@ -1,0 +1,158 @@
+﻿html,
+body {
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100%;
+}
+
+body {
+  background-color: var(--bg-body) !important;
+}
+
+.title h1 {
+  font-size: 50px;
+}
+
+.leftBig-img {
+  transition: 0.3s ease-in-out;
+}
+
+.leftBig-img:hover {
+  box-shadow: 0 24px 100px #e67e22;
+  transform: translateY(-20px);
+}
+
+.rightSmall-img {
+  transition: 0.3s ease-in-out;
+}
+
+.rightSmall-img:hover {
+  box-shadow: 0 24px 100px #e67e22;
+  transform: translateX(20px);
+}
+
+.img-merkLaptop {
+  height: 50px;
+  transition: 0.3s ease-in-out;
+}
+
+.img-merkLaptop:hover {
+  transform: translateY(-20px);
+}
+
+.profile-dev {
+  transition: 0.3s ease-in-out;
+}
+
+.profile-dev:hover {
+  transform: translateY(-20px);
+}
+
+.card {
+  transition: 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 24px 100px #e67e22;
+  transform: translateY(-20px) !important;
+}
+
+.container, .container-sm {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.tech-stack-section {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.hero-company {
+  margin-top: 7%;
+  background-color: var(--bg-sidebar);
+}
+
+@media (max-width: 1920px) {
+  .hero-company {
+    margin-top: 130px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .hero-company {
+    margin-top: 120px;
+  }
+
+  .title h1 {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .hero-company {
+    margin-top: 110px;
+  }
+
+  .title h1 {
+    font-size: 38px;
+  }
+
+  .text-top h1 {
+    font-size: 40px !important;
+  }
+}
+
+@media (max-width: 1183px) {
+  .hero-company {
+    margin-top: 100px;
+  }
+
+  .title h1 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-company {
+    margin-top: 90px;
+    padding: 30px 20px !important;
+  }
+
+  .title {
+    margin-top: 30% !important;
+  }
+
+  .text-top {
+    margin-top: 0 !important;
+    text-align: center;
+  }
+
+  .text-top span {
+    font-size: 16px !important;
+  }
+
+  .text-top p {
+    font-size: 16px !important;
+  }
+
+  .text-top h1 {
+    font-size: 34px !important;
+  }
+
+  .logo-team {
+    display: none !important;
+    margin-right: 0 !important;
+  }
+
+  .title h1 {
+    font-size: 30px;
+  }
+
+  .qoute {
+    margin-top: 10% !important;
+  }
+
+  .title p {
+    font-size: 13px;
+  }
+}

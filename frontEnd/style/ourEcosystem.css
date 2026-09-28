@@ -1,0 +1,86 @@
+body {
+  background-color: var(--bg-body) !important;
+}
+
+.promote {
+  height: 100%;
+  padding: 100px;
+  color: white !important;
+  background-image: url("/frontEnd/assets/background/9333f00957425e173ae553ca70f5b930 - Copy.webp");
+  background-repeat: none !important;
+  background-size: cover;
+
+  background-size: 100% auto;
+  background-position: center;
+  transition: background-size 0.5s ease-in-out;
+}
+
+.card {
+  background-color: var(--bg-sidebar) !important;
+  color: var(--color-teks) !important;
+}
+
+.promote:hover {
+  background-size: 110% auto;
+}
+
+.container-support {
+  margin-top: 7%;
+}
+
+@media (max-width: 1920px) {
+  .container-support {
+    margin-top: 130px;
+  }
+
+  .promote {
+    padding: 80px 40px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .container-support {
+    margin-top: 120px;
+  }
+
+  .promote {
+    padding: 72px 36px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .container-support {
+    margin-top: 110px;
+  }
+}
+
+@media (max-width: 1183px) {
+  .container-support {
+    margin-top: 100px;
+    padding: 24px 16px !important;
+  }
+
+  .promote {
+    padding: 64px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-support {
+    margin-top: 90px;
+  }
+
+  .container-support h2 {
+    font-size: 1.5rem;
+  }
+
+  .gambar-depan-wikrama {
+    display: none;
+  }
+
+  .promote {
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    padding: 56px 20px;
+  }
+}

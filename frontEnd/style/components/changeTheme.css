@@ -1,0 +1,140 @@
+.theme-toggle-label {
+    width: 65px;
+    height: 32px;
+    background-color: var(--bg-toggle);
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    position: relative;
+    transition: background-color var(--transition-speed);
+}
+
+.toggle-circle {
+    width: 24px;
+    height: 24px;
+    background-color: var(--toggle-circle);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform var(--transition-speed), background-color var(--transition-speed);
+}
+
+.theme-toggle-label.dark-mode .toggle-circle {
+    transform: translateX(33px);
+}
+
+.icon-moon { display: none; fill: #f1c40f; }
+.icon-sun { display: block; fill: #b45309; }
+
+.theme-toggle-label.dark-mode .icon-moon { display: block; }
+.theme-toggle-label.dark-mode .icon-sun { display: none; }
+
+/* Container Card Tema */
+#changeTheme2 .theme-cards-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* Base Style Tombol / Card Tema */
+.theme-card {
+  background: var(--color-card-bg);
+  border: 2px solid var(--border-form);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+/* Ilustrasi Mini Dashboard di Dalam Card */
+.theme-preview {
+  width: 100%;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  background: #f8fafc;
+}
+
+.preview-dark {
+  background: #0f172a !important;
+}
+
+/* Komponen Ilustrasi Mini */
+.preview-sidebar {
+  width: 25%;
+  height: 100%;
+  background: #1e293b;
+}
+
+.preview-dark .preview-sidebar {
+  background: #e2e8f0;
+}
+
+.preview-content {
+  width: 75%;
+  height: 100%;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+
+.preview-header {
+  height: 8px;
+  width: 100%;
+  border-radius: 2px;
+  background: #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.preview-dark .preview-header {
+  background: #334155;
+}
+
+.preview-badge {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: #3b82f6;
+}
+
+/* Label Nama Tema */
+.theme-label {
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  color: var(--color-sub);
+  margin-bottom: 0 !important;
+  transition: color 0.2s ease;
+}
+
+/* Hover Effect */
+.theme-card:hover {
+  border-color: var(--color-sub);
+  transform: translateY(-2px);
+}
+
+/* State Aktif / Terpilih (Active Style) */
+.theme-card.active {
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.08);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.theme-card.active .theme-label {
+  color: #3b82f6;
+}

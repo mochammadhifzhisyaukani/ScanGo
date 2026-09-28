@@ -1,0 +1,745 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap");
+
+#content *,
+#content *::before,
+#content *::after {
+  box-sizing: border-box !important;
+}
+
+.dashboard-layout {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.left-panel {
+  flex: 0 0 350px;
+  width: 350px;
+  color: #fff;
+  border-radius: 12px;
+  position: sticky;
+  top: 20px;
+}
+
+.dashboard-right {
+  flex: 1;
+  min-width: 0;
+}
+
+.right-panel {
+  flex: 1;
+  min-width: 0;
+  background-color: transparent;
+  border-radius: 12px;
+}
+
+.main-wrapper {
+  width: 100%;
+  background-color: transparent;
+  border-radius: 12px;
+}
+
+@media (max-width: 1920px) {
+  .main-content {
+    padding: 22px 28px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .sidebar {
+    width: 220px;
+    padding: 20px;
+  }
+
+  .main-content {
+    padding: 20px 24px;
+  }
+
+  .left-panel {
+    flex: 0 0 320px;
+    width: 320px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .sidebar {
+    width: 200px;
+    padding: 18px;
+  }
+
+  .main-content {
+    padding: 18px 20px;
+  }
+
+  .left-panel {
+    flex: 0 0 300px;
+    width: 300px;
+  }
+
+  .header-title h4 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 1183px) {
+  .sidebar {
+    width: 190px;
+    padding: 16px;
+  }
+
+  .menu-icon span {
+    font-size: 0.8rem;
+  }
+
+  .main-content {
+    padding: 16px 20px;
+  }
+
+  .left-panel {
+    flex: 0 0 280px;
+    width: 280px;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .clock-date-wrapper {
+    display: none !important;
+  }
+
+  .left-panel {
+    flex: none;
+    width: 100%;
+    position: static;
+  }
+
+  .right-panel,
+  .main-wrapper {
+    flex: none;
+    width: 100%;
+  }
+}
+
+
+
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-body);
+  font-family: "Inter", sans-serif;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-sidebar);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 24px;
+  flex-shrink: 0;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+.sidebar.collapsed {
+  width: 0 !important;
+  padding: 0 !important;
+  border-right: none !important;
+}
+
+/* Sidebar jadi drawer hamburger di desktop (≥768px) */
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    z-index: 1045;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease, background-color var(--transition-speed), border-color var(--transition-speed);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.sidebar-logo {
+  width: 100%;
+  height: auto;
+  background-color: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 8px;
+  margin-bottom: 24px;
+}
+
+.sidebar-logo a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--border-sidebar);
+  border-radius: 12px;
+}
+
+.sidebar-logo a img {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+  color: var(--color-sub);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 12px;
+  gap: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.menu-icon span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.menu-icon:hover,
+.menu-icon.active {
+  color: var(--color-primary);
+  background-color: var(--bg-hover);
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px 32px;
+  background-color: transparent;
+  transition: background-color var(--transition-speed);
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.offcanvas-body .row .col-4 {
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.offcanvas-body .row .col-4:active {
+  transform: scale(0.95);
+}
+
+.offcanvas.offcanvas-bottom {
+  background-color: var(--color-card-bg) !important;
+  color: var(--color-teks) !important;
+  border-top: 1px solid var(--border-sidebar);
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid var(--border-form) !important;
+}
+
+.offcanvas-title {
+  color: var(--color-teks) !important;
+  font-weight: 700;
+}
+
+.offcanvas-body .bi {
+  color: var(--color-sub);
+}
+
+.offcanvas-body .small {
+  color: var(--color-teks-sub, var(--color-sub));
+}
+
+.header-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.header-title h4 {
+  font-weight: 700;
+  color: var(--color-teks);
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.header-nav-tabs {
+  display: flex;
+  background-color: var(--bg-tab);
+  padding: 4px;
+  border-radius: 30px;
+  gap: 2px;
+  transition: background-color var(--transition-speed);
+}
+
+.nav-tab-item {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-sub);
+  text-decoration: none;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.nav-tab-item.active {
+  background-color: var(--color-card-bg);
+  color: var(--color-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.search-wrapper {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--border-form);
+  border-radius: 10px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+.search-wrapper input {
+  border: none;
+  outline: none;
+  font-size: 0.85rem;
+  color: var(--color-teks);
+  width: 160px;
+  background: transparent;
+}
+
+.stat-card {
+  background-color: var(--color-card-bg);
+  border-radius: 18px;
+  border: none;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.01),
+    0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  padding: 24px;
+  transition: background-color var(--transition-speed);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat-value {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--color-stat);
+  margin-bottom: 8px;
+  line-height: 1;
+  transition: color var(--transition-speed);
+}
+
+.stat-indicator {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.data-card {
+  background-color: var(--color-card-bg);
+  border-radius: 20px;
+  border: none;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.01),
+    0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  padding: 28px;
+  margin-top: 24px;
+  transition: background-color var(--transition-speed);
+}
+
+.custom-table th {
+  background-color: var(--bg-side) !important;
+  font-weight: 500;
+  color: var(--color-teks) !important;
+  font-size: 0.82rem;
+  border-bottom: 1px solid var(--border-sidebar);
+  padding-bottom: 16px;
+  text-align: left;
+}
+
+.custom-table td {
+  background-color: var(--bg-side) !important;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-sidebar);
+  font-size: 0.88rem;
+  color: var(--color-teks) !important;
+  text-align: left;
+}
+
+.status-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.status-sick {
+  background-color: #FA6868;
+  color: white;
+}
+
+.status-alpa {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.status-izin {
+  background-color: #89D4FF;
+  color: #1A05A2;
+}
+
+.status-present {
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+
+.status-late {
+  background-color: #fff7ed;
+  color: #f97316;
+}
+
+.status-absent {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+.btn-download {
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+}
+
+.avatar-img {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: inline-block;
+}
+
+.clock-date-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 0 !important;
+}
+
+#time {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-teks);
+  margin: 0 !important;
+  line-height: 1.2;
+}
+
+#date {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-sub);
+  margin: 2px 0 0 0 !important;
+  line-height: 1.2;
+}
+
+/* Tombol hamburger navbar: menyatu dengan warna tema (bukan putih tulang) */
+.header-panel .btn-light {
+  background-color: var(--bg-content);
+  border: 1px solid var(--border-sidebar);
+  color: var(--color-teks);
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+.header-panel .btn-light:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Tile menu bottom sheet mobile: ikut tema (hilangkan bg-light putih tulang) */
+.offcanvas-body .bg-light {
+  background-color: var(--bg-hover) !important;
+}
+
+/* Form kontrol (select/search) di konten dashboard ikut tema gelap */
+[data-theme="dark"] .bg-light {
+  background-color: var(--bg-hover) !important;
+}
+
+.modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.3) !important;
+  backdrop-filter: blur(4px);
+}
+
+#modalTheme .modal-content {
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  background-color: var(--color-card-bg);
+  transition: background-color var(--transition-speed);
+}
+
+#modalTheme .modal-header {
+  border-bottom: 1px solid var(--border-form) !important;
+  padding: 20px 24px !important;
+}
+
+#modalTheme .modal-title {
+  color: var(--color-teks);
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  letter-spacing: -0.02em;
+}
+
+#modalTheme .btn-close {
+  background-size: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+#modalTheme .btn-close:focus {
+  box-shadow: none !important;
+  background-color: var(--bg-hover);
+}
+
+#modalTheme .modal-body {
+  padding: 24px !important;
+}
+
+#modalTheme .modal-body span {
+  display: block;
+  font-weight: 600;
+  color: var(--color-teks-sub);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 991.98px) {
+  .main-content {
+    padding: 20px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 18px 16px;
+  }
+
+  .stat-value {
+    font-size: 1.6rem;
+  }
+}
+
+/* =========================================
+   1. TAMPILAN RESPONSIVE MOBILE (Layar HP Umum < 768px)
+   ========================================= */
+@media (max-width: 767.98px) {
+
+  /* --- Main Content --- */
+  .main-content {
+    padding: 16px;
+    width: 100%;
+    overflow-x: hidden;
+    /* Mencegah layar goyang ke samping */
+  }
+
+  /* --- Header & Jam --- */
+  .header-panel {
+    display: flex;
+    flex-wrap: nowrap !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-left: 0 !important;
+  }
+
+  .header-title {
+    flex: 1;
+  }
+
+  .header-title h4 {
+    font-size: 1.25rem !important;
+    font-weight: 600;
+    white-space: normal !important;
+    line-height: 1.1 !important;
+    max-width: 130px;
+    margin: 0;
+  }
+
+  .clock-date-wrapper {
+    flex: 0 0 auto;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #time {
+    font-size: 0.95rem !important;
+    font-weight: 700;
+    margin-bottom: 2px !important;
+    line-height: 1;
+  }
+
+  #date {
+    font-size: 0.75rem !important;
+    white-space: nowrap;
+    margin: 0 !important;
+  }
+
+  /* --- Stat Card (Bubble Total Siswa) --- */
+  .stat-card {
+    padding: 16px !important;
+  }
+
+  .stat-label {
+    font-size: 0.75rem !important;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .stat-value {
+    font-size: 1.75rem !important;
+  }
+
+  .stat-indicator {
+    font-size: 0.75rem;
+  }
+
+  .header-panel {
+    flex-wrap: wrap;
+    gap: 12px 8px;
+    margin-bottom: 16px;
+    padding-left: 0 !important;
+    /* Menghilangkan margin/padding bawaan desktop */
+  }
+
+  .header-panel .header-title h4,
+  .header-panel h4 {
+    font-size: 1.1rem;
+    margin-left: 0 !important;
+  }
+
+  .header-panel .clock-date-wrapper {
+    margin-left: auto;
+  }
+
+  .header-nav-tabs,
+  #content .header-nav-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+
+  .header-nav-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .header-nav-tabs .nav-tab-item {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .header-panel {
+    background-color: var(--bg-content);
+    border-bottom: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+
+  .header-panel .clock-date-wrapper {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .header-panel #date {
+    display: block;
+  }
+
+  .header-panel #time {
+    font-size: 0.92rem;
+  }
+}
+
+/* Layar sempit (±370px): pastikan jam & tanggal tetap flex dan muat */
+@media (max-width: 370px) {
+  .header-panel .d-flex.align-items-center.gap-2 h4 {
+    font-size: 0.95rem;
+  }
+
+  .header-panel .clock-date-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+  }
+
+  .header-panel #time {
+    font-size: 0.85rem;
+  }
+
+  .header-panel #date {
+    font-size: 0.68rem;
+    display: block;
+  }
+}

@@ -1,0 +1,347 @@
+body {
+  font-family: "Poppins", system-ui, -apple-system, sans-serif !important;
+  background-color: var(--bg-body, #f8fafc);
+  color: var(--color-teks, #0f172a);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: background-color var(--transition-speed, 0.4s) ease,
+              color var(--transition-speed, 0.4s) ease;
+}
+
+/* ===== SISI KIRI (Left Branding & Hero) ===== */
+.contact-left-side {
+  background:
+    linear-gradient(135deg, rgba(100, 97, 97, 0.32) 30%, rgba(38, 36, 36, 0.18) 50%),
+    url("/frontEnd/assets/background/1695789061-post.webp") center/cover no-repeat;
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  padding: 4rem !important;
+  overflow: hidden;
+}
+
+.contact-left-side::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.contact-left-side::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Tombol Beranda */
+.contact-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1.15rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.25s ease;
+}
+
+.contact-home-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff !important;
+  transform: translateX(-3px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.contact-home-link i {
+  font-size: 1rem;
+}
+
+/* Tipografi Sisi Kiri */
+.contact-quote-title {
+  font-size: 2.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #ffffff !important;
+  letter-spacing: -0.02em;
+}
+
+.contact-icon {
+  color: #38bdf8 !important;
+  font-size: 1.2rem;
+}
+
+.contact-desc-small {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-size: 0.925rem;
+  line-height: 1.65;
+  max-width: 460px;
+}
+
+/* ===== SISI KANAN (Form Card) ===== */
+.contact-right-side {
+  background-color: var(--bg-body, #f8fafc);
+  padding: 3rem 1.5rem;
+  transition: background-color var(--transition-speed, 0.4s) ease;
+}
+
+.contact-form-card {
+  max-width: 520px;
+  background-color: var(--color-card-bg, #ffffff);
+  padding: 2.75rem 2.5rem;
+  border: 1px solid var(--border-form, #e2e8f0);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color var(--transition-speed, 0.4s) ease,
+              border-color var(--transition-speed, 0.4s) ease;
+}
+
+.contact-form-card:hover {
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(56, 189, 248, 0.2) !important;
+  transform: translateY(-2px);
+}
+
+.contact-card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-teks, #0f172a);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem !important;
+}
+
+.contact-card-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-teks-sub, #64748b) !important;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ===== Form Labels & Inputs ===== */
+.contact-label {
+  color: var(--color-teks, #334155);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+  display: block;
+}
+
+/* Standalone Input & Textarea */
+.contact-input {
+  background-color: var(--background-input, #f8fafc) !important;
+  color: var(--color-teks, #0f172a) !important;
+  border: 1.5px solid var(--border-form, #cbd5e1) !important;
+  padding: 0.75rem 1rem;
+  font-size: 0.925rem;
+  border-radius: 12px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-input::placeholder {
+  color: var(--color-placeholder, #94a3b8) !important;
+  opacity: 0.7;
+  font-size: 0.875rem;
+}
+
+.contact-input:focus {
+  border-color: #828282 !important;
+  background-color: var(--color-card-bg, #ffffff) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+  outline: none;
+}
+
+/* Textarea Specific */
+textarea.contact-input {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Input Group with Icon Addon */
+.input-group {
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.contact-input-addon {
+  background-color: var(--bg-tab, #f1f5f9) !important;
+  color: var(--color-teks-sub, #64748b) !important;
+  border: 1.5px solid var(--border-form, #cbd5e1) !important;
+  border-right: none !important;
+  padding: 0 1rem;
+  font-size: 1rem;
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  transition: all 0.2s ease;
+}
+
+.input-group .contact-input {
+  border-left: none !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Input Group Focus Synchronization */
+.input-group:focus-within .contact-input-addon {
+  border-color: #3b82f6 !important;
+  color: #3b82f6 !important;
+  background-color: var(--color-card-bg, #ffffff) !important;
+}
+
+.input-group:focus-within .contact-input {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* ===== Submit Button ===== */
+.contact-btn-submit {
+  background: var(--color-teks, #0f172a) !important;
+  color: var(--color-card-bg, #ffffff) !important;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0.25rem;
+}
+
+.contact-btn-submit:hover {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.22);
+}
+
+.contact-btn-submit:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+}
+
+/* ===== Terms Text & Links ===== */
+.contact-terms-text {
+  color: var(--color-teks-sub, #64748b) !important;
+  font-size: 0.775rem;
+  line-height: 1.5;
+}
+
+.contact-terms-text a {
+  color: #2563eb !important;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-terms-text a:hover {
+  text-decoration: underline !important;
+}
+
+/* ===== MODE GELAP (Dark Theme Override) ===== */
+[data-theme="dark"] .contact-form-card {
+  background-color: var(--color-card-bg, #1e293b);
+  border-color: var(--border-form, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .contact-form-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(56, 189, 248, 0.3) !important;
+}
+
+[data-theme="dark"] .contact-input {
+  background-color: #0f172a !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .contact-input-addon {
+  background-color: #111827 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .contact-input:focus {
+  border-color: #38bdf8 !important;
+  background-color: #0f172a !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2) !important;
+}
+
+[data-theme="dark"] .input-group:focus-within .contact-input-addon {
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+  background-color: #0f172a !important;
+}
+
+[data-theme="dark"] .input-group:focus-within .contact-input {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2) !important;
+}
+
+[data-theme="dark"] .contact-btn-submit {
+  background: #38bdf8 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="dark"] .contact-btn-submit:hover {
+  background: #7dd3fc !important;
+  color: #0f172a !important;
+  box-shadow: 0 8px 20px -4px rgba(56, 189, 248, 0.3);
+}
+
+[data-theme="dark"] .contact-terms-text a {
+  color: #38bdf8 !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .contact-left-side {
+    padding: 3rem 2.5rem !important;
+  }
+  .contact-quote-title {
+    font-size: 1.85rem;
+  }
+  .contact-form-card {
+    padding: 2.25rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-form-card {
+    padding: 2rem 1.5rem;
+    max-width: 100%;
+    border-radius: 20px;
+  }
+  .contact-card-title {
+    font-size: 1.5rem;
+  }
+  .contact-right-side {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-form-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 18px;
+  }
+  .contact-right-side {
+    padding: 1.5rem 0.75rem;
+  }
+}

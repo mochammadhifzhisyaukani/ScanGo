@@ -1,0 +1,340 @@
+.detail-siswa-wrapper {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 4px 0;
+  flex-wrap: wrap;
+}
+
+/* === KARTU PROFIL KIRI === */
+.detail-profile-card {
+  background: var(--color-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 28px 24px 20px;
+  min-width: 260px;
+  max-width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  transition: background-color var(--transition-speed);
+}
+
+.detail-avatar-wrapper {
+  margin-bottom: 14px;
+}
+
+.detail-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #e8eaff;
+  color: #5c6bc0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.detail-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-teks);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.detail-nis-code {
+  font-size: 0.82rem;
+  color: var(--color-teks-sub);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.detail-badges {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.badge-role {
+  background: #e8eaff;
+  color: #5c6bc0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.badge-status-aktif {
+  background: #e8f8ef;
+  color: #2ecc71;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.detail-info-grid {
+  width: 100%;
+  border-top: 1px solid var(--border-form);
+  padding-top: 16px;
+  margin-bottom: 16px;
+}
+
+.detail-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-form);
+}
+
+.detail-info-label {
+  font-size: 0.82rem;
+  color: var(--color-teks-sub);
+  font-weight: 500;
+}
+
+.detail-info-value {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-teks);
+}
+
+.detail-info-value.rfid-badge {
+  background: #eef2ff;
+  color: #5c6bc0;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.detail-stats-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.detail-stat-box {
+  flex: 1;
+  background: var(--bg-body);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  transition: background-color var(--transition-speed);
+}
+
+.detail-stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-teks);
+  line-height: 1;
+}
+
+.detail-stat-label {
+  font-size: 0.7rem;
+  color: var(--color-teks-sub);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.detail-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-detail-edit {
+  width: 100%;
+  padding: 10px;
+  background: #f5a623;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-detail-edit:hover {
+  background: #e0941a;
+}
+
+.btn-detail-back {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg-content);
+  color: var(--color-teks);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color var(--transition-speed);
+}
+
+.btn-detail-back:hover {
+  background: var(--bg-hover);
+}
+
+/* === PANEL RIWAYAT KANAN === */
+.detail-history-panel {
+  background: var(--color-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  flex: 1;
+  min-width: 300px;
+  transition: background-color var(--transition-speed);
+}
+
+.detail-history-header {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-teks);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.detail-history-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-teks-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border-form);
+  text-align: left;
+}
+
+.detail-history-table tbody td {
+  font-size: 0.82rem;
+  color: var(--color-teks);
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--border-form);
+  vertical-align: middle;
+}
+
+.detail-history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.jam-badge-masuk {
+  display: inline-block;
+  background: #e8f8ef;
+  color: #2ecc71;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.jam-badge-keluar {
+  display: inline-block;
+  background: #fef0e8;
+  color: #e67e22;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.status-badge-hadir {
+  display: inline-block;
+  background: #e8f8ef;
+  color: #2ecc71;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.status-badge-lainnya {
+  display: inline-block;
+  background: var(--bg-content);
+  color: var(--color-teks-sub);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.detail-empty-history {
+  text-align: center;
+  color: var(--color-sub);
+  padding: 40px 0;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 1920px) {
+  .detail-history-panel {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .detail-profile-card {
+    padding: 24px 20px 16px;
+  }
+
+  .detail-history-panel {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .detail-profile-card {
+    max-width: 260px;
+    min-width: 230px;
+  }
+}
+
+@media (max-width: 1183px) {
+  .detail-profile-card {
+    max-width: 260px;
+    min-width: 230px;
+  }
+
+  .detail-history-panel {
+    padding: 18px;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-siswa-wrapper {
+    flex-direction: column;
+  }
+  .detail-profile-card {
+    max-width: 100%;
+    width: 100%;
+  }
+  .detail-history-panel {
+    min-width: 0;
+    width: 100%;
+    padding: 16px;
+    overflow-x: auto;
+  }
+  .detail-history-table {
+    min-width: 560px;
+  }
+}

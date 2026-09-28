@@ -1,0 +1,52 @@
+const footer = document.getElementById("footer");
+
+footer.innerHTML = `
+<footer class="footer-section py-5 animate__animated animate__fadeIn w-100">
+  <div class="container-fluid">
+    <div class="footer-card p-5 shadow-sm">
+      <div class="row gy-4">
+        
+        <div class="col-lg-6">
+        <b><h3 style="font-size: 35px;background: black; -webkit-background-clip: text; font-weight: bold;">ScanGo</h3></b>
+          <p class="mt-3">
+            Jl. Raya Wangun, Kelurahan Sindangsari,<br>
+            Kecamatan Bogor Timur, Kota Bogor, Jawa Barat<br>
+            16146.
+          </p>
+        </div>
+
+        <div class="col-lg-2 col-6">
+          <h6 class="fw-bold text-center">Kerja Sama</h6>
+          <ul class="list-unstyled text-muted">
+            <li class="mb-2"><a href="/frontEnd/page/structure/ourEcosystem.html" class="text-secondary text-decoration-none">Mitra</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-6" style="text-align: end !important;">
+          <h6 class="fw-bold text-center">Perusahaan</h6>
+          <ul class="list-unstyled text-muted">
+            <li class="mb-2"><a href="/frontEnd/page/structure/about.html" class="text-secondary text-decoration-none">Tentang</a></li>
+            <li class="mb-2"><a href="/frontEnd/page/structure/contact.html" class="text-secondary text-decoration-none">Kontak</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-6" style="text-align: end !important;">
+          <h6 class="fw-bold text-center">Produk</h6>
+          <ul class="list-unstyled text-muted">
+            <li class="mb-2"><a href="/frontEnd/page/structure/signIn.html" class="text-secondary text-decoration-none">Kehadiran</a></a></li>
+            <li class="mb-2"><a href="/frontEnd/page/structure/guide.html" class="text-secondary text-decoration-none">Panduan</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="mt-5 mb-3">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <small>© 2026 ScanGo. Semua Hak dilindungi Udang-undang</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+`;
