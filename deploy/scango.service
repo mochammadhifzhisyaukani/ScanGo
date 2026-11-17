@@ -1,0 +1,28 @@
+# Salin ke /etc/systemd/system/scango.service
+# Lalu: sudo systemctl daemon-reload && sudo systemctl enable --now scango
+[Unit]
+Description=ScanGo (Express API absensi RFID)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/scango
+Environment=NODE_ENV=production
+# Port internal, hanya diakses nginx. Menimpa PORT di .env.
+Environment=PORT=3100
+# Sesuaikan jika node bukan di /usr/bin/node (cek: command -v node)
+ExecStart=/usr/bin/node backend/app.js
+Restart=always
+RestartSec=5
+
+# Hardening ringan
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

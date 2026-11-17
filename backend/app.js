@@ -3,6 +3,8 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+// Di belakang reverse proxy (nginx di server / Vercel): pakai IP asli klien dari X-Forwarded-For
+app.set("trust proxy", 1);
 const apiV1 = require("./routes/apiV1");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
