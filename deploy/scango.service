@@ -9,7 +9,7 @@ Wants=network-online.target
 Type=simple
 User=www-data
 Group=www-data
-WorkingDirectory=/var/www/scango
+WorkingDirectory=/var/www/scango.smkwikrama.sch.id
 Environment=NODE_ENV=production
 # Port internal, hanya diakses nginx. Menimpa PORT di .env.
 Environment=PORT=3100

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy ScanGo di server (jalankan dari /var/www/scango): bash deploy.sh [branch]
+# Deploy ScanGo di server (jalankan dari /var/www/scango.smkwikrama.sch.id): bash deploy.sh [branch]
 set -euo pipefail
 
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

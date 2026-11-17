@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Server | `srv-wikrama`, user `adminwikrama` (sama dengan SIDATA) |
-| Folder aplikasi | `/var/www/scango` |
+| Folder aplikasi | `/var/www/scango.smkwikrama.sch.id` |
 | Domain | `scango.smkwikrama.sch.id` (ganti jika berbeda) |
 | Port internal Node | `3100` (hanya diakses nginx) |
 | Database | tetap Supabase (tidak memakai MySQL SIDATA) |
@@ -30,15 +30,15 @@ command -v node   # harus /usr/bin/node (sesuai scango.service)
 
 ### 2. Clone repo
 ```bash
-sudo mkdir -p /var/www/scango
-sudo chown adminwikrama:www-data /var/www/scango
-git clone -b deploy https://github.com/mazdim131/ScanGo.git /var/www/scango
-cd /var/www/scango
+sudo mkdir -p /var/www/scango.smkwikrama.sch.id
+sudo chown adminwikrama:www-data /var/www/scango.smkwikrama.sch.id
+git clone -b deploy https://github.com/mazdim131/ScanGo.git /var/www/scango.smkwikrama.sch.id
+cd /var/www/scango.smkwikrama.sch.id
 ```
 Jika repo private, pakai deploy key SSH atau personal access token.
 
 ### 3. Siapkan `.env`
-Pastikan `/var/www/scango/.env` berisi nilai produksi: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `JWT_SECRET`, `DATABASE_URL`.
+Pastikan `/var/www/scango.smkwikrama.sch.id/.env` berisi nilai produksi: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `JWT_SECRET`, `DATABASE_URL`.
 `CORS_ORIGIN` boleh `https://scango.smkwikrama.sch.id` (request dari domain yang sama tetap diizinkan otomatis).
 `PORT` diabaikan; port diatur `scango.service` (3100).
 
@@ -78,7 +78,7 @@ curl -sI https://scango.smkwikrama.sch.id/backend/app.js | head -n 1  # 404
 
 Di laptop: gabungkan perubahan ke branch `deploy` lalu push (lihat di bawah). Di server:
 ```bash
-cd /var/www/scango
+cd /var/www/scango.smkwikrama.sch.id
 bash deploy.sh
 ```
 Berhasil jika baris terakhir `Deploy ScanGo selesai.`
@@ -102,11 +102,11 @@ git merge --ff-only master     # atau: git merge master
 git push origin deploy
 git checkout master
 ```
-Lalu di server: `cd /var/www/scango && bash deploy.sh`.
+Lalu di server: `cd /var/www/scango.smkwikrama.sch.id && bash deploy.sh`.
 
 Server yang terlanjur di-clone dari `master` bisa dipindah:
 ```bash
-cd /var/www/scango
+cd /var/www/scango.smkwikrama.sch.id
 git fetch origin deploy
 git checkout -b deploy origin/deploy
 ```
