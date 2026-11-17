@@ -61,7 +61,7 @@ curl -sI http://127.0.0.1:3100/api-docs | head -n 1   # HTTP/1.1 200 OK
 sudo cp deploy/nginx-scango.conf /etc/nginx/sites-available/scango
 sudo ln -s /etc/nginx/sites-available/scango /etc/nginx/sites-enabled/scango
 sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d scango.smkwikrama.sch.id
+# Tidak pakai certbot: HTTPS memakai sertifikat sidata-local (sama seperti situs lain), di belakang Cloudflare.
 ```
 `nginx -t` wajib lolos sebelum reload. Kalau gagal, SIDATA tetap jalan dengan config lama; perbaiki dulu errornya.
 
