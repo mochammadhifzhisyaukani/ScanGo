@@ -1,0 +1,502 @@
+/* ==========================================================================
+   ScanGo - Traffic Tap Kartu & Analisis Jam Puncak CSS
+   ========================================================================== */
+
+.traffic-wrapper {
+  padding: 10px 24px 40px 24px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .traffic-wrapper {
+    padding: 10px 12px 30px 12px;
+  }
+}
+
+/* ── Metric Cards Grid ─────────────────────────────────────────────────── */
+.traffic-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.traffic-metric-card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--border-sidebar);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.traffic-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.traffic-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.traffic-metric-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.traffic-metric-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-teks);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.traffic-metric-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-sub);
+  margin-top: 4px;
+}
+
+.traffic-metric-sub {
+  font-size: 0.75rem;
+  color: var(--color-sub);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Filter & Control Bar ──────────────────────────────────────────────── */
+.traffic-control-panel {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--border-sidebar);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.traffic-control-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.traffic-filters-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.traffic-filter-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.traffic-filter-item label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-sub);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.traffic-filter-item .form-select,
+.traffic-filter-item .form-control {
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-sidebar);
+  background-color: var(--color-card-bg);
+  color: var(--color-teks);
+  height: 38px;
+}
+
+.traffic-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Auto-Refresh Toggle Pill */
+.live-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid var(--border-sidebar);
+  background-color: var(--color-card-bg);
+  color: var(--color-teks);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 38px;
+}
+
+.live-toggle-btn.active {
+  background-color: #ecfdf5;
+  border-color: #10b981;
+  color: #047857;
+}
+
+[data-theme="dark"] .live-toggle-btn.active {
+  background-color: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+  color: #34d399;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #94a3b8;
+}
+
+.live-toggle-btn.active .live-dot {
+  background-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+  animation: pulseLive 1.5s infinite;
+}
+
+@keyframes pulseLive {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* ── Panels / Tables Layout ────────────────────────────────────────────── */
+.traffic-panel {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--border-sidebar);
+  border-radius: 14px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.traffic-panel-head {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-sidebar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.traffic-panel-title h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-teks);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.traffic-panel-title p {
+  font-size: 0.82rem;
+  color: var(--color-sub);
+  margin: 3px 0 0 0;
+}
+
+.traffic-table-responsive {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.traffic-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  margin-bottom: 0;
+}
+
+.traffic-table th {
+  background-color: var(--bg-body);
+  color: var(--color-sub);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.5px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-sidebar);
+  white-space: nowrap;
+}
+
+.traffic-table td {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-sidebar);
+  color: var(--color-teks);
+  vertical-align: middle;
+}
+
+.traffic-table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Highlighted Peak Row */
+.traffic-table tr.peak-row {
+  background-color: rgba(239, 68, 68, 0.05);
+  font-weight: 500;
+  border-left: 4px solid #ef4444;
+}
+
+[data-theme="dark"] .traffic-table tr.peak-row {
+  background-color: rgba(239, 68, 68, 0.12);
+}
+
+.traffic-table tr.peak-row td {
+  color: var(--color-teks);
+}
+
+/* ── Visual Bar / Progress ─────────────────────────────────────────────── */
+.peak-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 130px;
+}
+
+.peak-progress-bar {
+  flex: 1;
+  height: 8px;
+  background-color: var(--bg-tab);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.peak-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #4f46e5, #06b6d4);
+  transition: width 0.4s ease;
+}
+
+.peak-progress-fill.peak {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+}
+
+.peak-progress-text {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-sub);
+  width: 42px;
+  text-align: right;
+}
+
+/* ── Interval / Jeda Badges ────────────────────────────────────────────── */
+.badge-jeda {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-jeda-rush {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.badge-jeda-fast {
+  background-color: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.badge-jeda-normal {
+  background-color: #fefce8;
+  color: #ca8a04;
+  border: 1px solid #fef08a;
+}
+
+.badge-jeda-idle {
+  background-color: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.badge-jeda-first {
+  background-color: #eef2ff;
+  color: #4f46e5;
+  border: 1px solid #c7d2fe;
+}
+
+[data-theme="dark"] .badge-jeda-rush {
+  background-color: rgba(220, 38, 38, 0.15);
+  color: #f87171;
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="dark"] .badge-jeda-fast {
+  background-color: rgba(22, 163, 74, 0.15);
+  color: #4ade80;
+  border-color: rgba(22, 163, 74, 0.3);
+}
+
+[data-theme="dark"] .badge-jeda-normal {
+  background-color: rgba(202, 138, 4, 0.15);
+  color: #facc15;
+  border-color: rgba(202, 138, 4, 0.3);
+}
+
+[data-theme="dark"] .badge-jeda-idle {
+  background-color: rgba(100, 116, 139, 0.15);
+  color: #94a3b8;
+  border-color: rgba(100, 116, 139, 0.3);
+}
+
+[data-theme="dark"] .badge-jeda-first {
+  background-color: rgba(79, 70, 229, 0.15);
+  color: #818cf8;
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+/* Status Badges */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.badge-status-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-status-warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-status-info {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.badge-status-success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+[data-theme="dark"] .badge-status-danger {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+[data-theme="dark"] .badge-status-warning {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+}
+
+[data-theme="dark"] .badge-status-info {
+  background-color: rgba(14, 165, 233, 0.2);
+  color: #7dd3fc;
+}
+
+[data-theme="dark"] .badge-status-success {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+/* ── Monospace timestamps ──────────────────────────────────────────────── */
+.time-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* ── Mini Timeline Visual Bar Chart ────────────────────────────────────── */
+.traffic-timeline-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 60px;
+  padding: 8px 12px;
+  background-color: var(--bg-body);
+  border-radius: 10px;
+  margin-top: 14px;
+  overflow-x: auto;
+}
+
+.timeline-slot {
+  flex: 1;
+  min-width: 22px;
+  max-width: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.timeline-bar-col {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background-color: #6366f1;
+  transition: height 0.3s ease, background-color 0.2s ease;
+  min-height: 4px;
+}
+
+.timeline-slot:hover .timeline-bar-col {
+  background-color: #4f46e5;
+  filter: brightness(1.15);
+}
+
+.timeline-slot.peak .timeline-bar-col {
+  background: linear-gradient(180deg, #ef4444, #f59e0b);
+}
+
+.timeline-label {
+  font-size: 0.64rem;
+  color: var(--color-sub);
+  white-space: nowrap;
+}
+
+/* Empty State */
+.traffic-empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--color-sub);
+}
+
+.traffic-empty-state i {
+  font-size: 2.8rem;
+  opacity: 0.5;
+  margin-bottom: 12px;
+  display: block;
+}

@@ -144,7 +144,7 @@ function renderGrafik() {
                             <div class="panel-head">
                                 <div>
                                     <h3>Distribusi Jam Tap-in</h3>
-                                    <p>Jam masuk mulai 07:00 — batas tepat waktu 07:30</p>
+                                    <p>Jam masuk mulai 04:30 — batas tepat waktu 07:00</p>
                                 </div>
                             </div>
                             <div class="chart-box" id="timeChart"></div>
@@ -522,9 +522,9 @@ window.initGrafikListener = async function () {
         let isTerlambat = false;
         if (attObj.created_at) {
           const dtt = new Date(attObj.created_at);
-          const hrs = dtt.getHours();
-          const mins = dtt.getMinutes();
-          if (hrs > 8 || (hrs === 8 && mins >= 10)) {
+          const totalMin = dtt.getHours() * 60 + dtt.getMinutes();
+          // Tepat waktu: 04:30 - 07:00 ; terlambat: setelah 07:00 s/d 10:00
+          if (totalMin > 7 * 60) {
             isTerlambat = true;
           }
         }
@@ -597,20 +597,20 @@ window.initGrafikListener = async function () {
     { label: "Tidak Hadir", value: countBelum + countAlfa, color: "#E25C5C" }
   ];
 
-  // Jam Tap-in — selalu tampilkan 07:00 sampai 14:00 (8 slot)
-  const TAP_START_HR = 7; // mulai jam 7 pagi
+  // Jam Tap-in — tampilkan 04:00 sampai 12:00 (9 slot)
+  const TAP_START_HR = 4; // mulai jam 4 pagi
   const tLabels = [];
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 9; i++) {
     tLabels.push(String(TAP_START_HR + i).padStart(2, '0') + ":00");
   }
 
-  let tBins = [0, 0, 0, 0, 0, 0, 0, 0];
+  let tBins = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   Array.from(hadirMap.values()).forEach(a => {
     if (a.created_at) {
       const hrs = new Date(a.created_at).getHours();
       let binIdx = hrs - TAP_START_HR;
       if (binIdx < 0) binIdx = 0;
-      if (binIdx > 7) binIdx = 7;
+      if (binIdx > 8) binIdx = 8;
       tBins[binIdx]++;
     }
   });

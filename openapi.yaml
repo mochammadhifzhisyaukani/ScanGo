@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  title: ScanGo API
+  version: 1.0.0
+  description: Sistem absensi siswa berbasis RFID
+servers:
+  - url: /api/v1
+    description: API Version 1
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register user baru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - username
+                - idcard
+                - rombel
+                - nis
+                - whatsapp
+                - rayon
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                username:
+                  type: string
+                idcard:
+                  type: string
+                rombel:
+                  type: string
+                nis:
+                  type: string
+                whatsapp:
+                  type: string
+                rayon:
+                  type: string
+                kelas:
+                  type: string
+      responses:
+        '201':
+          description: Registrasi berhasil
+        '400':
+          description: Email/username sudah terdaftar
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login berhasil
+        '401':
+          description: Email atau password salah
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout user
+      responses:
+        '200':
+          description: Logout berhasil
+  /attendances:
+    get:
+      tags:
+        - Attendance
+      summary: Get semua data absensi
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Daftar absensi
+  /attendances/traffic:
+    get:
+      tags:
+        - Attendance
+      summary: Analisis traffic tap kartu dan jam puncak absensi
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: date
+          in: query
+          description: Tanggal analisis (YYYY-MM-DD), default hari ini
+          required: false
+          schema:
+            type: string
+        - name: interval
+          in: query
+          description: Rentang waktu dalam menit (15, 30, 60), default 30
+          required: false
+          schema:
+            type: integer
+        - name: mode
+          in: query
+          description: Tipe tap kartu (all, masuk, keluar), default all
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Analisis traffic dan log jeda absensi
+    post:
+      tags:
+        - Attendance
+      summary: Catat absensi manual
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                status:
+                  type: string
+                note:
+                  type: string
+      responses:
+        '200':
+          description: Absensi berhasil dicatat
+  /attendances/{id}:
+    put:
+      tags:
+        - Attendance
+      security:
+        - bearerAuth: []
+      summary: Update absensi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                time_finish:
+                  type: string
+                status:
+                  type: string
+                note:
+                  type: string
+      responses:
+        '200':
+          description: Data absensi berhasil diupdate
+    delete:
+      tags:
+        - Attendance
+      security:
+        - bearerAuth: []
+      summary: Hapus absensi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Data absensi berhasil dihapus
+  /users:
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      summary: Get semua users
+      responses:
+        '200':
+          description: Daftar users
+  /users/{nis}:
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      summary: Get user by NIS
+      parameters:
+        - name: nis
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data user
+        '404':
+          description: Siswa tidak ditemukan
+  /users/{nis}/attendances:
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      summary: Get riwayat absensi user
+      parameters:
+        - name: nis
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Riwayat absensi
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

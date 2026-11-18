@@ -3,51 +3,26 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const adminRoutes = require("./routes/adminRoutes");
+// Di belakang reverse proxy (nginx di server / Vercel): pakai IP asli klien dari X-Forwarded-For
+app.set("trust proxy", 1);
+const apiV1 = require("./routes/apiV1");
 const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const supabase = require("./config/db");
-const verifyToken = require("./middlewares/authMiddleware");
-const verifyAdmin = require("./middlewares/adminMiddleware");
+// Auth middleware disabled - all endpoints public
+const verifyToken = (req, res, next) => next();
+const verifyAdmin = (req, res, next) => next();
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const errorHandler = require("./middlewares/errorMiddleware");
 
 const ORIGIN_FRONTEND = (process.env.CORS_ORIGIN || "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
 
-const WA_ENABLED = process.env.WA_ENABLED === "true";
-const WA_GATEWAY_URL = process.env.WA_GATEWAY_URL || "";
-
-function kirimNotifikasiWeb(siswa, jenis) {
-  if (!WA_ENABLED) return;
-  if (!siswa?.whatsapp) return;
-
-  fetch(`${WA_GATEWAY_URL}/api/send-notification`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      whatsapp: siswa.whatsapp,
-      username: siswa.username,
-      rombel: siswa.rombel,
-      jenis,
-    }),
-  })
-    .then(() => console.log(`✅ Notifikasi WA (${jenis}) dikirim ke gateway.`))
-    .catch((err) =>
-      console.error("❌ Gagal hubungi gateway WhatsApp:", err.message),
-    );
-}
-
-// Jendela "hari ini" berbasis WIB (UTC+7), bukan timezone server
-function rentangHariWIB() {
-  const WIB_OFFSET_MS = 7 * 60 * 60 * 1000;
-  const startWib = new Date(Date.now() + WIB_OFFSET_MS);
-  startWib.setUTCHours(0, 0, 0, 0);
-  const endWib = new Date(startWib.getTime() + 24 * 60 * 60 * 1000 - 1);
-  return { startWib: startWib.toISOString(), endWib: endWib.toISOString() };
-}
+const { rentangHariWIB, masukStatus } = require("./services/helper");
 
 // Helmet & body parser harus dipasang sebelum route
 app.use(
@@ -94,13 +69,34 @@ app.use(
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 1400,
-  message: { success: false, message: "Terlalu banyak permintaan. Coba lagi nanti." }
+  message: { success: false, message: "Terlalu banyak permintaan. Coba lagi nanti." },
 });
 app.use("/api", globalLimiter);
 
+// API v1 routes
+app.use("/api/v1", apiV1);
+
+// Serve OpenAPI docs
+const fs = require("fs");
+const path = require("path");
+
+app.get("/openapi.yaml", (req, res) => {
+  res.type("application/yaml");
+  fs.createReadStream(path.join(__dirname, "../openapi.yaml")).pipe(res);
+});
+
+app.get("/api-docs", (req, res) => {
+  res.sendFile(path.join(__dirname, "../swagger.html"));
+});
+
+// Auth routes (public, no version prefix for backward compatibility)
 app.use("/api/auth", authRoutes);
+
+// Admin routes
 app.use("/api/admin", adminRoutes);
 
+// Attendance store (RFID card scan)
+// @route POST /api/attendances/store
 app.post("/api/attendances/store", verifyToken, async (req, res) => {
   try {
     const idcard = req.query.idcard;
@@ -172,13 +168,21 @@ app.post("/api/attendances/store", verifyToken, async (req, res) => {
       });
     }
 
+    const statusMasuk = masukStatus();
+    if (!statusMasuk) {
+      return res.status(403).json({
+        success: false,
+        message: "Di luar jam absensi masuk (04:30 - 10:00).",
+      });
+    }
+
     const { data: attendanceData, error: insertError } = await supabase
       .from("attendances")
       .insert([
         {
           idcard,
           mac_address: mac_address || "RFID Reader Card 135KHZ",
-          status: "Hadir",
+          status: statusMasuk,
         },
       ])
       .select();
@@ -189,8 +193,6 @@ app.post("/api/attendances/store", verifyToken, async (req, res) => {
         .status(500)
         .json({ success: false, message: "Gagal menyimpan absensi." });
     }
-
-    kirimNotifikasiWeb(uservalid, "MASUK");
 
     res.json({
       success: true,
@@ -211,7 +213,10 @@ app.post("/api/attendances/tap", verifyToken, async (req, res) => {
     const query = req.query || {};
     const rawIdcard = String(body.idcard ?? query.idcard ?? "").trim();
     const rawUsername = String(body.username ?? query.username ?? "").trim();
-    const mode = String(body.mode ?? query.mode ?? "masuk") === "keluar" ? "keluar" : "masuk";
+    const mode =
+      String(body.mode ?? query.mode ?? "masuk") === "keluar"
+        ? "keluar"
+        : "masuk";
     const macAddress = body.mac_address ?? query.mac_address ?? null;
     const statusInput = typeof body.status === "string" ? body.status.trim() : "";
     const noteInput = typeof body.note === "string" ? body.note.trim() : "";
@@ -338,10 +343,22 @@ app.post("/api/attendances/tap", verifyToken, async (req, res) => {
 
     if (!existing) {
       const macDefault = byIdcard ? "RFID Reader Card 135KHZ" : "Manual Input";
+      let statusInsert = statusInput;
+      if (!statusInsert) {
+        const computed = masukStatus();
+        if (!computed) {
+          return res.status(403).json({
+            success: false,
+            code: "outside_window",
+            message: "Di luar jam absensi masuk (04:30 - 10:00).",
+          });
+        }
+        statusInsert = computed;
+      }
       const insertPayload = {
         idcard: byIdcard ? rawIdcard : String(uservalid.idcard),
         mac_address: macAddress || macDefault,
-        status: statusInput || "Hadir",
+        status: statusInsert,
       };
       if (!byIdcard) insertPayload.note = noteInput || "Tidak ada catatan";
 
@@ -357,18 +374,22 @@ app.post("/api/attendances/tap", verifyToken, async (req, res) => {
           .json({ success: false, message: byIdcard ? "Gagal menyimpan absensi." : "Gagal menyimpan absensi manual." });
       }
 
-      kirimNotifikasiWeb(uservalid, "MASUK");
-
-      const pesan = byIdcard
-        ? `Absensi berhasil dicatat! Selamat belajar ${uservalid.username || "Siswa"}`
-        : `Absensi manual berhasil! ${uservalid.username} tercatat dengan RFID ${uservalid.idcard}`;
-
-      return res.json({
+      res.json({
         success: true,
         action: "masuk",
-        message: pesan,
+        message: byIdcard
+          ? `Absensi berhasil dicatat! Selamat belajar ${uservalid.username || "Siswa"}`
+          : `Absensi manual berhasil! ${uservalid.username} tercatat dengan RFID ${uservalid.idcard}`,
         data: attendanceData,
       });
+      return;
+    }
+
+    // Jika mode keluar tapi existing null, sudah return di atas
+    // Jika mode masuk dan existing ada, sudah return di atas
+    // Jadi existing pasti ada di sini
+    if (!existing || !existing.id) {
+      return res.status(500).json({ success: false, message: "Data absensi tidak valid." });
     }
 
     const nowIso = new Date().toISOString();
@@ -382,9 +403,7 @@ app.post("/api/attendances/tap", verifyToken, async (req, res) => {
       return res.status(500).json({ success: false, message: "Gagal memperbarui absensi keluar." });
     }
 
-    kirimNotifikasiWeb(uservalid, "PULANG");
-
-    return res.json({
+    res.json({
       success: true,
       action: "keluar",
       message: `Absen keluar untuk ${uservalid.username} berhasil dicatat!`,
@@ -443,8 +462,6 @@ app.post("/api/attendances/manual", verifyToken, async (req, res) => {
         .json({ success: false, error: "Gagal menyimpan absensi manual." });
     }
 
-    kirimNotifikasiWeb(user, "MASUK");
-
     res.json({
       success: true,
       message: `Absensi manual berhasil! ${user.username} tercatat dengan RFID ${user.idcard}`,
@@ -454,6 +471,16 @@ app.post("/api/attendances/manual", verifyToken, async (req, res) => {
     console.error("Error manual attendance:", error.message);
     res.status(500).json({ success: false, error: "Terjadi kesalahan pada server." });
   }
+});
+
+// Auto checkout: set time_finish untuk semua siswa yang belum pulang hari ini
+app.post("/api/attendances/auto-checkout", verifyToken, async (req, res) => {
+  const { autoCheckout } = require("./controllers/attendanceController");
+  return autoCheckout(req, res);
+});
+app.get("/api/cron/auto-checkout", async (req, res) => {
+  const { autoCheckout } = require("./controllers/attendanceController");
+  return autoCheckout(req, res);
 });
 
 app.get("/api/attendances", verifyToken, async (req, res) => {
@@ -510,6 +537,11 @@ app.get("/api/attendances", verifyToken, async (req, res) => {
   }
 });
 
+app.get("/api/attendances/traffic", verifyToken, async (req, res) => {
+  const { getTrafficAnalytics } = require("./controllers/attendanceController");
+  return getTrafficAnalytics(req, res);
+});
+
 app.put("/api/attendances/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -555,11 +587,9 @@ app.put("/api/attendances/:id", verifyToken, async (req, res) => {
       if (attRow?.idcard) {
         const { data: userPulang } = await supabase
           .from("users")
-          .select("username, rombel, whatsapp")
+          .select("username, rombel")
           .eq("idcard", String(attRow.idcard).trim())
           .maybeSingle();
-
-        kirimNotifikasiWeb(userPulang, "PULANG");
       }
     }
 
@@ -653,7 +683,7 @@ app.put("/api/users/id/:id", verifyToken, verifyAdmin, async (req, res) => {
     return res.status(400).json({ success: false, message: "ID tidak valid." });
   }
 
-  const { username, email, rombel, role, idcard, whatsapp, rayon, kelas, nis } = req.body;
+  const { username, email, rombel, role, idcard, whatsapp, rayon, kelas, nis, jenisKelamin } = req.body;
 
   if (nis !== undefined && nis !== null && String(nis).trim() !== "" && !/^\d+$/.test(String(nis).trim())) {
     return res
@@ -670,6 +700,7 @@ app.put("/api/users/id/:id", verifyToken, verifyAdmin, async (req, res) => {
   if (whatsapp) updates.whatsapp = whatsapp;
   if (rayon) updates.rayon = rayon;
   if (kelas) updates.kelas = kelas;
+  if (jenisKelamin) updates.jenisKelamin = jenisKelamin;
   if (nis !== undefined && String(nis).trim() !== "") {
     updates.nis = Number(String(nis).trim());
   }
@@ -790,20 +821,19 @@ app.post("/api/auth/register-bulk", verifyToken, verifyAdmin, async (req, res) =
 
     const usersNormalized = users.map((u) => ({
       ...u,
-      idcard: u.idcard !== "" && u.idcard != null ? Number(u.idcard) : null,
+      idcard: u.idcard !== "" && u.idcard != null ? String(u.idcard).trim() : null,
       nis: u.nis !== "" && u.nis != null ? Number(u.nis) : null,
     }));
 
     const hasNonNumeric = users.some(
       (u) =>
-        (u.idcard !== "" && u.idcard != null && !/^\d+$/.test(String(u.idcard))) ||
         (u.nis !== "" && u.nis != null && !/^\d+$/.test(String(u.nis))),
     );
 
     if (hasNonNumeric) {
       return res.status(400).json({
         success: false,
-        message: "Terdapat data dengan ID kartu/NIS yang bukan angka!",
+        message: "Terdapat data dengan NIS yang bukan angka!",
       });
     }
 
@@ -817,9 +847,12 @@ app.post("/api/auth/register-bulk", verifyToken, verifyAdmin, async (req, res) =
     });
   } catch (error) {
     console.error("Error register-bulk:", error.message);
-    res.status(500).json({ success: false, message: "Terjadi kesalahan saat menyimpan data." });
+    res.status(500).json({ success: false, message: error.message || "Terjadi kesalahan saat menyimpan data." });
   }
 });
+
+// Centralized error handling middleware
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 

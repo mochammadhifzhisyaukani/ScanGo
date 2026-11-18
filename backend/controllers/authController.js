@@ -40,7 +40,7 @@ const resolveUserRole = (role, req) => {
 
 const register = async (req, res) => {
   try {
-    const { email, password, role, username, idcard, rombel, nis, whatsapp, rayon, kelas } = req.body;
+    const { email, password, role, username, idcard, rombel, nis, whatsapp, rayon, kelas, jenisKelamin } = req.body;
 
     const userRole = resolveUserRole(role, req);
     const isTeacher = userRole === "teacher";
@@ -55,6 +55,7 @@ const register = async (req, res) => {
       !nis ||
       !whatsapp || 
       !rayon ||
+      !jenisKelamin ||
       (!isTeacher && !kelas)
     ) {
       return res.status(400).json({
@@ -86,16 +87,15 @@ const register = async (req, res) => {
       });
     }
 
-    if (!/^\d+$/.test(String(idcard)) || !/^\d+$/.test(String(nis))) {
+    if (!/^\d+$/.test(String(nis))) {
       return res.status(400).json({
-        message: "ID kartu dan NIS harus berupa angka!",
+        message: "NIS harus berupa angka!",
       });
     }
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const idcardNum = Number(idcard);
     const nisNum = Number(nis);
 
     // Registrasi publik dibatasi ke role student/user.
@@ -110,12 +110,13 @@ const register = async (req, res) => {
           password: hashedPassword,
           role: userRole,
           username: username,
-          idcard: idcardNum,
+          idcard: idcard,
           rombel: rombel,
           nis: nisNum,
           whatsapp: whatsapp,
           rayon: rayon,
-          kelas: isTeacher && !kelas ? null : kelas
+          kelas: isTeacher && !kelas ? null : kelas,
+          jenisKelamin: jenisKelamin
         },
       ])
       .select();

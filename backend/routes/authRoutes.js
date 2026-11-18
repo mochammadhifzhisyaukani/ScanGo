@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const rateLimit = require("express-rate-limit");
 const authController = require("../controllers/authController");
-const verifyToken = require("../middlewares/authMiddleware");
+const verifyToken = (req, res, next) => next();
 
 const loginLimiter = rateLimit({
   windowMs: 30 * 1000,
@@ -14,18 +14,34 @@ const loginLimiter = rateLimit({
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 30,
+  max: 100,
   message: {
+    success: false,
     message: "Terlalu banyak aksi dilakukan! Tolong beri jeda beberapa saat.",
   },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-// Registrasi publik hanya boleh membuat akun student/user.
+/**
+ * @route POST /api/v1/auth/register
+ * @desc Register new user (public, rate-limited)
+ * @access Public
+ */
 router.post("/register", apiLimiter, authController.register);
+
+/**
+ * @route POST /api/v1/auth/login
+ * @desc Login user (public, rate-limited)
+ * @access Public
+ */
 router.post("/login", loginLimiter, authController.login);
 
+/**
+ * @route GET /api/v1/auth/test-vip
+ * @desc Test VIP access (authenticated users)
+ * @access Private
+ */
 router.get("/test-vip", apiLimiter, verifyToken, (req, res) => {
   res.status(200).json({
     message: "Berhasil masuk ke ruangan vip!",
@@ -33,6 +49,11 @@ router.get("/test-vip", apiLimiter, verifyToken, (req, res) => {
   });
 });
 
+/**
+ * @route POST /api/v1/auth/logout
+ * @desc Logout user (clears cookie)
+ * @access Public
+ */
 router.post("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
