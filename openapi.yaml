@@ -93,6 +93,35 @@ paths:
       responses:
         '200':
           description: Daftar absensi
+  /attendances/traffic:
+    get:
+      tags:
+        - Attendance
+      summary: Analisis traffic tap kartu dan jam puncak absensi
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: date
+          in: query
+          description: Tanggal analisis (YYYY-MM-DD), default hari ini
+          required: false
+          schema:
+            type: string
+        - name: interval
+          in: query
+          description: Rentang waktu dalam menit (15, 30, 60), default 30
+          required: false
+          schema:
+            type: integer
+        - name: mode
+          in: query
+          description: Tipe tap kartu (all, masuk, keluar), default all
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Analisis traffic dan log jeda absensi
     post:
       tags:
         - Attendance

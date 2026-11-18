@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/cron/auto-checkout",
+      "schedule": "50 7 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",

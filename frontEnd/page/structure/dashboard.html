@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/frontEnd/style/components/dashboard/scanRfid.css?v20260807">
     <link rel="stylesheet" href="/frontEnd/style/components/dashboard/detailSiswa.css">
     <link rel="stylesheet" href="/frontEnd/style/components/dashboard/print.css">
+    <link rel="stylesheet" href="/frontEnd/style/traffic.css?v20261118">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -64,6 +65,11 @@
                     <div class="menu-icon" onclick="navigateTo('grafik')">
                         <i class="bi bi-bar-chart-line"></i>
                         <span>Grafik</span>
+                    </div>
+
+                    <div class="menu-icon" onclick="navigateTo('traffic')">
+                        <i class="bi bi-broadcast"></i>
+                        <span>Traffic Tap</span>
                     </div>
 
                     <!-- <div class="menu-icon" onclick="navigateTo('input-siswa')">
@@ -143,6 +149,11 @@
                     <div class="col-4" onclick="navigateTo('grafik')" data-bs-dismiss="offcanvas">
                         <div class="p-3 bg-light rounded-3"><i class="bi bi-bar-chart-line fs-3"></i>
                             <div class="small mt-1">Grafik</div>
+                        </div>
+                    </div>
+                    <div class="col-4" onclick="navigateTo('traffic')" data-bs-dismiss="offcanvas">
+                        <div class="p-3 bg-light rounded-3"><i class="bi bi-broadcast fs-3 text-primary"></i>
+                            <div class="small mt-1 fw-bold">Traffic</div>
                         </div>
                     </div>
                     <div class="col-4" onclick="navigateTo('input-siswa')" data-bs-dismiss="offcanvas">
@@ -232,10 +243,10 @@
         <script src="/frontEnd/components/toast.js?v20260807"></script>
         <script src="/frontEnd/page/content/views/inputStudent.js?v20260816"></script>
         <script src="/frontEnd/page/content/views/dashboad.js?v20260822"></script>
-        <script src="/frontEnd/page/content/views/scanRfid.js?v20260823"></script>
         <script src="/frontEnd/page/content/views/detailSiswa.js?v20260809"></script>
         <script src="/frontEnd/page/content/views/print.js?v20260822"></script>
         <script src="/frontEnd/page/content/views/statistika.js?v20260822"></script>
+        <script src="/frontEnd/page/content/views/traffic.js?v20261118"></script>
         <script src="/frontEnd/components/router.js?v20260816"></script>
         <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
         <script src="/frontEnd/components/changetheme.js?v20260807"></script>

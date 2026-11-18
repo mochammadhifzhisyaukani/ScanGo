@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="/frontEnd/style/components/dashboard/scanRfid.css?v20260807">
     <link rel="stylesheet" href="/frontEnd/style/components/dashboard/detailSiswa.css">
     <link rel="stylesheet" href="/frontEnd/style/components/dashboard/print.css">
-    <link rel="stylesheet" href="/frontEnd/style/components/dashboard/printPreviewModal.css">
-    <link rel="stylesheet" href="/frontEnd/style/components/dashboard/loginView.css">
+    <!-- css traffic -->
+    <link rel="stylesheet" href="/frontEnd/style/traffic.css?v20261118">
 
     <!-- css component navbar & footer -->
     <link rel="stylesheet" href="/frontEnd/style/components/navbar.css?v20260822">
@@ -73,13 +73,18 @@
 
                 <div class="menu-icon" onclick="navigateTo('grafik')">
                     <i class="bi bi-bar-chart-line"></i>
-                    <span>Grafik</span>
+                    <span>Grafik Kehadiran</span>
                 </div>
 
-                <!-- <div class="menu-icon" onclick="navigateTo('input-siswa')">
+                <div class="menu-icon" onclick="navigateTo('traffic')">
+                    <i class="bi bi-stoplights"></i>
+                    <span>Traffic Tap Card</span>
+                </div>
+
+                <div class="menu-icon" onclick="navigateTo('input-siswa')">
                     <i class="bi bi-person-fill-add"></i>
                     <span>Input Siswa</span>
-                </div> -->
+                </div>
 
                 <div class="menu-icon" onclick="navigateTo('data-siswa')">
                     <i class="bi bi-people"></i>
@@ -96,10 +101,10 @@
                     <span>Login</span>
                 </div> -->
 
-                <div class="menu-icon" onclick="navigateTo('tentang')">
+                <!-- <div class="menu-icon" onclick="navigateTo('tentang')">
                     <i class="bi bi-globe"></i>
                     <span>Tentang <b>ScanGo</b></span>
-                </div>
+                </div> -->
 
                 <div class="menu-icon" style="margin-top: auto;" data-bs-toggle="modal" data-bs-target="#modalTheme">
                     <i class="bi bi-gear"></i>
@@ -108,10 +113,9 @@
             </div>
         </aside>
 
-        <div class="main-wrapper mt-4" style="flex: 1; display: flex; flex-direction: column;">
+        <div class="main-wrapper mt-3" style="flex: 1; display: flex; flex-direction: column;">
 
-            <header
-                class="header-panel animate__animated animate__fadeIn pe-4 d-flex align-items-center justify-content-between">
+            <header class="header-panel animate__animated animate__fadeIn d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center gap-2">
                     <button id="sidebarToggleBtn" class="btn btn-light ms-3" type="button" aria-controls="mobileMenu"
                         aria-label="Buka menu">
@@ -157,6 +161,11 @@
                 <div class="col-4" onclick="navigateTo('grafik')" data-bs-dismiss="offcanvas">
                     <div class="p-3 bg-light rounded-3"><i class="bi bi-bar-chart-line fs-3"></i>
                         <div class="small mt-1">Grafik</div>
+                    </div>
+                </div>
+                <div class="col-4" onclick="navigateTo('traffic')" data-bs-dismiss="offcanvas">
+                    <div class="p-3 bg-light rounded-3 text-primary"><i class="bi bi-broadcast fs-3 text-primary"></i>
+                        <div class="small mt-1 fw-bold">Traffic</div>
                     </div>
                 </div>
                 <!-- <div class="col-4" onclick="navigateTo('input-siswa')" data-bs-dismiss="offcanvas">
@@ -214,27 +223,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalProfile" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>Ubah Foto Profil</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="previewImage" src="/frontEnd/assets/profiles/dimas.webp?v20260808"
-                        style="width:150px;height:150px;border-radius:50%;object-fit:cover;">
-                    <br><br>
-                    <input type="file" id="profileInput" accept="image/*" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button class="btn btn-primary" id="saveProfile">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         (function () {
             const origFetch = window.fetch;
@@ -256,11 +244,10 @@
     <script src="/frontEnd/components/toast.js?v20260905"></script>
     <script src="/frontEnd/page/content/views/inputStudent.js?v20260905"></script>
     <script src="/frontEnd/page/content/views/dashboad.js?v20260905"></script>
-    <script src="/frontEnd/page/content/views/scanRfid.js?v20260823"></script>
     <script src="/frontEnd/page/content/views/detailSiswa.js?v20260809"></script>
     <script src="/frontEnd/page/content/views/print.js?v20260822"></script>
     <script src="/frontEnd/page/content/views/statistika.js?v20260822"></script>
-    <script src="/frontEnd/page/content/views/loginView.js?v20260905"></script>
+    <script src="/frontEnd/page/content/views/traffic.js?v20261118"></script>
     <script src="/frontEnd/components/router.js?v20260905c"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="/frontEnd/components/changetheme.js?v20260807"></script>

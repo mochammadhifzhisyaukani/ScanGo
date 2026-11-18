@@ -64,7 +64,7 @@ function renderFormSiswaHTML() {
         <label class="form-label" for="RFID">
           <i class="bi bi-rss"></i> UID RFID
         </label>
-        <input type="number" id="RFID" class="form-control-modern" placeholder="Tempelkan kartu ke reader atau ketik manual" required>
+        <input type="text" id="RFID" class="form-control-modern" placeholder="Tempelkan kartu ke reader atau ketik manual" required>
         <span class="form-hint">
           <i class="bi bi-info-circle"></i> Tempelkan kartu RFID ke reader saat kursor di sini &mdash; UID terisi otomatis.
         </span>
@@ -75,6 +75,17 @@ function renderFormSiswaHTML() {
           <i class="bi bi-person"></i> Nama Lengkap
         </label>
         <input type="text" id="username" class="form-control-modern" placeholder="Nama Lengkap" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="jenisKelamin">
+          <i class="bi bi-gender-ambiguous"></i> Jenis Kelamin
+        </label>
+        <select id="jenisKelamin" class="form-control-modern" required>
+          <option value="">Pilih Jenis Kelamin</option>
+          <option value="Laki Laki">Laki Laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -261,7 +272,7 @@ function renderFormGuruHTML() {
         <label class="form-label" for="RFID">
           <i class="bi bi-rss"></i> UID RFID
         </label>
-        <input type="number" id="RFID" class="form-control-modern" placeholder="Tempelkan kartu ke reader atau ketik manual" required>
+        <input type="text" id="RFID" class="form-control-modern" placeholder="Tempelkan kartu ke reader atau ketik manual" required>
         <span class="form-hint">
           <i class="bi bi-info-circle"></i> Tempelkan kartu RFID ke reader saat kursor di sini &mdash; UID terisi otomatis.
         </span>
@@ -272,6 +283,17 @@ function renderFormGuruHTML() {
           <i class="bi bi-person"></i> Nama Lengkap
         </label>
         <input type="text" id="username" class="form-control-modern" placeholder="Nama Lengkap" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="jenisKelamin">
+          <i class="bi bi-gender-ambiguous"></i> Jenis Kelamin
+        </label>
+        <select id="jenisKelamin" class="form-control-modern" required>
+          <option value="">Pilih Jenis Kelamin</option>
+          <option value="Laki Laki">Laki Laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -322,6 +344,9 @@ function renderDataTableHTML(tableTitle) {
           <button type="button" id="btnImportExcel" class="btn-import btn-import-excel">
             <i class="bi bi-file-earmark-spreadsheet"></i> Import Excel
           </button>
+          <button type="button" id="btnExportExcel" class="btn-import btn-export-excel">
+            <i class="bi bi-download"></i> Export Excel
+          </button>
         </div>
       </div>
       <div class="table-wrapper">
@@ -348,6 +373,7 @@ function renderDataTableHTML(tableTitle) {
 function initInputSiswaListener() {
   loadTableSiswa();
   initImportExcelListener();
+  initExportExcelListener();
   initImportManualListener();
   attachTableListeners();
 
@@ -371,6 +397,7 @@ function initInputSiswaListener() {
     const whatsappInput = document.getElementById("whatsapp");
     const rayonInput = document.getElementById("rayon");
     const kelasInput = document.getElementById("kelas");
+    const jenisKelaminInput = document.getElementById("jenisKelamin");
 
     if (
       !IdRfidInput ||
@@ -380,7 +407,8 @@ function initInputSiswaListener() {
       !emailInput ||
       !passwordInput ||
       !whatsappInput ||
-      !rayonInput
+      !rayonInput ||
+      !jenisKelaminInput
     ) {
       console.error("Ada elemen HTML yang gagal dimuat!");
       return;
@@ -396,6 +424,7 @@ function initInputSiswaListener() {
     const whatsapp = whatsappInput.value.trim();
     const rayon = rayonInput.value.trim();
     const kelas = mode === "guru" ? null : kelasInput?.value.trim() || "";
+    const jenisKelamin = jenisKelaminInput.value.trim();
 
     if (
       !username ||
@@ -407,6 +436,7 @@ function initInputSiswaListener() {
       !role ||
       !whatsapp ||
       !rayon ||
+      !jenisKelamin ||
       (mode !== "guru" && !kelas)
     ) {
       showToast("Wajib mengisi semua kolom input!", "danger");
@@ -458,6 +488,7 @@ function initInputSiswaListener() {
           whatsapp,
           rayon,
           kelas,
+          jenisKelamin,
         }),
       });
 
@@ -499,6 +530,7 @@ function initInputSiswaListener() {
       whatsappInput.value = "";
       rayonInput.value = mode === "guru" ? "Guru Produktif" : "";
       if (kelasInput) kelasInput.value = "";
+      if (jenisKelaminInput) jenisKelaminInput.value = "";
 
       getFormContainerEl().style.display = "none";
       document.getElementById("dataContainer").style.display = "block";
@@ -723,6 +755,78 @@ function showToast(message, type = "success") {
   });
 }
 
+function initExportExcelListener() {
+  const btnExport = document.getElementById("btnExportExcel");
+  if (!btnExport) return;
+
+  btnExport.addEventListener("click", () => {
+    try {
+      let rows = (window.tableAllData || []).slice();
+
+      if (window.tableRoleFilter) {
+        rows = rows.filter((u) => String(u.role || "") === window.tableRoleFilter);
+      }
+
+      if (window.tableSearchQuery) {
+        const q = window.tableSearchQuery.toLowerCase();
+        rows = rows.filter((u) =>
+          [
+            u.username,
+            u.nis,
+            u.idcard,
+            u.rombel,
+            u.whatsapp,
+            u.role === "teacher" ? "Guru" : "Siswa",
+            u.rayon,
+            u.kelas,
+            u.jenisKelamin,
+          ].some((v) =>
+            String(v || "")
+              .toLowerCase()
+              .includes(q),
+          ),
+        );
+      }
+
+      if (rows.length === 0) {
+        showToast("Tidak ada data untuk diexport!", "warning");
+        return;
+      }
+
+      const exportData = rows.map((user, index) => ({
+        No: index + 1,
+        Nama: user.username || "",
+        NIS: user.nis || "",
+        Role: user.role === "teacher" ? "Guru" : "Siswa",
+        Kelas: user.kelas || "",
+        Rombel: user.rombel || "",
+        Rayon: user.rayon || "",
+        "UID RFID": user.idcard || "",
+        "No WhatsApp": user.whatsapp || "",
+        "Jenis Kelamin": user.jenisKelamin || "",
+        Status: "Aktif",
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Data Siswa");
+
+      const fileName =
+        window.tableRoleFilter === "teacher"
+          ? "data-guru.xlsx"
+          : window.tableRoleFilter === "student"
+            ? "data-siswa.xlsx"
+            : "data-siswa-guru.xlsx";
+
+      XLSX.writeFile(workbook, fileName);
+      showToast(`${rows.length} data berhasil diexport!`, "success");
+    } catch (error) {
+      console.error("Export Excel error:", error);
+      showToast("Gagal export data!", "danger");
+    }
+  });
+}
+
 function initImportExcelListener() {
   const btnImport = document.getElementById("btnImportExcel");
   const excelInput = document.getElementById("excelInput");
@@ -749,21 +853,96 @@ function initImportExcelListener() {
     const reader = new FileReader();
     reader.onload = async (evt) => {
       try {
+        if (typeof XLSX === "undefined") {
+          throw new Error("Library Excel (SheetJS) belum dimuat. Refresh halaman lalu coba lagi.");
+        }
+
         const data = new Uint8Array(evt.target.result);
         const workbook = XLSX.read(data, { type: "array" });
+
+        if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
+          throw new Error("File Excel tidak memiliki sheet yang valid!");
+        }
+
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
         if (jsonData.length === 0) {
           throw new Error("File excel kosong atau format tidak sesuai!");
         }
 
+        const cleanedData = jsonData.filter((row) =>
+          Object.values(row).some((value) => String(value ?? "").trim() !== ""),
+        );
+
+        if (cleanedData.length === 0) {
+          throw new Error("File excel kosong atau format tidak sesuai!");
+        }
+
+        const requiredHeaders = [
+          "username",
+          "email",
+          "password",
+          "role",
+          "idcard",
+          "nis",
+          "whatsapp",
+          "rombel",
+        ];
+
+        const actualHeaders = Object.keys(jsonData[0] || {});
+        const missingHeaders = requiredHeaders.filter(
+          (header) => !actualHeaders.includes(header),
+        );
+
+        if (missingHeaders.length > 0) {
+          throw new Error(
+            "Header Excel tidak lengkap. Kolom yang kurang: " +
+              missingHeaders.join(", "),
+          );
+        }
+
+        const invalidRows = cleanedData.filter((row, index) => {
+          const idcard = String(row.idcard ?? "").trim();
+          const nis = String(row.nis ?? "").trim();
+          const role = String(row.role ?? "").trim().toLowerCase();
+
+          if (!nis || !/^\d+$/.test(nis)) return true;
+          if (role !== "student" && role !== "siswa" && role !== "teacher" && role !== "guru") return true;
+          return false;
+        });
+
+        if (invalidRows.length > 0) {
+          throw new Error(
+            "Terdapat data dengan nis bukan angka atau role tidak valid (harus student/teacher/siswa/guru).",
+          );
+        }
+
+        const normalizedUsers = cleanedData.map((row) => ({
+          username: String(row.username ?? "").trim(),
+          email: String(row.email ?? "").trim(),
+          password: String(row.password ?? "").trim(),
+          role:
+            String(row.role ?? "").trim().toLowerCase() === "siswa"
+              ? "student"
+              : String(row.role ?? "").trim().toLowerCase() === "guru"
+                ? "teacher"
+                : String(row.role ?? "").trim().toLowerCase(),
+          idcard: String(row.idcard ?? "").trim(),
+          nis: Number(String(row.nis ?? "").trim()),
+          whatsapp: String(row.whatsapp ?? "").trim(),
+          rombel: String(row.rombel ?? "").trim(),
+          kelas: String(row.kelas ?? "").trim(),
+          rayon: String(row.rayon ?? "").trim(),
+          jenisKelamin: String(row.jenisKelamin ?? "").trim(),
+        }));
+
         const response = await fetch(`${API_BASE}/api/auth/register-bulk`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ users: jsonData }),
+          body: JSON.stringify({ users: normalizedUsers }),
         });
 
         if (!response.ok) {
@@ -775,12 +954,13 @@ function initImportExcelListener() {
 
         Swal.fire({
           title: "Sukses!",
-          text: `${jsonData.length} Data siswa berhasil diimport dari Excel!`,
+          text: `${cleanedData.length} Data berhasil diimport dari Excel!`,
           icon: "success",
         });
 
         loadTableSiswa();
       } catch (error) {
+        console.error("Import Excel error:", error);
         Swal.fire({
           title: "Import Gagal!",
           text: error.message,
@@ -926,6 +1106,7 @@ async function actionEditSiswa(id, email) {
     const rombel = userData?.rombel || "";
     const kelasDb = userData?.kelas || "";
     const rayonDb = userData?.rayon || "";
+const jenisKelaminDb = userData?.jenisKelamin || "";
 
     const escapeAttr = (value) =>
       String(value ?? "")
@@ -974,6 +1155,13 @@ async function actionEditSiswa(id, email) {
         <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
         <label>${isTeacher ? "No Whatsapp" : "No Whatsapp"}</label></div>
         <input id="swal-whatsapp" class="swal2-input" style="margin-top:0;" value="${escapeAttr(whatsapp)}">
+
+        <div style="text-align: left; margin-top: 15px; margin-bottom: 8px;">
+        <label>Jenis Kelamin</label></div>
+        <select id="swal-jenisKelamin" class="swal2-input" style="margin-top:0; width: 100%; max-width: 100%;">
+          <option value="Laki Laki" ${jenisKelaminDb === "Laki Laki" ? "selected" : ""}>Laki Laki</option>
+          <option value="Perempuan" ${jenisKelaminDb === "Perempuan" ? "selected" : ""}>Perempuan</option>
+        </select>
       `;
 
     const roleSiswaHTML = `
@@ -1148,6 +1336,7 @@ async function actionEditSiswa(id, email) {
           email: document.getElementById("swal-email").value.trim(),
           idcard: document.getElementById("swal-idcard").value.trim(),
           whatsapp: document.getElementById("swal-whatsapp").value.trim(),
+          jenisKelamin: document.getElementById("swal-jenisKelamin").value.trim(),
         };
 
         if (isTeacher) {

@@ -51,7 +51,7 @@ const updateUser = async (req, res) => {
     return res.status(400).json({ success: false, message: "ID tidak valid." });
   }
 
-  const { username, email, rombel, role, idcard, whatsapp, rayon, kelas, nis } = req.body;
+  const { username, email, rombel, role, idcard, whatsapp, rayon, kelas, nis, jenisKelamin } = req.body;
 
   if (nis !== undefined && nis !== null && String(nis).trim() !== "" && !/^\d+$/.test(String(nis).trim())) {
     return res
@@ -68,6 +68,7 @@ const updateUser = async (req, res) => {
   if (whatsapp) updates.whatsapp = whatsapp;
   if (rayon) updates.rayon = rayon;
   if (kelas) updates.kelas = kelas;
+  if (jenisKelamin) updates.jenisKelamin = jenisKelamin;
   if (nis !== undefined && String(nis).trim() !== "") {
     updates.nis = Number(String(nis).trim());
   }
