@@ -585,6 +585,33 @@ function attachFilters() {
     dateInput.removeEventListener("change", handleTanggalFilter);
     dateInput.addEventListener("change", handleTanggalFilter);
   }
+
+  const cardInput = document.getElementById("card-id-input");
+  if (cardInput) {
+    cardInput.removeEventListener("keydown", handleCardInputKeydown);
+    cardInput.addEventListener("keydown", handleCardInputKeydown);
+    cardInput.removeEventListener("input", handleCardInputChange);
+    cardInput.addEventListener("input", handleCardInputChange);
+  }
+}
+
+function handleCardInputKeydown(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    submitScan();
+  }
+}
+
+let cardInputTimer = null;
+function handleCardInputChange(e) {
+  const val = (e.target.value || "").trim();
+  if (val.length < 8) return;
+  clearTimeout(cardInputTimer);
+  cardInputTimer = setTimeout(() => {
+    if ((document.getElementById("card-id-input")?.value || "").trim() === val) {
+      submitScan();
+    }
+  }, 200);
 }
 
 let searchDebounceTimer = null;
