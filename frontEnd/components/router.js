@@ -76,27 +76,40 @@ function navigateTo(page) {
         window.location.href = "/frontEnd/page/structure/dashboard.html";
       }
       break;
+    case "traffic":
+      if (typeof renderTraffic !== "undefined") {
+        content.innerHTML = renderTraffic();
+        if (typeof initTrafficListener !== "undefined")
+          initTrafficListener();
+      } else {
+        window.location.href = "/frontEnd/page/structure/traffic.html";
+      }
+      break;
   }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Sinkronisasi foto profil dari localStorage untuk semua halaman yang memuat router.js
-    const savedImage = localStorage.getItem("profileImageBase64");
-    if (savedImage) {
-        const profileImg = document.getElementById("profileImage");
-        if (profileImg) profileImg.src = savedImage;
+  // Sinkronisasi foto profil dari localStorage untuk semua halaman yang memuat router.js
+  const savedImage = localStorage.getItem("profileImageBase64");
+  if (savedImage) {
+    const profileImg = document.getElementById("profileImage");
+    if (profileImg) profileImg.src = savedImage;
 
-        // Fallback untuk img profile yang mungkin tidak punya ID (di sidebar menu yang ada /profiles/)
-        const sidebarImgs = document.querySelectorAll('.sidebar-menu img[src*="profiles"]');
-        sidebarImgs.forEach(img => img.src = savedImage);
-    }
+    // Fallback untuk img profile yang mungkin tidak punya ID (di sidebar menu yang ada /profiles/)
+    const sidebarImgs = document.querySelectorAll(
+      '.sidebar-menu img[src*="profiles"]',
+    );
+    sidebarImgs.forEach((img) => (img.src = savedImage));
+  }
 
-    const path = window.location.pathname;
-    if (path.includes("statistika")) {
-        navigateTo("statistika");
-    } else if (path.includes("input")) {
-        navigateTo("input-siswa");
-    } else {
-        navigateTo("dashboard");
-    }
+  const path = window.location.pathname;
+  if (path.includes("statistika")) {
+    navigateTo("statistika");
+  } else if (path.includes("traffic")) {
+    navigateTo("traffic");
+  } else if (path.includes("input")) {
+    navigateTo("input-siswa");
+  } else {
+    navigateTo("dashboard");
+  }
 });

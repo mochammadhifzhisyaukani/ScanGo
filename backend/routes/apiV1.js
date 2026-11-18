@@ -7,6 +7,7 @@ const {
   tapAttendance,
   manualAttendance,
   getAttendances,
+  getTrafficAnalytics,
   updateAttendance,
   deleteAttendance,
   getUserAttendances,
@@ -84,6 +85,17 @@ router.get(
   verifyToken,
   verifyAdmin,
   getAttendances
+);
+
+/**
+ * @route GET /api/v1/attendances/traffic
+ * @desc Get card tap traffic & peak attendance analysis
+ * @access Private + Admin
+ */
+router.get(
+  "/attendances/traffic",
+  verifyToken,
+  getTrafficAnalytics
 );
 
 /**

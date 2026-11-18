@@ -85,7 +85,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 24px;
+  /* padding: 10px 24px; */
   border-radius: 999px;
   font-size: 0.88rem;
   font-weight: 600;
@@ -93,9 +93,9 @@
 }
 
 .scan-status-badge.idle {
-  background-color: var(--bg-body);
+  /* background-color: var(--bg-body); */
   color: var(--color-sub);
-  border: 1px solid var(--border-form);
+  /* border: 1px solid var(--border-form); */
 }
 
 .scan-status-badge.scanning {

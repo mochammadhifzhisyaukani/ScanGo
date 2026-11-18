@@ -9,20 +9,7 @@ function renderDashboard() {
       <div class="scan-rfid-container">
 
         <div class="scan-card" id="container-scan-rfid" style="margin: 0; padding: 30px 24px; max-width: 100%;">
-          <div class="scan-header">
-            <h3>Scan Kartu</h3>
-            <p class="mb-0">Pilih mode absen sebelum scan kartu</p>
-            <div class="d-flex gap-2 justify-content-center mt-3">
-              <button type="button" id="btn-absen-masuk" class="btn btn-success w-100 btn-sm" onclick="absenMasuk()">
-                <i class="bi bi-box-arrow-in-right"></i> Masuk
-              </button>
-              <button type="button" id="btn-absen-keluar" class="btn btn-outline-danger w-100 btn-sm" onclick="absenKeluar()">
-                <i class="bi bi-box-arrow-right"></i> Keluar
-              </button>
-            </div>
-          </div>
-
-          <div class="scan-icon-wrapper mt-5">
+          <div class="scan-icon-wrapper mt-2">
             <i class="bi bi-upc-scan"></i>
           </div>
 
@@ -118,6 +105,9 @@ if (typeof window.currentSelectedKelas === "undefined")
   window.currentSelectedKelas = "";
 if (typeof window.currentSearchQuery === "undefined")
   window.currentSearchQuery = "";
+if (typeof window.currentAttendancePage === "undefined")
+  window.currentAttendancePage = 1;
+const ATTENDANCE_PAGE_SIZE = 5;
 if (typeof window.currentScanMode === "undefined")
   window.currentScanMode = "masuk";
 
@@ -246,7 +236,7 @@ async function initDashboardListener() {
   clockInterval = setInterval(updateClock, 1000);
 
   initTabs();
-  initScanRfid();
+  if (typeof initScanRfid === "function") initScanRfid();
 }
 
 async function fetchAttendanceData() {
@@ -334,12 +324,12 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
       (r.status || "").toLowerCase() === "hadir" ||
       (r.status || "").toLowerCase() === "terlambat",
   ).length;
-  const totalSakit = dataFiltered.filter(
-    (r) => (r.status || "").toLowerCase() === "sakit",
-  ).length;
-  const totalIzin = dataFiltered.filter(
-    (r) => (r.status || "").toLowerCase() === "izin",
-  ).length;
+  // const totalSakit = dataFiltered.filter(
+  //   (r) => (r.status || "").toLowerCase() === "sakit",
+  // ).length;
+  // const totalIzin = dataFiltered.filter(
+  //   (r) => (r.status || "").toLowerCase() === "izin",
+  // ).length;
   const totalAlpa = dataFiltered.filter(
     (r) =>
       (r.status || "").toLowerCase() === "alfa" ||
@@ -354,10 +344,19 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
       : "Belum ada riwayat tap kartu pada tanggal ini";
   })();
 
+  const totalItems = dataFiltered.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / ATTENDANCE_PAGE_SIZE));
+  if (currentAttendancePage > totalPages) currentAttendancePage = totalPages;
+  if (currentAttendancePage < 1) currentAttendancePage = 1;
+  const pageData = dataFiltered.slice(
+    (currentAttendancePage - 1) * ATTENDANCE_PAGE_SIZE,
+    currentAttendancePage * ATTENDANCE_PAGE_SIZE,
+  );
+
   const tableRowsHtml =
-    dataFiltered.length === 0
+    pageData.length === 0
       ?       `<tr><td colspan="9" class="text-center text-muted py-4">${emptyMessage}</td></tr>`
-      : dataFiltered
+      : pageData
           .map((row) => {
             const jamAbsen = row.created_at
               ? new Date(row.created_at).toLocaleTimeString("id-ID", {
@@ -404,8 +403,8 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
 
   return {
     statsHtml: `
-        <div class="row g-3 mb-4">
-            <div class="col-12 col-md-6 col-lg-3">
+        <div class="row g-3 mb-3">
+            <div class="col-12 col-md-2 col-lg-4">
                 <div class="stat-card">
                     <div class="stat-label text-primary">
                         <i class="bi bi-check-circle-fill"></i>
@@ -418,39 +417,26 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-3">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="stat-card">
                     <div class="stat-label text-info">
                         <i class="bi bi-clock-history"></i>
-                        <span>Total Siswa Sakit</span>
+                        <span>Total Siswa Terlambat</span>
                     </div>
-                    <div class="stat-value">${totalSakit}</div>
+                    <div class="stat-value">0</div>
                     <div class="stat-indicator">
                         <span class="text-success fw-semibold"><i class="bi bi-arrow-up-short"></i> Live</span>
                         <span class="text-muted ms-1" style="color: var(--color-teks) !important;">dari database</span>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-3">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="stat-card">
                     <div class="stat-label text-danger">
                         <i class="bi bi-person-x-fill"></i>
                         <span>Total Siswa Tidak Hadir</span>
                     </div>
                     <div class="stat-value">${totalAlpa}</div>
-                    <div class="stat-indicator">
-                        <span class="text-success fw-semibold"><i class="bi bi-arrow-up-short"></i> Live</span>
-                        <span class="text-muted ms-1" style="color: var(--color-teks) !important;">dari database</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="stat-card">
-                    <div class="stat-label text-warning" style="color: var(--color-warning) !important;">
-                        <i class="bi bi-stopwatch-fill"></i>
-                        <span>Total Siswa Izin</span>
-                    </div>
-                    <div class="stat-value">${totalIzin}</div>
                     <div class="stat-indicator">
                         <span class="text-success fw-semibold"><i class="bi bi-arrow-up-short"></i> Live</span>
                         <span class="text-muted ms-1" style="color: var(--color-teks) !important;">dari database</span>
@@ -503,6 +489,28 @@ function generateKontenKelasTemplate(namaKelas, dataAbsensi) {
                     </tbody>
                 </table>
             </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+              <small class="text-muted">Halaman ${currentAttendancePage} dari ${totalPages} · Total ${totalItems} data</small>
+              <nav>
+                <ul class="pagination pagination-sm mb-0">
+                  <li class="page-item ${currentAttendancePage <= 1 ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="goToAttendancePage(${currentAttendancePage - 1}); return false;">Prev</a>
+                  </li>
+                  ${Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .map(
+                      (p) =>
+                        `<li class="page-item ${p === currentAttendancePage ? "active" : ""}">
+                          <a class="page-link" href="#" onclick="goToAttendancePage(${p}); return false;">${p}</a>
+                        </li>`,
+                    )
+                    .join("")}
+                  <li class="page-item ${currentAttendancePage >= totalPages ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="goToAttendancePage(${currentAttendancePage + 1}); return false;">Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
         </div>
     `,
   };
@@ -524,6 +532,8 @@ async function initTabs() {
     tableContainer.innerHTML = result.tableHtml;
   }
 
+  loadSiswaList();
+
   tabs.forEach((tab) => {
     tab.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -532,6 +542,7 @@ async function initTabs() {
 
       currentSelectedClass = this.getAttribute("data-kelas");
       currentSelectedRombel = null;
+      currentAttendancePage = 1;
 
       if (tableContainer && statsContainer) {
         tableContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Memeriksa database...</p></div>`;
@@ -582,6 +593,7 @@ function handleSearchInput(e) {
   clearTimeout(searchDebounceTimer);
   searchDebounceTimer = setTimeout(() => {
     currentSearchQuery = e.target.value;
+    currentAttendancePage = 1;
     refreshDashboardTable("Mencari data...", "pencarianTabel");
   }, 300);
 }
@@ -618,6 +630,7 @@ async function handleKelasFilter() {
   const kelasSelect = document.getElementById("pilihanKelas");
   if (!kelasSelect) return;
   currentSelectedKelas = kelasSelect.value || "";
+  currentAttendancePage = 1;
   refreshDashboardTable("Menyaring kelas...");
 }
 
@@ -626,6 +639,7 @@ async function handleRombelFilter() {
   if (!selectElement) return;
   const val = selectElement.value;
   currentSelectedRombel = val || null;
+  currentAttendancePage = 1;
   refreshDashboardTable("Menyaring rombel...");
 }
 
@@ -634,7 +648,97 @@ async function handleTanggalFilter() {
   if (!dateInputElement) return;
 
   currentSelectedDate = dateInputElement.value;
+  currentAttendancePage = 1;
   refreshDashboardTable("Menyaring tanggal...");
+}
+
+function goToAttendancePage(page) {
+  currentAttendancePage = page;
+  refreshDashboardTable("Memuat halaman...");
+}
+
+function toggleAbsenMode(mode) {
+  const scanCard = document.getElementById("container-scan-rfid");
+  const manualCard = document.getElementById("container-input-manual");
+  if (!scanCard || !manualCard) return;
+  if (mode === "manual") {
+    scanCard.style.display = "none";
+    manualCard.style.display = "block";
+  } else {
+    manualCard.style.display = "none";
+    scanCard.style.display = "block";
+  }
+}
+
+async function loadSiswaList() {
+  try {
+    const res = await fetch(`${API_BASE}/api/users`);
+    const json = await res.json();
+    if (!json.success) return;
+    const datalist = document.getElementById("daftar-siswa");
+    if (!datalist) return;
+    datalist.innerHTML = (json.data || [])
+      .map((u) => `<option value="${escapeHtml(u.username)}"></option>`)
+      .join("");
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function submitManual() {
+  const nama = (document.getElementById("manual-nama")?.value || "").trim();
+  const status = document.getElementById("manual-status")?.value || "Hadir";
+  const note = (document.getElementById("manual-keterangan")?.value || "").trim();
+  const resultEl = document.getElementById("manual-result");
+  if (!nama) {
+    if (resultEl) resultEl.innerHTML = `<div class="text-danger small">Nama siswa wajib diisi.</div>`;
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/api/attendances/manual`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: nama, status, note }),
+    });
+    const json = await res.json();
+    if (resultEl) {
+      resultEl.innerHTML = `<div class="${json.success ? "text-success" : "text-danger"} small">${escapeHtml(json.message || json.error || "Selesai")}</div>`;
+    }
+    if (json.success) {
+      document.getElementById("manual-nama").value = "";
+      document.getElementById("manual-keterangan").value = "";
+      refreshDashboardTable("Memperbarui data...");
+    }
+  } catch (e) {
+    if (resultEl) resultEl.innerHTML = `<div class="text-danger small">Gagal menyimpan.</div>`;
+  }
+}
+
+async function submitScan() {
+  const idcard = (document.getElementById("card-id-input")?.value || "").trim();
+  const resultEl = document.getElementById("scan-result");
+  if (!idcard) {
+    if (resultEl) resultEl.innerHTML = `<div class="text-danger small">UID kartu wajib diisi.</div>`;
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/api/attendances/tap`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idcard, mode: currentScanMode || "masuk" }),
+    });
+    const json = await res.json();
+    if (resultEl) {
+      resultEl.innerHTML = `<div class="${json.success ? "text-success" : "text-danger"} small">${escapeHtml(json.message || "Selesai")}</div>`;
+    }
+    if (json.success) {
+      const input = document.getElementById("card-id-input");
+      if (input) input.value = "";
+      refreshDashboardTable("Memperbarui data...");
+    }
+  } catch (e) {
+    if (resultEl) resultEl.innerHTML = `<div class="text-danger small">Gagal menyimpan.</div>`;
+  }
 }
 
 async function editAttendancesStatus(id, currentStatus) {

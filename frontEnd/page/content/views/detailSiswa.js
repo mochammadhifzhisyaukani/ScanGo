@@ -109,6 +109,10 @@ function initDetailSiswaListener(routerState) {
                     <span class="detail-info-value">${user.rayon ? user.rayon.replace("_", " - ") : "-"}</span>
                 </div>
                 <div class="detail-info-row">
+                    <span class="detail-info-label">Jenis Kelamin</span>
+                    <span class="detail-info-value">${user.jenisKelamin || "-"}</span>
+                </div>
+                <div class="detail-info-row">
                     <span class="detail-info-label">Email</span>
                     <span class="detail-info-value" style="font-size:0.75rem; max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${user.email || "-"}</span>
                 </div>
